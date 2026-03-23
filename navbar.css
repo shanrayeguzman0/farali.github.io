@@ -1,0 +1,107 @@
+/* NAVBAR BASE */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background: linear-gradient(90deg, rgb(49, 49, 49), rgb(82, 82, 82));
+    color: white;
+    position: fixed;      /* or relative */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;        /* mataas = nasa harap */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
+}
+
+/* LINKS */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* HAMBURGER */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+    transition: background 0.3s, transform 0.15s ease;
+}
+
+.hamburger:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+.hamburger:active {
+    transform: scale(0.9);
+}
+.hamburger span {
+    display: block;                /* VERY IMPORTANT */
+    width: 26px;
+    height: 3px;
+    background: white;
+    margin: 4px 0;
+
+    transform-origin: center;      /* VERY IMPORTANT */
+    transition: transform 0.35s ease, opacity 0.2s ease;
+}
+
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #181818;
+        flex-direction: column;
+        align-items: center;
+        display: none;
+        padding: 20px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}

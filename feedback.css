@@ -1,0 +1,66 @@
+html, body {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+   }
+   
+   body {
+    margin: 0;
+    height: 100vh;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-attachment: fixed;
+background-repeat: no-repeat;
+background-size: cover;
+ 
+  }
+
+
+
+#loader {
+  position: fixed; inset: 0;
+  display: flex; justify-content: center; align-items: center;
+  background: #0a0a0a; z-index: 9999;
+ 
+  ;
+}
+.text {
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+  opacity: 0;
+  text-align: center;
+  top: auto;
+  animation: fadeText .5s ease .3s forwards;
+}
+.spinner {
+  background-image: linear-gradient(rgb(175, 174, 174) 35%,rgb(255, 255, 255));
+  width: 100px;
+  height: 100px;
+  animation: spinning82341 1.7s linear infinite;
+  text-align: center;
+  border-radius: 50px;
+  filter: blur(1px);
+  box-shadow: 0px -5px 20px 0px rgb(192, 190, 190), 0px 5px 20px 0px rgb(255, 255, 255);
+}
+
+.spinner1 {
+  background-color: rgb(36, 36, 36);
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  filter: blur(10px);
+}
+
+@keyframes spinning82341 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fadeIn { from{opacity:0}to{opacity:1}}
+@keyframes fadeText { to {opacity: 1 }}
+@keyframes popUp {to {transform:scale(1)}}
+@keyframes fadeOut { to {opacity:0;visibility:hidden;} }
