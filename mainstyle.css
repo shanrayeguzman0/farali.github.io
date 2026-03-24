@@ -65,7 +65,8 @@ color: white;
 /*img na nag sa slide*/
 .carousel {
   position: relative;
-  max-width: 500px;
+  width: 100%;
+  max-width: 300px;
   margin: 40px 0 0 20px;
   overflow: hidden;
   border-radius: 10px;
@@ -164,7 +165,17 @@ color: white;
   }
 }
 
-
+.carousel-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+@media (max-width: 600px)  {
+  .carousel-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .login-btn{
   background: rgb(20, 20, 20);
 border: solid rgba(0, 0, 0, 0.479);
