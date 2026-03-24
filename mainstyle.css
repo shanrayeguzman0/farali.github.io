@@ -88,8 +88,8 @@ color: white;
   flex-shrink: 0;     /* prevents shrinking */
 }
 .carousel-slide img {
-  width: 100%;
-  height: 200px;
+  width: 120%;
+  height: auto;
   display: block;
 }
 
@@ -147,7 +147,7 @@ color: white;
   top: 152px;
   left: 0px;
   color: white;
-  font-size: 10px;
+  font-size: 18px;
   font-weight: bold;
   padding: 10px 15px;
   border-radius: 5px;
@@ -158,7 +158,7 @@ color: white;
 /* Mobile adjustment */
 @media (max-width: 600px) {
   .carousel-text {
-    font-size: 5px;
+    font-size: 10px;
     bottom: 10px;
     left: 10px;
   }
