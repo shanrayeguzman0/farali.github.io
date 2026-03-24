@@ -71,7 +71,7 @@ color: white;
   border-radius: 10px;
   margin-top: 20%;
   margin-bottom: 10px;
-  height: 40%;
+  height: 42%;
   box-shadow: 5px 0px 10px #2e2d2d;
 }
 
@@ -88,7 +88,7 @@ color: white;
   flex-shrink: 0;     /* prevents shrinking */
 }
 .carousel-slide img {
-  width: 100%;
+  width: 120%;
   height: 200px;
   display: block;
 }
