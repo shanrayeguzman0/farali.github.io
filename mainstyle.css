@@ -89,7 +89,7 @@ color: white;
 }
 .carousel-slide img {
   width: 120%;
-  height: auto;
+  height: 100px;
   display: block;
 }
 
