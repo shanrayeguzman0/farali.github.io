@@ -83,7 +83,7 @@ color: white;
 
 
 .carousel-slide {
-  min-width: 100px;
+  min-width: 1px;
   position: relative; 
   flex-shrink: 0;     /* prevents shrinking */
 }
