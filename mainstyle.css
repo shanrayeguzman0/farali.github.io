@@ -65,7 +65,6 @@ color: white;
 /*img na nag sa slide*/
 .carousel {
   position: relative;
-  width: 100%;
   max-width: 300px;
   margin: 40px 0 0 20px;
   overflow: hidden;
