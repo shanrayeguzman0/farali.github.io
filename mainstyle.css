@@ -65,8 +65,8 @@ color: white;
 /*img na nag sa slide*/
 .carousel {
   position: relative;
-  max-width: 400px;
-  margin: 40px 20px 0 20px;
+  max-width: 300px;
+  margin: 40px 0 0 20px;
   overflow: hidden;
   border-radius: 10px;
   margin-top: 20%;
@@ -89,7 +89,7 @@ color: white;
 }
 .carousel-slide img {
   width: 100%;
-  height: 10px;
+  height: 200px;
   display: block;
 }
 
@@ -147,7 +147,7 @@ color: white;
   top: 152px;
   left: 0px;
   color: white;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   padding: 10px 15px;
   border-radius: 5px;
@@ -158,7 +158,7 @@ color: white;
 /* Mobile adjustment */
 @media (max-width: 600px) {
   .carousel-text {
-    font-size: 10px;
+    font-size: 16px;
     bottom: 10px;
     left: 10px;
   }
@@ -167,7 +167,7 @@ color: white;
 .carousel-wrapper {
   display: flex;
   justify-content: space-between;
-  gap: 0;
+  gap: 5px;
 }
 @media (max-width: 600px)  {
   .carousel-wrapper {
