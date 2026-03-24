@@ -16,22 +16,23 @@ hamburger.addEventListener("click", () => {
     navLinks.classList.toggle("active");
 });
 
-document.querySelectorAll(".carousel").forEach(carousel => {
 
+document.querySelectorAll(".carousel").forEach((carousel) => {
   const track = carousel.querySelector(".carousel-track");
   const slides = carousel.querySelectorAll(".carousel-slide");
-  const nextBtn = carousel.querySelector(".nextBtn");
-  const prevBtn = carousel.querySelector(".prevBtn");
-  const dotsContainer = carousel.querySelector(".dots");
+  const prevBtn = carousel.querySelector(".prev");
+  const nextBtn = carousel.querySelector(".next");
+  const dotsContainer = carousel.querySelector(".carousel-dots");
 
   let index = 0;
-  let interval;
+  let startX = 0;
+  let isDragging = false;
+  let autoSlide;
 
-  // ===== DOTS =====
+  // Create dots
   slides.forEach((_, i) => {
     const dot = document.createElement("span");
     dot.classList.add("dot");
-
     if (i === 0) dot.classList.add("active");
 
     dot.addEventListener("click", () => {
@@ -43,7 +44,7 @@ document.querySelectorAll(".carousel").forEach(carousel => {
     dotsContainer.appendChild(dot);
   });
 
-  const dots = carousel.querySelectorAll(".dot");
+  const dots = dotsContainer.querySelectorAll(".dot");
 
   function updateCarousel() {
     track.style.transform = `translateX(-${index * 100}%)`;
@@ -52,33 +53,96 @@ document.querySelectorAll(".carousel").forEach(carousel => {
     dots[index].classList.add("active");
   }
 
-  // NEXT
-  nextBtn.addEventListener("click", () => {
+  function nextSlide() {
     index = (index + 1) % slides.length;
     updateCarousel();
-    resetAutoSlide();
-  });
+  }
 
-  // PREV
-  prevBtn.addEventListener("click", () => {
+  function prevSlide() {
     index = (index - 1 + slides.length) % slides.length;
     updateCarousel();
+  }
+
+  // Buttons
+  nextBtn.addEventListener("click", () => {
+    nextSlide();
     resetAutoSlide();
   });
 
-  // AUTO
+  prevBtn.addEventListener("click", () => {
+    prevSlide();
+    resetAutoSlide();
+  });
+
+  // Auto slide (3 seconds)
   function startAutoSlide() {
-    interval = setInterval(() => {
-      index = (index + 1) % slides.length;
-      updateCarousel();
-    }, 3000);
+    autoSlide = setInterval(nextSlide, 3000);
   }
 
   function resetAutoSlide() {
-    clearInterval(interval);
+    clearInterval(autoSlide);
     startAutoSlide();
   }
 
   startAutoSlide();
 
+  // =====================
+  // SWIPE / DRAG SUPPORT
+  // =====================
+
+  track.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    startX = e.pageX;
+    track.style.transition = "none";
+  });
+
+  track.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    const moveX = e.pageX - startX;
+    track.style.transform = `translateX(calc(-${index * 100}% + ${moveX}px))`;
+  });
+
+  track.addEventListener("mouseup", (e) => {
+    handleSwipe(e.pageX);
+  });
+
+  track.addEventListener("mouseleave", (e) => {
+    if (isDragging) handleSwipe(e.pageX);
+  });
+
+  // Touch (mobile)
+  track.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    track.style.transition = "none";
+  });
+
+  track.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    const moveX = e.touches[0].clientX - startX;
+    track.style.transform = `translateX(calc(-${index * 100}% + ${moveX}px))`;
+  });
+
+  track.addEventListener("touchend", (e) => {
+    handleSwipe(e.changedTouches[0].clientX);
+  });
+
+  function handleSwipe(endX) {
+    if (!isDragging) return;
+    isDragging = false;
+
+    const diff = endX - startX;
+
+    track.style.transition = "transform 0.6s cubic-bezier(0.65, 0, 0.35, 1)";
+
+    if (diff > 50) {
+      prevSlide();
+    } else if (diff < -50) {
+      nextSlide();
+    } else {
+      updateCarousel(); // snap back
+    }
+
+    resetAutoSlide();
+  }
 });
