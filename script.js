@@ -18,7 +18,7 @@ hamburger.addEventListener("click", () => {
 
 const carousels = document.querySelectorAll(".carousel");
 
-carousels.forEach(carousel => {
+carousels.forEach((carousel) => {
   const slides = carousel.querySelectorAll(".carousel-slide");
   const prevBtn = carousel.querySelector(".prev");
   const nextBtn = carousel.querySelector(".next");
@@ -36,14 +36,14 @@ carousels.forEach(carousel => {
 
     dot.addEventListener("click", () => {
       index = i;
-      updateCarousel();
+      update();
       resetAuto();
     });
   });
 
   const dots = dotsContainer.querySelectorAll(".dot");
 
-  function updateCarousel() {
+  function update() {
     slides.forEach((slide, i) => {
       slide.classList.toggle("active", i === index);
     });
@@ -55,12 +55,12 @@ carousels.forEach(carousel => {
 
   function nextSlide() {
     index = (index + 1) % slides.length;
-    updateCarousel();
+    update();
   }
 
   function prevSlide() {
     index = (index - 1 + slides.length) % slides.length;
-    updateCarousel();
+    update();
   }
 
   nextBtn.addEventListener("click", () => {
@@ -74,7 +74,7 @@ carousels.forEach(carousel => {
   });
 
   function startAuto() {
-    interval = setInterval(nextSlide, 4000); // change slide every 4s
+    interval = setInterval(nextSlide, 3000); // ✅ 3 seconds
   }
 
   function resetAuto() {
@@ -87,6 +87,6 @@ carousels.forEach(carousel => {
   carousel.addEventListener("mouseleave", startAuto);
 
   // Init
-  updateCarousel();
+  update();
   startAuto();
 });

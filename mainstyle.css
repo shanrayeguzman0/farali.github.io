@@ -69,19 +69,16 @@ color: white;
   margin: 40px 30px 0 20px;
   overflow: hidden;
   border-radius: 10px;
-  margin-top: 20%;
-  margin-bottom: 10px;
   box-shadow: 5px 0px 10px #2e2d2d;
-  transform: scale(1.1);
 }
 
-/* IMPORTANT: gives height so slides don't collapse */
+/* Track */
 .carousel-track {
   position: relative;
   height: 200px;
 }
 
-/* Stack slides */
+/* Slides stacked */
 .carousel-slide {
   position: absolute;
   top: 0;
@@ -89,6 +86,7 @@ color: white;
   width: 100%;
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
+  z-index: 0;
 }
 
 /* Active slide */
@@ -97,20 +95,14 @@ color: white;
   z-index: 1;
 }
 
-/* Fallback first slide visible */
-.carousel-slide:first-child {
-  opacity: 1;
-}
-
 /* Image */
 .carousel-slide img {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  display: block;
 }
 
-/* Buttons */
+/* 🔥 FIX: Keep buttons above slides */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -122,10 +114,7 @@ color: white;
   cursor: pointer;
   font-size: 18px;
   border-radius: 50%;
-}
-
-.carousel-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  z-index: 10; /* VERY IMPORTANT */
 }
 
 .prev { left: 10px; }
@@ -133,10 +122,11 @@ color: white;
 
 /* Dots */
 .carousel-dots {
-  text-align: center;
   position: absolute;
   bottom: 10px;
   width: 100%;
+  text-align: center;
+  z-index: 10;
 }
 
 .dot {
@@ -147,7 +137,6 @@ color: white;
   background: #ccc;
   border-radius: 50%;
   cursor: pointer;
-  transition: background 0.3s;
 }
 
 .dot.active {
@@ -157,31 +146,13 @@ color: white;
 /* Text */
 .carousel-text {
   position: absolute;
-  top: 150px;
-  left: 0;
+  bottom: 10px;
+  left: 10px;
   color: white;
   font-size: 13px;
   font-weight: bold;
-  padding: 10px 15px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-shadow: 5px 0px 10px red,
-               -5px 0px 10px blue,
-               5px -2px 10px cyan;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .carousel-btn {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .carousel-text {
-    font-size: 10px;
-    top: auto;
-    bottom: 10px;
-    left: 10px;
-  }
+  text-shadow: 2px 2px 5px black;
+  z-index: 5;
 }
 .login-btn{
   background: rgb(20, 20, 20);
