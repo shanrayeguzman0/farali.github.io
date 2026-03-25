@@ -146,3 +146,113 @@ document.querySelectorAll(".carousel").forEach((carousel) => {
     resetAutoSlide();
   }
 });
+document.querySelectorAll(".carousel").forEach((carousel) => {
+  const slides = carousel.querySelectorAll(".carousel-slide");
+  const prevBtn = carousel.querySelector(".prev");
+  const nextBtn = carousel.querySelector(".next");
+  const dotsContainer = carousel.querySelector(".carousel-dots");
+
+  let index = 0;
+  let startX = 0;
+  let autoSlide;
+
+  // Initialize first slide
+  slides[0].classList.add("active");
+
+  // Create dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement("span");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("active");
+
+    dot.addEventListener("click", () => {
+      index = i;
+      updateCarousel();
+      resetAutoSlide();
+    });
+
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll(".dot");
+
+  function updateCarousel() {
+    // Remove active class from all slides and dots
+    slides.forEach(slide => slide.classList.remove("active"));
+    dots.forEach(dot => dot.classList.remove("active"));
+
+    // Add active class to current slide and dot to fade it in
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+  }
+
+  function nextSlide() {
+    index = (index + 1) % slides.length;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    index = (index - 1 + slides.length) % slides.length;
+    updateCarousel();
+  }
+
+  // Buttons
+  nextBtn.addEventListener("click", () => {
+    nextSlide();
+    resetAutoSlide();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    prevSlide();
+    resetAutoSlide();
+  });
+
+  // Auto slide (3 seconds)
+  function startAutoSlide() {
+    autoSlide = setInterval(nextSlide, 3000);
+  }
+
+  function resetAutoSlide() {
+    clearInterval(autoSlide);
+    startAutoSlide();
+  }
+
+  startAutoSlide();
+
+  // =====================
+  // SWIPE SUPPORT FOR FADE
+  // =====================
+
+  const track = carousel.querySelector(".carousel-track");
+
+  // Mouse events
+  track.addEventListener("mousedown", (e) => {
+    startX = e.pageX;
+  });
+
+  track.addEventListener("mouseup", (e) => {
+    handleSwipe(e.pageX);
+  });
+
+  // Touch (mobile)
+  track.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  track.addEventListener("touchend", (e) => {
+    handleSwipe(e.changedTouches[0].clientX);
+  });
+
+  function handleSwipe(endX) {
+    const diff = endX - startX;
+
+    // If swipe distance is greater than 50px, change slide
+    if (diff > 50) {
+      prevSlide();
+      resetAutoSlide();
+    } else if (diff < -50) {
+      nextSlide();
+      resetAutoSlide();
+    }
+  }
+});

@@ -63,120 +63,49 @@ color: white;
   border: 1px solid rgb(83, 83, 83);
 }
 /*img na nag sa slide*/
+/* Keep your existing .carousel styles, but ensure it has a proper height */
 .carousel {
   position: relative;
   max-width: 400px;
-  margin: 40px 30px 0 20px;
+  margin: 40px 0 0 40px; /* Adjusted margin to match your first snippet */
   overflow: hidden;
   border-radius: 10px;
-  margin-top: 20%;
-  margin-bottom: 10px;
-  height: 42%;
   box-shadow: 5px 0px 10px #2e2d2d;
-  object-fit: cover;
-  transform: scale(1.1);
+  /* Added a fixed height to prevent collapsing since slides will be absolute */
+  height: 200px; 
 }
 
 .carousel-track {
- display: flex;
-  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-  will-change: transform;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
-
 
 .carousel-slide {
-  min-width: 100%;
-  position: relative; 
-  flex-shrink: 0;     /* prevents shrinking */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Hide all slides by default */
+  transition: opacity 0.8s ease-in-out; /* This creates the fade effect */
+  z-index: 0;
 }
+
+/* This class will be toggled by JavaScript to show the slide */
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
 .carousel-slide img {
   width: 100%;
   height: 200px;
   display: block;
+  object-fit: cover;
 }
 
-/* Buttons */
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.5);
-  color: white;
-  border: none;
-  padding: 12px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 50%;
-}
-.carousel-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.prev { left: 10px; }
-.next { right: 10px; }
-
-/* Dots */
-.carousel-dots {
-  text-align: center;
-  position: absolute;
-  bottom: 10px;
-  width: 100%;
-}
-
-.dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin: 5px;
-  background: #ccc;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.dot.active {
-  background: #333;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .carousel-btn {
-    padding: 8px;
-    font-size: 14px;
-  }
-}
-.carousel-text {
-  position: absolute;
-  top: 152px;
-  left: 0px;
-  color: white;
-  font-size: 13px;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
-}
-
-/* Mobile adjustment */
-@media (max-width: 600px) {
-  .carousel-text {
-    font-size: 10px;
-    bottom: 10px;
-    left: 10px;
-  }
-}
-
-.carousel-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 1px;
-}
-@media (max-width: 600px)  {
-  .carousel-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-}
+/* ... Keep all your Button, Dots, and Responsive CSS exactly as they were ... */
 .login-btn{
   background: rgb(20, 20, 20);
 border: solid rgba(0, 0, 0, 0.479);
