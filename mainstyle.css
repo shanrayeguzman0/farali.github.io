@@ -73,6 +73,8 @@ color: white;
   margin-bottom: 10px;
   height: 42%;
   box-shadow: 5px 0px 10px #2e2d2d;
+  object-fit: cover;
+  transform: scale(1.1);
 }
 
 .carousel-track {
