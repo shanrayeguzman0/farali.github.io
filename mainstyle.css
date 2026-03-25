@@ -69,6 +69,7 @@ color: white;
   justify-content: center;   /* center horizontally */
   gap: 20px;                 /* space between carousels */
   flex-wrap: wrap;           /* wrap on smaller screens */
+  top: 30px;
 }
 
 /* Individual carousel */
@@ -94,7 +95,7 @@ color: white;
   left: 0;
   width: 100%;
   opacity: 0;
-  transition: opacity 3.8s ease-in-out;  /* fade speed */
+  transition: opacity 5.8s ease-in-out;  /* fade speed */
   z-index: 0;
 }
 
