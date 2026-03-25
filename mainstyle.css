@@ -64,12 +64,10 @@ color: white;
 }
 /*img na nag sa slide*/
 /* Wrapper to place carousels side by side */
-.news-title {
-  margin-right: 40px; /* Adjust mo yung number kung gaano kalaki yung gusto mong espasyo */
-}
+
 .nissin-wrapper {
 display: flex;
-  margin-top: 40px;
+  margin-top: 100px;
   justify-content: center;   /* center horizontally */
   gap: 20px;                 /* space between carousels */
   flex-wrap: wrap;           /* wrap on smaller screens */
@@ -189,6 +187,19 @@ display: flex;
   .carousel-text {
     font-size: 12px;
   }
+}
+
+.news-container {
+  display: flex;
+  align-items: center;      /* Pinapantay sila horizontally sa gitna */
+  justify-content: flex-start; /* Nagsisimula sa kaliwa */
+  gap: 60px;                /* ETO YUNG DISTANSYA! Palakihin mo 'to para mas lumayo sila */
+  padding: 20px;
+  margin-top: 50px;         /* Ito naman para bumaba silang lahat mula sa taas */
+}
+.news-title {
+  margin: 0;
+  white-space: nowrap;      /* Para hindi mag-break ang text sa dalawang linya */
 }
 .login-btn{
   background: rgb(20, 20, 20);
