@@ -188,19 +188,6 @@ display: flex;
     font-size: 12px;
   }
 }
-
-.news-container {
-  display: flex;
-  align-items: center;      /* Pinapantay sila horizontally sa gitna */
-  justify-content: flex-start; /* Nagsisimula sa kaliwa */
-  gap: 60px;                /* ETO YUNG DISTANSYA! Palakihin mo 'to para mas lumayo sila */
-  padding: 20px;
-  margin-top: 50px;         /* Ito naman para bumaba silang lahat mula sa taas */
-}
-.news-title {
-  margin: 0;
-  white-space: nowrap;      /* Para hindi mag-break ang text sa dalawang linya */
-}
 .login-btn{
   background: rgb(20, 20, 20);
 border: solid rgba(0, 0, 0, 0.479);
