@@ -74,7 +74,7 @@ carousels.forEach((carousel) => {
   });
 
   function startAuto() {
-    interval = setInterval(nextSlide, 3000); // ✅ 3 seconds
+    interval = setInterval(nextSlide, 7000); // ✅ 3 seconds
   }
 
   function resetAuto() {
