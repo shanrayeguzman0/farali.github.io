@@ -64,12 +64,15 @@ color: white;
 }
 /*img na nag sa slide*/
 /* Wrapper to place carousels side by side */
+.news-title {
+  margin-right: 40px; /* Adjust mo yung number kung gaano kalaki yung gusto mong espasyo */
+}
 .nissin-wrapper {
-  display: flex;
+display: flex;
+  margin-top: 40px;
   justify-content: center;   /* center horizontally */
   gap: 20px;                 /* space between carousels */
   flex-wrap: wrap;           /* wrap on smaller screens */
-  top: 30px;
 }
 
 /* Individual carousel */
