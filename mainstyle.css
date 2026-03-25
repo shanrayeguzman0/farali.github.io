@@ -98,7 +98,7 @@ display: flex;
   opacity: 0;
   transition: opacity 5.8s ease-in-out;  /* fade speed */
   z-index: 0;
-   text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
+  
 }
 
 /* Active slide visible */
@@ -172,6 +172,7 @@ display: flex;
   font-weight: bold;
   text-shadow: 2px 2px 5px black;
   z-index: 5;
+   text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
 }
 
 /* Mobile responsive */
