@@ -16,41 +16,38 @@ hamburger.addEventListener("click", () => {
     navLinks.classList.toggle("active");
 });
 
+const carousels = document.querySelectorAll(".carousel");
 
-document.querySelectorAll(".carousel").forEach((carousel) => {
+carousels.forEach(carousel => {
   const slides = carousel.querySelectorAll(".carousel-slide");
   const prevBtn = carousel.querySelector(".prev");
   const nextBtn = carousel.querySelector(".next");
   const dotsContainer = carousel.querySelector(".carousel-dots");
 
   let index = 0;
-  let autoSlide;
+  let interval;
 
   // Create dots
   slides.forEach((_, i) => {
     const dot = document.createElement("span");
     dot.classList.add("dot");
     if (i === 0) dot.classList.add("active");
+    dotsContainer.appendChild(dot);
 
     dot.addEventListener("click", () => {
       index = i;
       updateCarousel();
-      resetAutoSlide();
+      resetAuto();
     });
-
-    dotsContainer.appendChild(dot);
   });
 
   const dots = dotsContainer.querySelectorAll(".dot");
 
-  // Set first slide active
-  slides[0].classList.add("active");
-
   function updateCarousel() {
     slides.forEach(slide => slide.classList.remove("active"));
-    slides[index].classList.add("active");
-
     dots.forEach(dot => dot.classList.remove("active"));
+
+    slides[index].classList.add("active");
     dots[index].classList.add("active");
   }
 
@@ -64,48 +61,30 @@ document.querySelectorAll(".carousel").forEach((carousel) => {
     updateCarousel();
   }
 
-  // Buttons
   nextBtn.addEventListener("click", () => {
     nextSlide();
-    resetAutoSlide();
+    resetAuto();
   });
 
   prevBtn.addEventListener("click", () => {
     prevSlide();
-    resetAutoSlide();
+    resetAuto();
   });
 
-  // Auto slide
-  function startAutoSlide() {
-    autoSlide = setInterval(nextSlide, 3000);
+  function startAuto() {
+    interval = setInterval(nextSlide, 4000); // 4 seconds
   }
 
-  function resetAutoSlide() {
-    clearInterval(autoSlide);
-    startAutoSlide();
+  function resetAuto() {
+    clearInterval(interval);
+    startAuto();
   }
 
-  startAutoSlide();
+  // Pause on hover (optional but nice)
+  carousel.addEventListener("mouseenter", () => clearInterval(interval));
+  carousel.addEventListener("mouseleave", startAuto);
 
-  // =====================
-  // SIMPLE SWIPE SUPPORT
-  // =====================
-  let startX = 0;
-
-  carousel.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-  });
-
-  carousel.addEventListener("touchend", (e) => {
-    const endX = e.changedTouches[0].clientX;
-    const diff = endX - startX;
-
-    if (diff > 50) {
-      prevSlide();
-    } else if (diff < -50) {
-      nextSlide();
-    }
-
-    resetAutoSlide();
-  });
+  // Init
+  updateCarousel();
+  startAuto();
 });
