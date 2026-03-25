@@ -44,11 +44,13 @@ carousels.forEach(carousel => {
   const dots = dotsContainer.querySelectorAll(".dot");
 
   function updateCarousel() {
-    slides.forEach(slide => slide.classList.remove("active"));
-    dots.forEach(dot => dot.classList.remove("active"));
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+    });
 
-    slides[index].classList.add("active");
-    dots[index].classList.add("active");
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === index);
+    });
   }
 
   function nextSlide() {
@@ -72,7 +74,7 @@ carousels.forEach(carousel => {
   });
 
   function startAuto() {
-    interval = setInterval(nextSlide, 4000); // 4 seconds
+    interval = setInterval(nextSlide, 4000); // change slide every 4s
   }
 
   function resetAuto() {
@@ -80,7 +82,7 @@ carousels.forEach(carousel => {
     startAuto();
   }
 
-  // Pause on hover (optional but nice)
+  // Pause on hover
   carousel.addEventListener("mouseenter", () => clearInterval(interval));
   carousel.addEventListener("mouseleave", startAuto);
 

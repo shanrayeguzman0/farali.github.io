@@ -71,27 +71,42 @@ color: white;
   border-radius: 10px;
   margin-top: 20%;
   margin-bottom: 10px;
-  height: 42%;
   box-shadow: 5px 0px 10px #2e2d2d;
-  object-fit: cover;
   transform: scale(1.1);
 }
 
+/* IMPORTANT: gives height so slides don't collapse */
 .carousel-track {
- display: flex;
-  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-  will-change: transform;
+  position: relative;
+  height: 200px;
 }
 
-
+/* Stack slides */
 .carousel-slide {
-  min-width: 100%;
-  position: relative; 
-  flex-shrink: 0;     /* prevents shrinking */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
 }
+
+/* Active slide */
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Fallback first slide visible */
+.carousel-slide:first-child {
+  opacity: 1;
+}
+
+/* Image */
 .carousel-slide img {
   width: 100%;
   height: 200px;
+  object-fit: cover;
   display: block;
 }
 
@@ -108,8 +123,9 @@ color: white;
   font-size: 18px;
   border-radius: 50%;
 }
+
 .carousel-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .prev { left: 10px; }
@@ -131,10 +147,26 @@ color: white;
   background: #ccc;
   border-radius: 50%;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 .dot.active {
   background: #333;
+}
+
+/* Text */
+.carousel-text {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 15px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 5px 0px 10px red,
+               -5px 0px 10px blue,
+               5px -2px 10px cyan;
 }
 
 /* Responsive */
@@ -143,40 +175,14 @@ color: white;
     padding: 8px;
     font-size: 14px;
   }
-}
-.carousel-text {
-  position: absolute;
-  top: 152px;
-  left: 0px;
-  color: white;
-  font-size: 13px;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-family: Arial, Helvetica, sans-serif;
-  text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
-}
 
-/* Mobile adjustment */
-@media (max-width: 600px) {
   .carousel-text {
     font-size: 10px;
+    top: auto;
     bottom: 10px;
     left: 10px;
   }
 }
-
-.carousel-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 1px;
-}
-@media (max-width: 600px)  {
-  .carousel-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-}y
 .login-btn{
   background: rgb(20, 20, 20);
 border: solid rgba(0, 0, 0, 0.479);
