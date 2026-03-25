@@ -117,8 +117,9 @@ color: white;
   z-index: 10; /* VERY IMPORTANT */
 }
 
-.prev { left: 10px; }
-.next { right: 10px; }
+.prev { left: 10px; 
+z-index: 9999;}
+.next { right: 10px; z-index: 99999;}
 
 /* Dots */
 .carousel-dots {
@@ -137,6 +138,7 @@ color: white;
   background: #ccc;
   border-radius: 50%;
   cursor: pointer;
+  z-index: 9999;
 }
 
 .dot.active {
