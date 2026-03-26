@@ -252,7 +252,7 @@ border: solid rgba(0, 0, 0, 0.479);
         }
 
         .fb-post {
-            background-color: #fff;
+            background-color: #131212;
             width: 100%; /* Fluid for mobile */
             max-width: 500px; /* Standard desktop width */
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -303,6 +303,9 @@ border: solid rgba(0, 0, 0, 0.479);
             font-size: 15px;
             line-height: 1.4;
             margin: 0;
+            word-wrap: break-word;       /* Pinipilit ang mahabang words na mag-wrap */
+    overflow-wrap: break-word;  /* Standard way para hindi lumampas sa box */
+    white-space: pre-wrap;
         }
 
         .content-image-container {
