@@ -140,4 +140,4 @@ function updateBaseLikes(newValue) {
 // Run
 renderLikeUI();
 
-updateBaseLikes(120);
+updateBaseLikes(125);
