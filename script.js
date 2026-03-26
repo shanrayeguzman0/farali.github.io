@@ -173,4 +173,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run on load to set initial state
     renderLikeUI();
-});
