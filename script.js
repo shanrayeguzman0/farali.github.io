@@ -97,34 +97,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const likeTextDisplay = document.getElementById('likeTextDisplay');
     const dateDisplay = document.getElementById('displayDate');
 
+    // 1. Handle "1 day ago" Logic
+    dateDisplay.innerText = "1 day ago";
+
+    // 2. Handle Like System with LocalStorage
+    let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
+    let baseLikes = 2;
+
+    function renderLikeUI() {
+        // Sync the checkbox state with our logic
+        heartCheckbox.checked = isLiked;
+        
+        if (isLiked) {
+            likeTextDisplay.innerText = baseLikes + 1;
+            likeTextDisplay.style.color = '#ed4956'; // Match the heart color
+        } else {
+            likeTextDisplay.innerText = baseLikes;
+            likeTextDisplay.style.color = 'var(--fb-gray)';
+        }
+    }
+
+    // Listen for the checkbox changedocument.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'fb_post_liked_state';
+    const heartCheckbox = document.getElementById('heart-btn');
+    const likeTextDisplay = document.getElementById('likeTextDisplay');
+    const dateDisplay = document.getElementById('displayDate');
+
     // 1. Set the static date
     if (dateDisplay) dateDisplay.innerText = "1 day ago";
 
     // 2. Configuration: Change this value anytime!
-    const baseLikes = 2; 
+    const baseLikes = 3; 
 
     // 3. Load the saved state
     // This strictly checks if the user previously liked the post
     let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
 
-    function renderLikeUI() {
-        // Sync the checkbox visual (the heart)
-        heartCheckbox.checked = isLiked;
-        
-        // Calculate the value to show: 
-        // If liked, show base + 1. If not, show base.
-        const currentDisplayValue = isLiked ? baseLikes + 1 : baseLikes;
-        
-        // Update the HTML text
-        likeTextDisplay.innerText = currentDisplayValue.toLocaleString();
+  function renderLikeUI() {
+    // CRITICAL: This line tells the HTML checkbox to be checked or unchecked
+    // This triggers the CSS #heart-btn:checked styles (making it red)
+    heartCheckbox.checked = isLiked;
+    
+    // Calculate the value to show
+    const currentDisplayValue = isLiked ? baseLikes + 1 : baseLikes;
+    
+    // Update the HTML text
+    likeTextDisplay.innerText = currentDisplayValue.toLocaleString();
 
-        // Update color for better UX
-        if (isLiked) {
-            likeTextDisplay.style.color = '#ed4956';
-        } else {
-            likeTextDisplay.style.color = 'var(--fb-gray)';
-        }
+    // Update color for the text next to the count
+    if (isLiked) {
+        likeTextDisplay.style.color = '#ed4956';
+    } else {
+        likeTextDisplay.style.color = 'var(--fb-gray)';
     }
+}
 
     // 4. Handle Interaction
     heartCheckbox.addEventListener('change', () => {
@@ -137,5 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initial run to set the correct number on page load
+    renderLikeUI();
+});
+    heartCheckbox.addEventListener('change', () => {
+        isLiked = heartCheckbox.checked;
+        localStorage.setItem(STORAGE_KEY, isLiked);
+        renderLikeUI();
+    });
+
+    // Run on load to set initial state
     renderLikeUI();
 });
