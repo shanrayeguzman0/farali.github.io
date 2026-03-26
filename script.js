@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Handle Like System with LocalStorage
     let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
-    let baseLikes = 124;
+    let baseLikes = 2;
 
     function renderLikeUI() {
         // Sync the checkbox state with our logic
