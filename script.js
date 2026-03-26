@@ -91,9 +91,9 @@ carousels.forEach((carousel) => {
   startAuto();
 });
 
-const STORAGE_KEY = 'fb_post_liked_state';
-    const likeBtn = document.getElementById('likeBtn');
-    const likeIcon = document.getElementById('likeIcon');
+document.addEventListener('DOMContentLoaded', () => {
+    const STORAGE_KEY = 'fb_post_liked_state';
+    const heartCheckbox = document.getElementById('heart-btn');
     const likeTextDisplay = document.getElementById('likeTextDisplay');
     const dateDisplay = document.getElementById('displayDate');
 
@@ -105,22 +105,25 @@ const STORAGE_KEY = 'fb_post_liked_state';
     let baseLikes = 124;
 
     function renderLikeUI() {
+        // Sync the checkbox state with our logic
+        heartCheckbox.checked = isLiked;
+        
         if (isLiked) {
-            likeBtn.classList.add('liked');
-            likeIcon.classList.replace('far', 'fas');
             likeTextDisplay.innerText = baseLikes + 1;
+            likeTextDisplay.style.color = '#ed4956'; // Match the heart color
         } else {
-            likeBtn.classList.remove('liked');
-            likeIcon.classList.replace('fas', 'far');
             likeTextDisplay.innerText = baseLikes;
+            likeTextDisplay.style.color = 'var(--fb-gray)';
         }
     }
 
-    likeBtn.addEventListener('click', () => {
-        isLiked = !isLiked;
+    // Listen for the checkbox change
+    heartCheckbox.addEventListener('change', () => {
+        isLiked = heartCheckbox.checked;
         localStorage.setItem(STORAGE_KEY, isLiked);
         renderLikeUI();
     });
 
-    // Run on load
+    // Run on load to set initial state
     renderLikeUI();
+});
