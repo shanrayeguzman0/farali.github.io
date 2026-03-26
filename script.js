@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (dateDisplay) dateDisplay.innerText = "1 day ago";
 
     // 2. Configuration: Change this value anytime!
-    const baseLikes = 124; 
+    const baseLikes = 2; 
 
     // 3. Load the saved state
     // This strictly checks if the user previously liked the post
