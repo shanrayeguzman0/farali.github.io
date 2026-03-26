@@ -92,84 +92,74 @@ carousels.forEach((carousel) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const STORAGE_KEY = 'fb_post_liked_state';
-    const heartCheckbox = document.getElementById('heart-btn');
-    const likeTextDisplay = document.getElementById('likeTextDisplay');
-    const dateDisplay = document.getElementById('displayDate');
+        const postId = 'post1'; // Unique identifier for this post
+        const likeBtn = document.getElementById('likeBtn');
+        const likeIcon = document.getElementById('likeIcon');
+        const likeText = document.getElementById('likeText');
+        const likeCountDisplay = document.getElementById('likeCountDisplay');
+        const postDateSpan = document.getElementById('postDate');
 
-    // 1. Handle "1 day ago" Logic
-    dateDisplay.innerText = "1 day ago";
+        // Initial like count for demonstration
+        const initialLikes = 24510;
 
-    // 2. Handle Like System with LocalStorage
-    let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
-    let baseLikes = 2;
+        // --- Date Functionality ---
+        // Set the post date (mocking "One day ago")
+        // Get current date, subtract one day
+        const today = new Date();
+        const oneDayAgo = new Date(today.getTime() - (24 * 60 * 60 * 1000));
 
-    function renderLikeUI() {
-        // Sync the checkbox state with our logic
-        heartCheckbox.checked = isLiked;
+        // Format: Month Day at Time (e.g., July 12 at 10:30 AM)
+        const options = { month: 'long', day: 'numeric' };
+        let hours = oneDayAgo.getHours();
+        const minutes = oneDayAgo.getMinutes().toString().padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12; // convert to 12 hour format
+
+        // For the sake of matching the user prompt perfectly, we will just display "1 day ago"
+        // if the date is exactly one day old.
+        // A more dynamic script would calculate 'minutes ago', 'hours ago', 'weeks ago' etc.
         
-        if (isLiked) {
-            likeTextDisplay.innerText = baseLikes + 1;
-            likeTextDisplay.style.color = '#ed4956'; // Match the heart color
-        } else {
-            likeTextDisplay.innerText = baseLikes;
-            likeTextDisplay.style.color = 'var(--fb-gray)';
+        // Static output as requested for the generated image
+        postDateSpan.textContent = '1 day ago';
+        // Alternatively, use the actual calculated date:
+        // postDateSpan.textContent = `${oneDayAgo.toLocaleDateString('en-US', options)} at ${hours}:${minutes} ${ampm}`;
+
+        // --- Like Button & LocalStorage Functionality ---
+        const localStorageKey = `liked_${postId}`;
+
+        function updateLikeStatus(isLiked) {
+            if (isLiked) {
+                likeBtn.classList.add('liked');
+                likeIcon.classList.remove('far');
+                likeIcon.classList.add('fas');
+                likeText.textContent = 'Liked';
+                // Demonstration update of count
+                likeCountDisplay.textContent = (initialLikes + 1).toLocaleString() + ' Likes';
+            } else {
+                likeBtn.classList.remove('liked');
+                likeIcon.classList.remove('fas');
+                likeIcon.classList.add('far');
+                likeText.textContent = 'Like';
+                likeCountDisplay.textContent = initialLikes.toLocaleString() + ' Likes';
+            }
         }
-    }
 
-    // Listen for the checkbox changedocument.addEventListener('DOMContentLoaded', () => {
-    const STORAGE_KEY = 'fb_post_liked_state';
-    const heartCheckbox = document.getElementById('heart-btn');
-    const likeTextDisplay = document.getElementById('likeTextDisplay');
-    const dateDisplay = document.getElementById('displayDate');
+        // 1. Check if the user already liked the post in this browser
+        const storedLikeStatus = localStorage.getItem(localStorageKey);
+        const alreadyLiked = storedLikeStatus === 'true';
 
-    // 1. Set the static date
-    if (dateDisplay) dateDisplay.innerText = "1 day ago";
+        // 2. Initial render based on stored status
+        updateLikeStatus(alreadyLiked);
 
-    // 2. Configuration: Change this value anytime!
-    const baseLikes = 3; 
+        // 3. Add click event listener to the Like button
+        likeBtn.addEventListener('click', () => {
+            const currentLikedStatus = localStorage.getItem(localStorageKey) === 'true';
+            const newLikedStatus = !currentLikedStatus;
 
-    // 3. Load the saved state
-    // This strictly checks if the user previously liked the post
-    let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
+            // Update UI
+            updateLikeStatus(newLikedStatus);
 
-  function renderLikeUI() {
-    // CRITICAL: This line tells the HTML checkbox to be checked or unchecked
-    // This triggers the CSS #heart-btn:checked styles (making it red)
-    heartCheckbox.checked = isLiked;
-    
-    // Calculate the value to show
-    const currentDisplayValue = isLiked ? baseLikes + 1 : baseLikes;
-    
-    // Update the HTML text
-    likeTextDisplay.innerText = currentDisplayValue.toLocaleString();
-
-    // Update color for the text next to the count
-    if (isLiked) {
-        likeTextDisplay.style.color = '#ed4956';
-    } else {
-        likeTextDisplay.style.color = 'var(--fb-gray)';
-    }
-}
-
-    // 4. Handle Interaction
-    heartCheckbox.addEventListener('change', () => {
-        isLiked = heartCheckbox.checked;
-        
-        // Save the current state (true or false)
-        localStorage.setItem(STORAGE_KEY, isLiked);
-        
-        renderLikeUI();
+            // Store new status in LocalStorage
+            localStorage.setItem(localStorageKey, newLikedStatus);
+        });
     });
-
-    // Initial run to set the correct number on page load
-    renderLikeUI();
-});
-    heartCheckbox.addEventListener('change', () => {
-        isLiked = heartCheckbox.checked;
-        localStorage.setItem(STORAGE_KEY, isLiked);
-        renderLikeUI();
-    });
-
-    // Run on load to set initial state
-    renderLikeUI();
