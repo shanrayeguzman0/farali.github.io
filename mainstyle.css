@@ -239,8 +239,8 @@ border: solid rgba(0, 0, 0, 0.479);
  :root {
             --fb-blue: #1877f2;
             --fb-gray: #65676b;
-            --fb-bg: #f0f2f5;
-            --divider: #ced0d4;
+            --fb-bg: #000000;
+            --divider: #000000;
         }
 
         body {
