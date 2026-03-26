@@ -92,35 +92,52 @@ carousels.forEach((carousel) => {
 });
 
 const STORAGE_KEY = 'fb_post_liked_state';
-    const likeBtn = document.getElementById('likeBtn');
-    const likeIcon = document.getElementById('likeIcon');
-    const likeTextDisplay = document.getElementById('likeTextDisplay');
-    const dateDisplay = document.getElementById('displayDate');
+const BASE_KEY = 'fb_post_base_likes';
 
-    // 1. Handle "1 day ago" Logic
-    dateDisplay.innerText = "1 day ago";
+const likeCheckbox = document.getElementById('heart-btn');
+const likeTextDisplay = document.getElementById('likeTextDisplay');
+const dateDisplay = document.getElementById('displayDate');
 
-    // 2. Handle Like System with LocalStorage
-    let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
-    let baseLikes = 124;
+// 1. Date
+dateDisplay.innerText = "1 day ago";
 
-    function renderLikeUI() {
-        if (isLiked) {
-            likeBtn.classList.add('liked');
-            likeIcon.classList.replace('far', 'fas');
-            likeTextDisplay.innerText = baseLikes + 1;
-        } else {
-            likeBtn.classList.remove('liked');
-            likeIcon.classList.replace('fas', 'far');
-            likeTextDisplay.innerText = baseLikes;
-        }
-    }
+// 2. Get base likes (pwede mo baguhin anytime)
+let baseLikes = localStorage.getItem(BASE_KEY);
 
-    likeBtn.addEventListener('click', () => {
-        isLiked = !isLiked;
-        localStorage.setItem(STORAGE_KEY, isLiked);
-        renderLikeUI();
-    });
+// 👉 kung first time, kunin sa HTML
+if (!baseLikes) {
+    baseLikes = parseInt(likeTextDisplay.innerText);
+    localStorage.setItem(BASE_KEY, baseLikes);
+} else {
+    baseLikes = parseInt(baseLikes);
+}
 
-    // Run on load
+// 3. Get user like state
+let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
+
+// 4. Render
+function renderLikeUI() {
+    let displayLikes = isLiked ? baseLikes + 1 : baseLikes;
+
+    likeTextDisplay.innerText = displayLikes;
+    likeCheckbox.checked = isLiked;
+}
+
+// 5. Click event
+likeCheckbox.addEventListener('change', () => {
+    isLiked = likeCheckbox.checked;
+    localStorage.setItem(STORAGE_KEY, isLiked);
     renderLikeUI();
+});
+
+// 👉 OPTIONAL: function para baguhin base likes (admin style)
+function updateBaseLikes(newValue) {
+    baseLikes = newValue;
+    localStorage.setItem(BASE_KEY, baseLikes);
+    renderLikeUI();
+}
+
+// Run
+renderLikeUI();
+
+updateBaseLikes(120);
