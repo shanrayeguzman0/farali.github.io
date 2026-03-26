@@ -97,46 +97,39 @@ border: solid rgba(0, 0, 0, 0.479);
 </div>
 <br>
 <hr>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-<div class="fb-post" id="post1">
+<div class="fb-post">
     <div class="post-header">
-        <a href="#"><img src="https://via.placeholder.com/40" alt="Jane Doe" class="profile-pic"></a>
+        <img src="https://i.pravatar.cc/100?img=32" alt="User" class="profile-pic">
         <div class="header-info">
-            <a href="#" class="profile-name">Jane Doe</a>
-            <span class="post-date" id="postDate"></span>
+            <span class="profile-name">Alex Rivera</span>
+            <span class="post-date" id="displayDate"></span>
         </div>
-        <div class="post-options"><i class="fas fa-ellipsis-h"></i></div>
     </div>
 
     <div class="post-content">
-        <p class="content-text">
-            Spent an amazing weekend exploring the Scottish Highlands! The views were absolutely breathtaking. #travel #Scotland #highlands #adventure
-        </p>
+        <p class="content-text">Nothing beats a morning coffee by the coast. 🌊☕</p>
     </div>
-    
+
     <div class="content-image-container">
-        <img src="https://images.unsplash.com/photo-1596701062351-8c4c1a403d65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTkyMXwwfDF8c2VhcmNofDh8fFNjb3R0aXNoJTIwSGlnaGxhbmRzfGVufDB8fHx8MTY4MTIxMDc0Mw&ixlib=rb-4.0.3&q=80&w=600" alt="Scottish Highlands" class="content-image">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Beach" class="content-image">
     </div>
 
-    <div class="reaction-count">
-        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiI+PHBhdGggZmlsbD0iIzE4NzdmMiIgZD0iTTEyLjE0IDEuMTZDOC4zMyAxLjE2IDggNS4zMyA4IDUuMzNTNy42NyAxLjE2IDMuODYgMS4xNkMuMTMgMS4xNi4xMyA2LjE2LjEzIDYuMTZDLjEzIDguOTYgOCAxNC44NCA4IDE0Ljg0UzE1Ljg3IDguOTYgMTUuODcgNi4xN0MxNS44NyA2LjE3IDE1Ljg3IDEuMTYgMTIuMTQgMS4xNloiLz48L3N2Zz4=" alt="Like Icon">
-        <span id="likeCountDisplay">24,510 Likes</span>
+    <div class="stats-bar">
+        <div class="like-count">
+            <i class="fas fa-thumbs-up" style="color: var(--fb-blue);"></i>
+            <span id="likeTextDisplay">124</span>
+        </div>
+        <div style="color: var(--fb-gray); font-size: 14px;">12 comments</div>
     </div>
 
-    <div class="interaction-bar">
-        <button class="interaction-btn" id="likeBtn">
+    <div class="interaction-btns">
+        <button class="btn" id="likeBtn">
             <i class="far fa-thumbs-up" id="likeIcon"></i>
-            <span id="likeText">Like</span>
+            <span>Like</span>
         </button>
-        <button class="interaction-btn">
+        <button class="btn">
             <i class="far fa-comment"></i>
-            Comment
-        </button>
-        <button class="interaction-btn">
-            <i class="fas fa-share"></i>
-            Share
+            <span>Comment</span>
         </button>
     </div>
 </div>

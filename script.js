@@ -91,75 +91,36 @@ carousels.forEach((carousel) => {
   startAuto();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-        const postId = 'post1'; // Unique identifier for this post
-        const likeBtn = document.getElementById('likeBtn');
-        const likeIcon = document.getElementById('likeIcon');
-        const likeText = document.getElementById('likeText');
-        const likeCountDisplay = document.getElementById('likeCountDisplay');
-        const postDateSpan = document.getElementById('postDate');
+const STORAGE_KEY = 'fb_post_liked_state';
+    const likeBtn = document.getElementById('likeBtn');
+    const likeIcon = document.getElementById('likeIcon');
+    const likeTextDisplay = document.getElementById('likeTextDisplay');
+    const dateDisplay = document.getElementById('displayDate');
 
-        // Initial like count for demonstration
-        const initialLikes = 24510;
+    // 1. Handle "1 day ago" Logic
+    dateDisplay.innerText = "1 day ago";
 
-        // --- Date Functionality ---
-        // Set the post date (mocking "One day ago")
-        // Get current date, subtract one day
-        const today = new Date();
-        const oneDayAgo = new Date(today.getTime() - (24 * 60 * 60 * 1000));
+    // 2. Handle Like System with LocalStorage
+    let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
+    let baseLikes = 124;
 
-        // Format: Month Day at Time (e.g., July 12 at 10:30 AM)
-        const options = { month: 'long', day: 'numeric' };
-        let hours = oneDayAgo.getHours();
-        const minutes = oneDayAgo.getMinutes().toString().padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12 || 12; // convert to 12 hour format
-
-        // For the sake of matching the user prompt perfectly, we will just display "1 day ago"
-        // if the date is exactly one day old.
-        // A more dynamic script would calculate 'minutes ago', 'hours ago', 'weeks ago' etc.
-        
-        // Static output as requested for the generated image
-        postDateSpan.textContent = '1 day ago';
-        // Alternatively, use the actual calculated date:
-        // postDateSpan.textContent = `${oneDayAgo.toLocaleDateString('en-US', options)} at ${hours}:${minutes} ${ampm}`;
-
-        // --- Like Button & LocalStorage Functionality ---
-        const localStorageKey = `liked_${postId}`;
-
-        function updateLikeStatus(isLiked) {
-            if (isLiked) {
-                likeBtn.classList.add('liked');
-                likeIcon.classList.remove('far');
-                likeIcon.classList.add('fas');
-                likeText.textContent = 'Liked';
-                // Demonstration update of count
-                likeCountDisplay.textContent = (initialLikes + 1).toLocaleString() + ' Likes';
-            } else {
-                likeBtn.classList.remove('liked');
-                likeIcon.classList.remove('fas');
-                likeIcon.classList.add('far');
-                likeText.textContent = 'Like';
-                likeCountDisplay.textContent = initialLikes.toLocaleString() + ' Likes';
-            }
+    function renderLikeUI() {
+        if (isLiked) {
+            likeBtn.classList.add('liked');
+            likeIcon.classList.replace('far', 'fas');
+            likeTextDisplay.innerText = baseLikes + 1;
+        } else {
+            likeBtn.classList.remove('liked');
+            likeIcon.classList.replace('fas', 'far');
+            likeTextDisplay.innerText = baseLikes;
         }
+    }
 
-        // 1. Check if the user already liked the post in this browser
-        const storedLikeStatus = localStorage.getItem(localStorageKey);
-        const alreadyLiked = storedLikeStatus === 'true';
-
-        // 2. Initial render based on stored status
-        updateLikeStatus(alreadyLiked);
-
-        // 3. Add click event listener to the Like button
-        likeBtn.addEventListener('click', () => {
-            const currentLikedStatus = localStorage.getItem(localStorageKey) === 'true';
-            const newLikedStatus = !currentLikedStatus;
-
-            // Update UI
-            updateLikeStatus(newLikedStatus);
-
-            // Store new status in LocalStorage
-            localStorage.setItem(localStorageKey, newLikedStatus);
-        });
+    likeBtn.addEventListener('click', () => {
+        isLiked = !isLiked;
+        localStorage.setItem(STORAGE_KEY, isLiked);
+        renderLikeUI();
     });
+
+    // Run on load
+    renderLikeUI();
