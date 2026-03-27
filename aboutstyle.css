@@ -1,24 +1,16 @@
-/* ===== RESET ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* ===== BODY ===== */
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
     background: #0f0f1a;
     color: white;
-    overflow-x: hidden;
 }
 
-/* ===== BACKGROUND BLOBS ===== */
+/* ===== BLOB BACKGROUND ===== */
 .background {
     position: absolute;
     width: 100%;
-    height: 100%; /* FIXED */
-    top: 0;
-    left: 0;
+    height: 320px;
     overflow: hidden;
     filter: blur(80px);
     z-index: 0;
@@ -26,8 +18,8 @@ body {
 
 .blob {
     position: absolute;
-    width: 400px;
-    height: 400px;
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
     opacity: 0.7;
     animation: move 20s infinite alternate ease-in-out;
@@ -48,10 +40,10 @@ body {
 .header {
     position: relative;
     width: 100%;
-    min-height: 180px; /* FIXED (mas maliit na) */
+    min-height: 100px;
     display: flex;
     align-items: center;
-    padding: 15px 20px; /* mas compact */
+    padding: 15px;
     box-sizing: border-box;
     z-index: 1;
 }
@@ -61,7 +53,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    backdrop-filter: blur(100px);
+    backdrop-filter: blur(120px);
     background: rgba(255, 255, 255, 0.05);
     top: 0;
     left: 0;
@@ -71,15 +63,15 @@ body {
 .profile {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     z-index: 2;
     width: 100%;
 }
 
 /* IMAGE */
 .profile img {
-    width: 80px; /* FIXED (mas maliit) */
-    height: 80px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
     border: 3px solid white;
     object-fit: cover;
@@ -87,30 +79,23 @@ body {
 
 /* TEXT */
 .profile-info h1 {
-    font-size: 22px;
+    margin: 0;
+    font-size: 26px;
 }
 
 .profile-info p {
-    font-size: 14px;
+    margin: 5px 0 0;
+    font-size: 15px;
     opacity: 0.8;
-}
-
-/* ===== DIVIDER ===== */
-.divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-    margin-top: -5px;
-    position: relative;
-    z-index: 2;
 }
 
 /* ===== CONTAINER ===== */
 .container {
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-top: -30px;
+    width: 100vw; /* full screen width */
+    margin-left: calc(-50vw + 50%); /* para sumagad talaga */
+    margin-top: -40px;
     padding: 20px;
+    box-sizing: border-box;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(20px);
     border-radius: 20px 20px 0 0;
@@ -127,15 +112,33 @@ body {
     }
 
     .profile img {
-        width: 70px;
-        height: 70px;
+        width: 90px;
+        height: 90px;
     }
 
     .profile-info h1 {
-        font-size: 18px;
+        font-size: 22px;
+    }
+
+    .profile-info p {
+        font-size: 14px;
     }
 
     .header {
-        padding: 10px;
+        padding: 15px;
     }
+
+    .container {
+        padding: 15px;
+    }
+}
+
+/* ===== DIVIDER LINE ===== */
+.divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    margin-top: -10px;
+    position: relative;
+    z-index: 2;
 }
