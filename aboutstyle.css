@@ -91,7 +91,8 @@ body {
 
 /* ===== CONTAINER ===== */
 .container {
-    width: 100%;
+    width: 100vw; /* full screen width */
+    margin-left: calc(-50vw + 50%); /* para sumagad talaga */
     margin-top: -40px;
     padding: 20px;
     box-sizing: border-box;
