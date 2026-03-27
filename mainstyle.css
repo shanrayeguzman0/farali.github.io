@@ -412,6 +412,11 @@ border: solid rgba(0, 0, 0, 0.479);
     66%  { color: blue; }
     100% { color: red; }
 }
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
 #loader {
   position: fixed; inset: 0;
   display: flex; justify-content: center; align-items: center;
