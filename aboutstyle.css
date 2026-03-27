@@ -43,9 +43,9 @@ body {
     min-height: 100px;
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 20px;
     box-sizing: border-box;
-    z-index: 1;
+    z-index: 999;
 }
 
 /* GLASS OVERLAY */
@@ -101,7 +101,6 @@ body {
     border-radius: 20px 20px 0 0;
     border: solid black;
     min-height: 80vh;
-    z-index: 999;
 }
 
 /* ===== MOBILE ===== */
