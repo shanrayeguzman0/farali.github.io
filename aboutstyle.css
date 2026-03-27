@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background: #0f0f1a;
+    color: white;
+}
+
+/* ===== BLOB BACKGROUND ===== */
+.background {
+    position: absolute;
+    width: 100%;
+    height: 300px; /* pang header lang */
+    overflow: hidden;
+    filter: blur(80px);
+    z-index: 0;
+}
+
+.blob {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: move 20s infinite alternate ease-in-out;
+}
+
+.blob:nth-child(1) {
+    background: #ff6ec4;
+    top: 10%;
+    left: 10%;
+}
+
+.blob:nth-child(2) {
+    background: #7873f5;
+    top: 50%;
+    left: 60%;
+}
+
+.blob:nth-child(3) {
+    background: #4ade80;
+    top: 70%;
+    left: 20%;
+}
+
+.blob:nth-child(4) {
+    background: #22d3ee;
+    top: 30%;
+    left: 75%;
+}
+
+@keyframes move {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, -150px) scale(1.2); }
+    100% { transform: translate(-120px, 100px) scale(0.9); }
+}
+
+/* ===== HEADER (PROFILE SECTION) ===== */
+.header {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    z-index: 1;
+}
+
+/* GLASS EFFECT */
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(120px);
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 0;
+}
+
+/* PROFILE CONTENT */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+}
+
+/* PROFILE IMAGE */
+.profile img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+/* TEXT */
+.profile-info h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.profile-info p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+/* ===== CONTENT BOX ===== */
+.container {
+    margin: -50px auto 20px;
+    width: 80%;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 15px;
+    z-index: 2;
+    position: relative;
+}
