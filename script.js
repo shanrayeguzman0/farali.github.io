@@ -91,53 +91,62 @@ carousels.forEach((carousel) => {
   startAuto();
 });
 
-const STORAGE_KEY = 'fb_post_liked_state';
-const BASE_KEY = 'fb_post_base_likes';
+// === MULTIPLE POST LIKE SYSTEM ===
+// Kukunin lahat ng element na may class na fb-post
+const posts = document.querySelectorAll('.fb-post');
 
-const likeCheckbox = document.getElementById('heart-btn');
-const likeTextDisplay = document.getElementById('likeTextDisplay');
-const dateDisplay = document.getElementById('displayDate');
+posts.forEach((post, index) => {
+    const likeCheckbox = post.querySelector('.heart-checkbox');
+    const likeLabel = post.querySelector('.heart-label');
+    const likeTextDisplay = post.querySelector('.like-text-display');
+    const dateDisplay = post.querySelector('.display-date');
+    
+    // Auto-fix ID Generator: 
+    // Kahit mag copy-paste ka ng HTML, automatic gagawan to ng unique ID ng JS 
+    // para di masira ang animation ng heart checkbox!
+    const uniqueId = 'heart-btn-' + index;
+    if(likeCheckbox && likeLabel) {
+        likeCheckbox.id = uniqueId;
+        likeLabel.setAttribute('for', uniqueId);
+    }
 
-// 1. Date
-dateDisplay.innerText = "1 day ago";
+    // 1. Date (Awtomatikong lalagyan ng date ang lahat ng post)
+    if(dateDisplay) dateDisplay.innerText = "1 day ago";
 
-// 2. Get base likes (pwede mo baguhin anytime)
-let baseLikes = localStorage.getItem(BASE_KEY);
+    // 2. Kukuha ng unique keys para sa Local Storage base sa "data-id"
+    const postId = post.getAttribute('data-id') || 'post_' + index;
+    const STORAGE_KEY = 'fb_post_liked_state_' + postId;
+    const BASE_KEY = 'fb_post_base_likes_' + postId;
 
-// 👉 kung first time, kunin sa HTML
-if (!baseLikes) {
-    baseLikes = parseInt(likeTextDisplay.innerText);
-    localStorage.setItem(BASE_KEY, baseLikes);
-} else {
-    baseLikes = parseInt(baseLikes);
-}
+    let baseLikes = localStorage.getItem(BASE_KEY);
 
-// 3. Get user like state
-let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
+    // 👉 Kung first time, kunin sa HTML
+    if (!baseLikes) {
+        baseLikes = parseInt(likeTextDisplay.innerText) || 0;
+        localStorage.setItem(BASE_KEY, baseLikes);
+    } else {
+        baseLikes = parseInt(baseLikes);
+    }
 
-// 4. Render
-function renderLikeUI() {
-    let displayLikes = isLiked ? baseLikes + 1 : baseLikes;
+    // 3. Get user like state para sa specific post na ito
+    let isLiked = localStorage.getItem(STORAGE_KEY) === 'true';
 
-    likeTextDisplay.innerText = displayLikes;
-    likeCheckbox.checked = isLiked;
-}
+    // 4. Render function para sa specific post
+    function renderLikeUI() {
+        let displayLikes = isLiked ? baseLikes + 1 : baseLikes;
+        if(likeTextDisplay) likeTextDisplay.innerText = displayLikes;
+        if(likeCheckbox) likeCheckbox.checked = isLiked;
+    }
 
-// 5. Click event
-likeCheckbox.addEventListener('change', () => {
-    isLiked = likeCheckbox.checked;
-    localStorage.setItem(STORAGE_KEY, isLiked);
+    // 5. Click event listener
+    if(likeCheckbox) {
+        likeCheckbox.addEventListener('change', () => {
+            isLiked = likeCheckbox.checked;
+            localStorage.setItem(STORAGE_KEY, isLiked);
+            renderLikeUI();
+        });
+    }
+
+    // Run Initial Render
     renderLikeUI();
 });
-
-// 👉 OPTIONAL: function para baguhin base likes (admin style)
-function updateBaseLikes(newValue) {
-    baseLikes = newValue;
-    localStorage.setItem(BASE_KEY, baseLikes);
-    renderLikeUI();
-}
-
-// Run
-renderLikeUI();
-
-updateBaseLikes(3);

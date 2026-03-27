@@ -398,12 +398,35 @@ border: solid rgba(0, 0, 0, 0.479);
                 border-bottom: 8px solid var(--fb-bg); /* Post separator */
             }
         }
+/* NEW: Grid Layout for Multiple Posts */
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dalawang column (side-by-side) */
+    gap: 20px;
+    margin: 20px 0;
+    width: 100%;
+    justify-items: center;
+}
 
+/* Siguraduhing pantay ang posts sa loob ng grid */
+.post-grid .fb-post {
+    margin-top: 0;
+    width: 100%; 
+    max-width: 500px;
+}
+
+/* Mobile View: Magiging isang column pababa */
+@media (max-width: 768px) {
+    .post-grid {
+        grid-template-columns: 1fr;
+    }
+}
         /* for admin*/
  .admin-text {
     font-weight: bold;
     margin-left: 8px;
     animation: rgbText 3s infinite;
+    text-shadow: cyan;
 }
 
 @keyframes rgbText {
