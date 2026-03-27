@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-a">
+    <meta charset="UTF-8">
     <meta name="viewport"
     content="width=device-width, initial-scale=1,
-    maximum-scale=1, user-scalable=no">
-    <title>FavRankerLister</title>
+    maximum-scale=1">
+    <title>Farali</title>
     <link rel="stylesheet"
     href="aboutstyle.css">
 </head>
 
-
+<style>
+    li {
+background: rgb(53, 52, 52);
+border: solid rgba(0, 0, 0, 0.479);
+ transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  font-family: Arial, Helvetica, sans-serif;
+    }
+    li:hover {
+         background: white;
+  color: #4e54c8;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    } 
+</style>
 <body>
     <div id="loader">
          <div class="center">
-        <p class="text">Going in...</p>
        
     <div class="spinner">
           <div class="spinner1"></div>
     </div></div>  </div>
 <div id="content" style="display:none;">
    </div>
-     <script src="script.js"></script>
-     <element class="abstract-bg">
-            <element class="abstract-bg" ::before></element>
-                <element class="abstract-bg" ::after></element>
-                    <element class="lines"></element>
-                    <element class="corner-light"></element>
+                   
+   <link rel="stylesheet"
+   href="navbar.css">
+     <nav class="navbar">
+    <div class="logo">Farali</div>
 
-                     <h1 class="title">FavRankerLister </h1>
-                    <div class="footer-bar">
-  
-                       
-                     
+    <ul class="nav-links" id="navLinks">
+        <li><a href="loginform.html">Login</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="create.html">Create</a></li>
+        <li><a href="#">News Page</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
 
-<script>
-window.onload=()=>setTimeout(()=>{
-  loader.style.animation="fadeOut .6s forwards";
-  content.style.display="block";
-},1000);
-</script>
-                    </div>
-                </html>                    
+    </div>
+</nav>
