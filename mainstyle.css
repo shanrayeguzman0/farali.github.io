@@ -443,6 +443,25 @@ border: solid rgba(0, 0, 0, 0.479);
         text-shadow: 0 0 5px red, 0 0 10px red;
     }
 }
+/* The "Box" that holds the video */
+.content-video-container {
+    width: 100%;
+    background-color: #000; /* Black background for a cinematic look */
+    margin-top: 10px;        /* Space between text and video */
+    overflow: hidden;       /* Keeps the video inside the rounded corners */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* The actual video element */
+.content-video {
+    width: 100%;            /* Makes it fill the container width */
+    max-height: 500px;      /* Prevents the video from being too tall on desktop */
+    display: block;         /* Removes weird spacing at the bottom */
+    border-radius: 4px;     /* Optional: matches your image's rounded look */
+    outline: none;          /* Removes the blue border when clicked */
+}
 .name-row {
     display: flex;
     align-items: center;
