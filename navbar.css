@@ -100,7 +100,6 @@
         align-items: center;
         display: none;
         padding: 20px 0;
-        z-index: 999;
     }
 
     .nav-links.active {
