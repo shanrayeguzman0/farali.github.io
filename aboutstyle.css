@@ -139,3 +139,7 @@ body {
         padding: 20px; /* Reduces padding so mobile text has more room to breathe */
     }
 }
+
+hr {
+  border: 1px solid rgb(83, 83, 83);
+}
