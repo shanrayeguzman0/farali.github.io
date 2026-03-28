@@ -56,7 +56,7 @@ body {
     width: 100%;
     min-height: 500px; /* pwede mo palakihin */
     padding: 40px;
-    background: linear-gradient(90deg, rgb(20, 20, 20), rgb(32, 32, 32));
+    background: linear-gradient(90deg, rgb(29, 29, 29), rgb(32, 32, 32));
     position: relative;
     margin-top: 0; /* tanggalin yung 122% */
 }
@@ -102,51 +102,28 @@ body {
     opacity: 0.8;
 }
 
+/* ===== MOBILE ===== */
 @media (max-width: 600px) {
 
-    /* HEADER */
-    .header {
-        height: auto; /* alisin fixed height */
-        padding: 20px 15px;
-        align-items: flex-end;
-    }
-
-    /* BACKGROUND MATCH */
-    .background {
-        height: 100%;
-    }
-
-    /* BOXX (important fix) */
-    .boxx {
-        margin-top: -40px; /* slight overlap effect */
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        padding: 20px;
-        min-height: auto;
-    }
-
-    /* PARA HINDI MATABUNAN NG OVERLAY */
-    .overlay {
-        backdrop-filter: blur(60px);
-    }
-
-    /* PROFILE STACK FIX */
     .profile {
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .profile img {
-        width: 75px;
-        height: 75px;
+        width: 90px;
+        height: 90px;
     }
 
     .profile-info h1 {
-        font-size: 18px;
+        font-size: 22px;
     }
 
     .profile-info p {
-        font-size: 13px;
+        font-size: 14px;
+    }
+
+    .header {
+        padding: 15px;
     }
 }
