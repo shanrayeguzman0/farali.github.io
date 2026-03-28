@@ -102,28 +102,51 @@ body {
     opacity: 0.8;
 }
 
-/* ===== MOBILE ===== */
 @media (max-width: 600px) {
 
+    /* HEADER */
+    .header {
+        height: auto; /* alisin fixed height */
+        padding: 20px 15px;
+        align-items: flex-end;
+    }
+
+    /* BACKGROUND MATCH */
+    .background {
+        height: 100%;
+    }
+
+    /* BOXX (important fix) */
+    .boxx {
+        margin-top: -40px; /* slight overlap effect */
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        padding: 20px;
+        min-height: auto;
+    }
+
+    /* PARA HINDI MATABUNAN NG OVERLAY */
+    .overlay {
+        backdrop-filter: blur(60px);
+    }
+
+    /* PROFILE STACK FIX */
     .profile {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
     }
 
     .profile img {
-        width: 90px;
-        height: 90px;
+        width: 75px;
+        height: 75px;
     }
 
     .profile-info h1 {
-        font-size: 22px;
+        font-size: 18px;
     }
 
     .profile-info p {
-        font-size: 14px;
-    }
-
-    .header {
-        padding: 15px;
+        font-size: 13px;
     }
 }
