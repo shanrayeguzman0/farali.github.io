@@ -127,6 +127,7 @@ margin-top: 122%;
   scroll-behavior: smooth;
   border-radius: 15px;
    box-shadow: 5 0 10px rgba(0,0,0,0.2);
+   z-index: 9999;
   
 }
 .boxx::-webkit-scrollbar {
