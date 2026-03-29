@@ -222,69 +222,57 @@ border: solid rgba(0, 0, 0, 0.479);
     overflow-y: auto;
     overflow-x: hidden;
     
-    /* DITO ANG PAGBABAGO: 
-       80px sa taas (para iwas nav bar), 10px sa kanan, 20px sa baba, 10px sa kaliwa */
-    padding: 80px 10px 20px 10px; 
-    
-    box-sizing: border-box; /* Pinipigilan nito na lumaki ang box kahit may 80px padding */
+    /* ADJUSTMENT: Itinaas natin ang padding-top para bumaba ang "Games" */
+    padding: 80px 15px 20px 15px; 
+    box-sizing: border-box; 
     
     display: flex;
     flex-direction: column;
     align-items: center;
-} 
+}
 
-/* Para itago ang scrollbar pero pwedeng i-scroll (parang sa .boxx mo) */
+/* Para hindi makita ang scrollbar para malinis tingnan */
 .box2::-webkit-scrollbar {
     display: none;
 }
 
-/* Title Styling */
 .box2-title {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    margin-top: 0; /* Gawing 0 ito */
-    margin-bottom: 20px;
+    margin-top: 0; 
+    margin-bottom: 30px; /* Space sa pagitan ng Title at unang button */
+    font-size: 24px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
     text-align: center;
 }
 
-/* Games Button */
 .games-btn {
     display: block;
-    width: 90%;
-    padding: 15px 0;
-    margin-bottom: 15px; /* Spacing para sa susunod na buttons */
-    background: rgb(20, 20, 20);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%; /* Gamitin ang buong width ng padding box */
+    padding: 15px 10px;
+    margin-bottom: 12px;
+    background: transparent; /* Mas bagay sa screenshot mo ang transparent border */
+    border: 1px solid #333;
     color: white;
     text-align: center;
     text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: 0.3s;
+    font-size: 14px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
 .games-btn:hover {
-    background: white;
-    color: black;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    transform: scale(1.02);
 }
 
-/* Coming Soon text */
-/* TANGGALIN ang position: absolute dito para sumama siya sa scroll */
 .box2 p {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    color: #666;
+    font-size: 12px;
     margin-top: 20px;
-}
-/* Mananatili ito sa pinaka-ibaba */
-.box2 p {
-    position: absolute;
-    bottom: 30px;
-    width: 100%;
-    left: 0;
     text-align: center;
-    color: white;
 }
 @media (max-width: 768px) {
   .box2 {
