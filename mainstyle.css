@@ -210,57 +210,61 @@ border: solid rgba(0, 0, 0, 0.479);
 }
 
 /* 1. I-update ang existing .box2 mo at idagdag ang position: relative */
+/* Siguraduhin nating hindi apektado ang box size */
 .box2 {
-  width: 18%;
-  padding: 10px;
-  height: 100%;
-  background: #111111;
-  margin-right: auto;
-  position: relative; /* DINAGDAG: Para hindi lumabas ang elements sa box */
+    width: 18%;
+    height: 100%;
+    background: #111111;
+    margin-right: auto;
+    position: relative;
+    box-sizing: border-box; /* Proteksyon para hindi lumaki ang box */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px; /* Default padding lang */
 }
 
-/* 2. Styling para sa Title sa loob ng box2 */
+/* Dito natin itutulak pababa ang Title */
 .box2-title {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  text-align: center;
-  margin-bottom: 100px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    /* I-adjust ang 15vh (halimbawa 20vh) kung bitin pa rin ang baba */
+    margin-top: 15vh; 
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* 3. Styling para sa Games Button */
+/* Ang Button ay susunod lang sa baba ng Title dahil sa Flexbox */
 .games-btn {
-  display: block;
-  width: 80%;
-  margin: 0 auto; /* Para laging nasa gitna */
-  padding: 12px;
-  background: rgb(20, 20, 20);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    display: block;
+    width: 85%; /* Saktong lapad sa loob ng box */
+    padding: 12px 0;
+    background: rgb(20, 20, 20);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 .games-btn:hover {
-  background: white;
-  color: #1877f2; /* Sumusunod sa fb-blue theme mo */
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    background: white;
+    color: #1877f2;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
-/* 4. I-update ang existing .box2 p mo */
+/* Mananatili ito sa pinaka-ibaba */
 .box2 p {
-  position: absolute;
-  bottom: 10px; /* Binago ko mula 300px para nasa ibaba talaga siya */
-  width: 100%;
-  left: 0;
-  text-align: center;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    color: white;
 }
 @media (max-width: 768px) {
   .box2 {
