@@ -217,12 +217,23 @@ border: solid rgba(0, 0, 0, 0.479);
     height: 100%;
     background: #111111;
     margin-right: auto;
-    position: relative;
-    box-sizing: border-box; /* Proteksyon para hindi lumaki ang box */
+    position: fixed; /* Mas mainam kung fixed din ito gaya ng sidebar sa screenshot */
+    top: 0;
+    left: 0;
+    
+    /* SCROLL SETTINGS */
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    /* THE FIX: Padding-top para iwas sa Nav Bar */
+    /* 70px para bumaba ang "Games" sa ilalim ng logo */
+    padding: 70px 15px 20px 15px; 
+    box-sizing: border-box; 
+    
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px; /* Default padding lang */
+    z-index: 999; /* Mas mababa sa navbar (9999) para hindi matakpan ang nav links */
 }
 
 /* Itago ang scrollbar para malinis */
