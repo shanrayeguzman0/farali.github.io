@@ -212,7 +212,7 @@ border: solid rgba(0, 0, 0, 0.479);
 /* 1. Inayos ang Container (.box2) */
 .box2 {
   width: 18%;
-  padding: 50px 10px 10px 10px; /* Dinagdagan natin ng 50px padding sa taas para bumaba ang laman */
+  padding: 70px 10px 10px 10px; /* Dinagdagan natin ng 50px padding sa taas para bumaba ang laman */
   height: 100%;
   background: #111111;
   margin-right: auto;
