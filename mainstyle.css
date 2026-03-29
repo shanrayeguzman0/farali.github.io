@@ -233,7 +233,6 @@ border: solid rgba(0, 0, 0, 0.479);
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 999; /* Mas mababa sa navbar (9999) para hindi matakpan ang nav links */
 }
 
 /* Itago ang scrollbar para malinis */
