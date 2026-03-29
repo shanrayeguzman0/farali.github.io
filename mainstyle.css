@@ -214,7 +214,7 @@ border: solid rgba(0, 0, 0, 0.479);
 /* I-update ang .box2 */
 .box2 {
     width: 18%;
-    height: 100%;
+    height: 100vh;
     background: #111111;
     margin-right: auto;
     position: fixed; /* Mas mainam kung fixed din ito gaya ng sidebar sa screenshot */
