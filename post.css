@@ -15,17 +15,3 @@ background-repeat: no-repeat;
 background-size: cover;
  
   }
-
-.boxx {
-  width: 100%;
-  padding: 20px;
-  height: 70%;
- background: linear-gradient(90deg, rgb(49, 49, 49), rgb(82, 82, 82));
-  position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  border-radius: 15px;
-   box-shadow: 5 0 10px rgba(0,0,0,0.2);
-  
-}
