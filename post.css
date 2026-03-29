@@ -1,17 +1,1 @@
-html, body {
-    touch-action: manipulation;
-    -ms-touch-action: manipulation;
-   }
-   
-   body {
-    margin: 0;
-    height: 100vh;
-    background: #0e0e0e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-attachment: fixed;
-background-repeat: no-repeat;
-background-size: cover;
- 
-  }
+
