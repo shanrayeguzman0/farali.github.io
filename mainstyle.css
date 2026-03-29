@@ -213,22 +213,25 @@ border: solid rgba(0, 0, 0, 0.479);
 /* Siguraduhin nating hindi apektado ang box size */
 .box2 {
     width: 18%;
-    height: 100vh; /* Para sakop ang buong taas ng screen */
+    height: 100vh;
     background: #111111;
     margin-right: auto;
     position: relative;
     
     /* SCROLL SETTINGS */
-    overflow-y: auto;  /* Lalabas ang scrollbar lang kapag mahaba ang content */
-    overflow-x: hidden; /* Iwasan ang sideways scroll */
-    padding: 20px 10px; /* Spacing sa loob */
-    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
     
-    /* Layout ng laman */
+    /* DITO ANG PAGBABAGO: 
+       80px sa taas (para iwas nav bar), 10px sa kanan, 20px sa baba, 10px sa kaliwa */
+    padding: 80px 10px 20px 10px; 
+    
+    box-sizing: border-box; /* Pinipigilan nito na lumaki ang box kahit may 80px padding */
+    
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} 
 
 /* Para itago ang scrollbar pero pwedeng i-scroll (parang sa .boxx mo) */
 .box2::-webkit-scrollbar {
@@ -239,7 +242,7 @@ border: solid rgba(0, 0, 0, 0.479);
 .box2-title {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    margin-top: 20px;
+    margin-top: 0; /* Gawing 0 ito */
     margin-bottom: 20px;
     text-align: center;
 }
