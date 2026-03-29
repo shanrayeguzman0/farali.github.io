@@ -209,30 +209,6 @@ border: solid rgba(0, 0, 0, 0.479);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
 }
 
-.box2 {
-  width: 18%;
-  padding: 10px;
-  height: 100%;
-  background: #111111;
-  margin-right: auto;
-}
-.box2 p {
-  position: absolute;
-  bottom: 300px;
-  width: 12%;
-  color: white;
-}
-
-@media (max-width: 768px) {
-  .box2 {
-    position: fixed;
-    left: -100%;
-    transition: 0.3s;
-  }
-  .box2.active {
-    left: 0%;
-  }
-  }
   
  /*post layout*/
 
