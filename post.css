@@ -18,10 +18,10 @@ background-size: cover;
 
 .boxx {
 margin-top: 12%;
-  width: 50%;
+  width: 80%;
   padding: 20px;
   height: 70%;
- background: linear-gradient(90deg, rgb(49, 49, 49), rgb(82, 82, 82));
+ background: linear-gradient(90deg, rgb(19, 19, 19), rgb(36, 36, 36));
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
@@ -29,4 +29,8 @@ margin-top: 12%;
   border-radius: 15px;
    box-shadow: 5 0 10px rgba(0,0,0,0.2);
   
+}
+.boxx h1 {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
