@@ -224,7 +224,7 @@ border: solid rgba(0, 0, 0, 0.479);
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
   margin-bottom: 15px;
 }
 
@@ -232,7 +232,7 @@ border: solid rgba(0, 0, 0, 0.479);
 .games-btn {
   display: block;
   width: 80%;
-  bottom: 20px;
+  bottom: 30px;
   margin: 0 auto; /* Para laging nasa gitna */
   padding: 12px;
   background: rgb(20, 20, 20);
