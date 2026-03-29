@@ -17,8 +17,7 @@ background-size: cover;
   }
 
 .boxx {
-margin-top: 12%;
-  width: 50%;
+  width: 100%;
   padding: 20px;
   height: 70%;
  background: linear-gradient(90deg, rgb(49, 49, 49), rgb(82, 82, 82));
