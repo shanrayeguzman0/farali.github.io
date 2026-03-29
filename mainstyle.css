@@ -214,22 +214,15 @@ border: solid rgba(0, 0, 0, 0.479);
 /* I-update ang .box2 */
 .box2 {
     width: 18%;
-    /* 100vh minus 70px (taas ng padding) para saktong sagad lang sa baba */
-    height: calc(100vh - 70px); 
+    height: 100%;
     background: #111111;
-    position: fixed;
-    top: 70px; /* Dito natin sisimulan ang box, sa mismong ilalim ng nav bar */
-    left: 0;
-    
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 20px 15px; /* Binawasan natin ang top padding dahil nasa top: 70px na tayo */
-    box-sizing: border-box; 
-    
+    margin-right: auto;
+    position: relative;
+    box-sizing: border-box; /* Proteksyon para hindi lumaki ang box */
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 999;
+    padding: 10px; /* Default padding lang */
 }
 
 /* Itago ang scrollbar para malinis */
