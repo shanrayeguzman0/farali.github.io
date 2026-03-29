@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
-    background: linear-gradient(90deg, rgb(49, 49, 49), rgb(82, 82, 82));
+    background: linear-gradient(90deg, rgb(24, 24, 24), rgb(44, 44, 44));
     color: white;
     position: fixed;      /* or relative */
     top: 0;
