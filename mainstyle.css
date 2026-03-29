@@ -213,32 +213,43 @@ border: solid rgba(0, 0, 0, 0.479);
 /* Siguraduhin nating hindi apektado ang box size */
 .box2 {
     width: 18%;
-    height: 100%;
+    height: 100vh; /* Para sakop ang buong taas ng screen */
     background: #111111;
     margin-right: auto;
     position: relative;
-    box-sizing: border-box; /* Proteksyon para hindi lumaki ang box */
+    
+    /* SCROLL SETTINGS */
+    overflow-y: auto;  /* Lalabas ang scrollbar lang kapag mahaba ang content */
+    overflow-x: hidden; /* Iwasan ang sideways scroll */
+    padding: 20px 10px; /* Spacing sa loob */
+    box-sizing: border-box;
+    
+    /* Layout ng laman */
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px; /* Default padding lang */
 }
 
-/* Dito natin itutulak pababa ang Title */
+/* Para itago ang scrollbar pero pwedeng i-scroll (parang sa .boxx mo) */
+.box2::-webkit-scrollbar {
+    display: none;
+}
+
+/* Title Styling */
 .box2-title {
     color: white;
     font-family: Arial, Helvetica, sans-serif;
-    /* I-adjust ang 15vh (halimbawa 20vh) kung bitin pa rin ang baba */
-    margin-top: 15vh; 
+    margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
 }
 
-/* Ang Button ay susunod lang sa baba ng Title dahil sa Flexbox */
+/* Games Button */
 .games-btn {
     display: block;
-    width: 85%; /* Saktong lapad sa loob ng box */
-    padding: 12px 0;
+    width: 90%;
+    padding: 15px 0;
+    margin-bottom: 15px; /* Spacing para sa susunod na buttons */
     background: rgb(20, 20, 20);
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
@@ -247,16 +258,22 @@ border: solid rgba(0, 0, 0, 0.479);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .games-btn:hover {
     background: white;
-    color: #1877f2;
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    color: black;
 }
 
+/* Coming Soon text */
+/* TANGGALIN ang position: absolute dito para sumama siya sa scroll */
+.box2 p {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-top: 20px;
+}
 /* Mananatili ito sa pinaka-ibaba */
 .box2 p {
     position: absolute;
