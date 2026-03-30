@@ -728,6 +728,30 @@
             drawPiece(currentPiece, ghostY);
         }
 
+        // Function to generate a retro arcade start sound
+function playStartSound() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    // 'square' gives it that classic 8-bit Nintendo vibe
+    oscillator.type = 'square'; 
+    
+    // Play a low note then a high note quickly
+    oscillator.frequency.setValueAtTime(300, audioCtx.currentTime);
+    oscillator.frequency.setValueAtTime(600, audioCtx.currentTime + 0.1);
+
+    // Fade the sound out so it doesn't click
+    gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.3);
+}
+
         // Start game
         function startGame() {
             board = createBoard();

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1,
+    maximum-scale=1">
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
+    <title>Farali</title>
+    <link rel="stylesheet"
+    href="post.css">
+</head>
+
+<style>
+    li {
+background: rgb(53, 52, 52);
+border: solid rgba(0, 0, 0, 0.479);
+ transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  font-family: Arial, Helvetica, sans-serif;
+    }
+    li:hover {
+         background: white;
+  color: #4e54c8;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    } 
+</style>
+<body>
+    <div id="loader">
+         <div class="center">
+       
+    <div class="spinner">
+          <div class="spinner1"></div>
+    </div></div>  </div>
+<div id="content" style="display:none;">
+   </div>
+                   
+   <link rel="stylesheet"
+   href="navbar.css">
+     <nav class="navbar">
+    <div class="logo">Farali</div>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="about.html">Contact us</a></li>
+        <li><a href="tetris.html">Games</a></li>
+        <li><a href="main.html">News Page</a></li>
+        <li><a href="about.html">About me</a></li>
+    </ul>
+
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+<div class="background">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+</div>
+  <div class="boxx">
+
+    <h1>Game List</h1>
+
+    <ul class="game-list">
+
+        <li onclick="openGame('tetris.html')">
+            <img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" class="icon">
+            <div class="game-info">
+                <h3>Tetris</h3>
+                <p>Classic block puzzle game. Stack pieces and clear lines!</p>
+            </div>
+        </li>
+
+        <li onclick="openGame('snake.html')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png" class="icon">
+            <div class="game-info">
+                <h3>Snake</h3>
+                <p>Eat food, grow longer, and avoid hitting yourself.</p>
+            </div>
+        </li>
+
+        <li onclick="openGame('pong.html')">
+            <img src="https://cdn-icons-png.flaticon.com/512/808/808439.png" class="icon">
+            <div class="game-info">
+                <h3>Pong</h3>
+                <p>Retro arcade tennis game. Don’t miss the ball!</p>
+            </div>
+        </li>
+
+        <li onclick="openGame('flappy.html')">
+            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="icon">
+            <div class="game-info">
+                <h3>Flappy Bird</h3>
+                <p>Tap to fly and avoid pipes. Simple but addictive.</p>
+            </div>
+        </li>
+
+    </ul>
+
+</div>
