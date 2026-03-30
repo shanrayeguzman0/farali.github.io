@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
     <title>Farali</title>
     <link rel="stylesheet"
-    href="games.css">
+    href="post.css">
 </head>
 
 <style>
@@ -43,7 +43,7 @@ border: solid rgba(0, 0, 0, 0.479);
 
     <ul class="nav-links" id="navLinks">
         <li><a href="about.html">Contact us</a></li>
-        <li><a href="main.html">Back</a></li>
+        <li><a href="tetris.html">Games</a></li>
         <li><a href="main.html">News Page</a></li>
         <li><a href="about.html">About me</a></li>
     </ul>
@@ -60,53 +60,50 @@ border: solid rgba(0, 0, 0, 0.479);
     <div class="blob"></div>
     <div class="blob"></div>
 </div>
-  <div class="boxx">
+ <div class="boxx">
 
-    <h1>Game List</h1>
+    <h1>🎮 Game List</h1>
 
-    <ul class="game-list">
+   <li onclick="goToGame('tetris.html')">
+    <div class="game-btn">
+        <img src="images/tetris.png" class="icon-img">
+        <div class="info">
+            <h3>Tetris</h3>
+            <p>Stack blocks and clear lines before the board fills up.</p>
+        </div>
+    </div>
+</li>
 
-        <li onclick="openGame('tetris.html')">
-            <img src="game-console.png" class="icon">
-            <div class="game-info">
-                <h3>Tetris</h3>
-                <p>Coming Soon!</p>
-            </div>
-        </li>
+<li onclick="goToGame('snake.html')">
+    <div class="game-btn">
+        <img src="images/snake.png" class="icon-img">
+        <div class="info">
+            <h3>Snake</h3>
+            <p>Eat food, grow longer, and avoid crashing into yourself.</p>
+        </div>
+    </div>
+</li>
 
-        <li onclick="openGame('snake.html')">
-            <img src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png" class="icon">
-            <div class="game-info">
-                <h3>Snake</h3>
-                <p>Coming Soon!</p>
-            </div>
-        </li>
+<li onclick="goToGame('blockblast.html')">
+    <div class="game-btn">
+        <img src="images/block.png" class="icon-img">
+        <div class="info">
+            <h3>Block Blast</h3>
+            <p>Match and destroy blocks in a fast-paced puzzle challenge.</p>
+        </div>
+    </div>
+</li>
 
-        <li onclick="openGame('pong.html')">
-            <img src="https://cdn-icons-png.flaticon.com/512/808/808439.png" class="icon">
-            <div class="game-info">
-                <h3>Pong</h3>
-                <p>Coming Soon!</p>
-            </div>
-        </li>
+<li onclick="goToGame('quiz.html')">
+    <div class="game-btn">
+        <img src="images/quiz.png" class="icon-img">
+        <div class="info">
+            <h3>Quiz</h3>
+            <p>Test your knowledge and answer fun questions.</p>
+        </div>
+    </div>
+</li>
+ <script src="script.js"></script>
 
-        <li onclick="openGame('flappy.html')">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="icon">
-            <div class="game-info">
-                <h3>Flappy Bird</h3>
-                <p>Coming Soon!</p>
-            </div>
-        </li>
-
-    </ul>
-
-</div>
-
-<script src="script.js"></script>
-<script>
-function openGame(link) {
-    window.location.href = link;
-}
-</script>
 </body>
 </html>
