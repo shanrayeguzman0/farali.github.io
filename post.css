@@ -159,3 +159,7 @@ color: white;
         backdrop-filter: blur(120px);
         background: rgba(255, 255, 255, 0.05);
     }
+
+    hr {
+  border: 1px solid rgb(83, 83, 83);
+}
