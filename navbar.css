@@ -10,6 +10,7 @@
     top: 0;
     left: 0;
     width: 100%;
+    z-index: 9999;        /* mataas = nasa harap */
     max-width: 100%;
     box-sizing: border-box;
 }
