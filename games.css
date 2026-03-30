@@ -167,34 +167,84 @@ color: white;
   border: 1px solid rgb(83, 83, 83);
 }
 .game-list {
-    list-style: none;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.game-btn {
+/* Card */
+.game-card {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 15px;
-    cursor: pointer;
-}
-
-.icon-img {
-    width: 5px;
-    height: 5px;
-    border-radius: 10px;
+    background: #1c1c1c;
+    padding: 12px;
+    border-radius: 14px;
     transition: 0.3s;
 }
 
-li:hover .icon-img {
-    transform: scale(1.2);
+/* Hover effect */
+.game-card:hover {
+    background: #ffffff;
+    color: #000;
+    transform: scale(1.02);
 }
+
+/* Icon */
+.icon-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+/* Info */
+.info {
+    flex: 1;
+}
+
 .info h3 {
     margin: 0;
+    font-size: 16px;
 }
 
 .info p {
-    margin: 5px 0 0;
-    font-size: 14px;
-    opacity: 0.8;
-} 
+    margin: 3px 0 0;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* Button */
+.game-card button {
+    background: #4e54c8;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.game-card button:hover {
+    background: #373bb5;
+}
+@media (max-width: 600px) {
+    .icon-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .info h3 {
+        font-size: 14px;
+    }
+
+    .info p {
+        font-size: 12px;
+    }
+
+    .game-card button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
