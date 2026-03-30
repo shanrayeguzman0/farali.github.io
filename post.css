@@ -3,18 +3,6 @@ html, body {
     -ms-touch-action: manipulation;
    }
    
-   body {
-    margin: 0;
-    height: 100vh;
-    background: #0e0e0e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-attachment: fixed;
-background-repeat: no-repeat;
-background-size: cover;
- 
-  }
 
 .boxx {
 margin-top: 12%;
@@ -41,7 +29,14 @@ color: white;
       color: white;
     }
 
-    .text {
+   #loader {
+  position: fixed; inset: 0;
+  display: flex; justify-content: center; align-items: center;
+  background: #0a0a0a; z-index: 9999;
+ 
+  ;
+}
+.text {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
@@ -79,75 +74,3 @@ color: white;
 @keyframes fadeText { to {opacity: 1 }}
 @keyframes popUp {to {transform:scale(1)}}
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
-
-body {
-        height: 100vh;
-        overflow: hidden;
-        background: #0f0f1a;
-    }
-
-    .background {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        filter: blur(80px);
-    }
-
-    .blob {
-        position: absolute;
-        width: 500px;
-        height: 500px;
-        border-radius: 50%;
-        opacity: 0.7;
-        animation: move 20s infinite alternate ease-in-out;
-    }
-
-    .blob:nth-child(1) {
-        background: #ff6ec4;
-        top: 10%;
-        left: 10%;
-        animation-duration: 25s;
-    }
-
-    .blob:nth-child(2) {
-        background: #7873f5;
-        top: 50%;
-        left: 60%;
-        animation-duration: 30s;
-    }
-
-    .blob:nth-child(3) {
-        background: #4ade80;
-        top: 70%;
-        left: 20%;
-        animation-duration: 22s;
-    }
-
-    .blob:nth-child(4) {
-        background: #22d3ee;
-        top: 30%;
-        left: 75%;
-        animation-duration: 28s;
-    }
-
-    @keyframes move {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-        50% {
-            transform: translate(100px, -150px) scale(1.2);
-        }
-        100% {
-            transform: translate(-120px, 100px) scale(0.9);
-        }
-    }
-
-    /* Optional glass overlay */
-    .overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backdrop-filter: blur(120px);
-        background: rgba(255, 255, 255, 0.05);
-    }
