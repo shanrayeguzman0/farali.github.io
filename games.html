@@ -61,50 +61,55 @@ border: solid rgba(0, 0, 0, 0.479);
     <div class="blob"></div>
 </div>
   <div class="boxx">
+            <h1>Game Station</h1>
+            <p style="text-align: center; color: #aaa;">Select a game and start playing!</p>
+            <hr>
 
-    <h1>Game List</h1>
+            <div class="game-list">
+                
+                <a href="tetris.html" class="game-card">
+                    <div class="game-icon">
+                        <img src=""
+ alt="Tetris Icon">
+                    </div>
+                    <div class="game-details">
+                        <h3 class="game-title">Tetris</h3>
+                        <p class="game-desc">The legendary block-stacking puzzle game. Clear lines to score points and avoid hitting the top!</p>
+                    </div>
+                </a>
 
-    <ul class="game-list">
+                <a href="snake.html" class="game-card">
+                    <div class="game-icon" style="background: linear-gradient(135deg, #4ade80, #22d3ee);">
+                        <img src=""
+ alt="Snake Icon" style="filter: hue-rotate(90deg);">
+                    </div>
+                    <div class="game-details">
+                        <h3 class="game-title">Classic Snake</h3>
+                        <p class="game-desc">Eat the glowing pellets to grow longer, but be careful not to bite your own tail!</p>
+                    </div>
+                </a>
 
-        <li onclick="openGame('tetris.html')">
-            <a href="https://www.flaticon.com/free-icons/tetris" class="icon" title="tetris icons"></a>
-            <div class="game-info">
-                <h3>Tetris</h3>
-                <p>Coming Soon!</p>
             </div>
-        </li>
 
-        <li onclick="openGame('snake.html')">
-            <img src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png" class="icon">
-            <div class="game-info">
-                <h3>Snake</h3>
-                <p>Coming Soon!</p>
+            <div class="attribution">
+                <a href="https://www.flaticon.com/free-icons/tetris" title="tetris icons">Tetris icons created by Aranagraphics - Flaticon</a>
             </div>
-        </li>
 
-        <li onclick="openGame('pong.html')">
-            <img src="https://cdn-icons-png.flaticon.com/512/808/808439.png" class="icon">
-            <div class="game-info">
-                <h3>Pong</h3>
-                <p>Coming Soon!</p>
-            </div>
-        </li>
+        </div> </div> <script>
+        function revealContent() {
+            var loader = document.getElementById('loader');
+            var content = document.getElementById('content');
+            
+            if (loader) loader.style.display = 'none';
+            if (content) content.style.display = 'block';
+        }
 
-        <li onclick="openGame('flappy.html')">
-            <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="icon">
-            <div class="game-info">
-                <h3>Flappy Bird</h3>
-                <p>Coming Soon!</p>
-            </div>
-        </li>
+        // 1. Try to open as soon as basic HTML is ready
+        document.addEventListener('DOMContentLoaded', revealContent);
 
-    </ul>
-
-</div>
-<script>
-function openGame(link) {
-    window.location.href = link;
-}
+        // 2. Fallback: Force it to open after 1 second if files are missing
+        setTimeout(revealContent, 1000);
+    </script>
 </script>
 <script src="script.js"></script>
 </body>
