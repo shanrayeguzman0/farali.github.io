@@ -65,18 +65,20 @@ color: white;
 /*img na nag sa slide*/
 /* Wrapper to place carousels side by side */
 
+/* Wrapper to place carousels side by side */
 .nissin-wrapper {
-display: flex;
+  display: flex;
   margin-top: 100px;
-  justify-content: center;   /* center horizontally */
-  gap: 20px;                 /* space between carousels */
-  flex-wrap: wrap;           /* wrap on smaller screens */
+  justify-content: space-between; /* Para saktong left, center, right */
+  gap: 20px;
+  flex-wrap: nowrap; /* Pipigilan silang bumaba sa desktop view */
 }
 
 /* Individual carousel */
 .carousel {
   position: relative;
-  width: 400px;
+  flex: 1; /* Mag-aadjust ng pantay na size ang 3 carousels */
+  min-width: 0; /* Para hindi lumagpas sa screen */
   max-width: 100%;
   overflow: hidden;
   border-radius: 10px;
@@ -98,7 +100,6 @@ display: flex;
   opacity: 0;
   transition: opacity 5.8s ease-in-out;  /* fade speed */
   z-index: 0;
-  
 }
 
 /* Active slide visible */
@@ -172,18 +173,19 @@ display: flex;
   font-weight: bold;
   text-shadow: 2px 2px 5px black;
   z-index: 5;
-   text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
+  text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
 }
 
-/* Mobile responsive */
+/* Mobile responsive - Dito sila bababa */
 @media (max-width: 768px) {
   .nissin-wrapper {
-    flex-direction: column;
+    flex-direction: column; /* Gagawing pababa ang pwesto */
     align-items: center;
   }
   
   .carousel {
     width: 90%;
+    flex: none; /* Tatanggalin ang flex behavior sa mobile para gumana ang width 90% */
   }
   
   .carousel-text {
