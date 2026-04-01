@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Development</title>
+    <style>
+        /* CSS Variables for Easy Theme Customization */
+        :root {
+            --bg-color: #121212;
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --accent-color: #00ffcc;
+            --btn-bg: #2a2a2a;
+            --btn-hover: #3a3a3a;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Container for content to apply fade-in */
+        .content-wrapper {
+            animation: fadeIn 1.5s ease-out forwards;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Spinning Gear/Loader Animation */
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 6px solid var(--btn-bg);
+            border-top: 6px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin: 0 0 2rem 0;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        /* Back Button Styling */
+        .back-btn {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            border: 1px solid #444;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        /* Keyframe Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper">
+        <div class="loader"></div>
+        
+        <h1>Page Under Construction</h1>
+        <p>We're currently brewing some coffee and writing the code for this page. Check back again soon!</p>
+        
+        <button class="back-btn" onclick="window.history.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Go Back
+        </button>
+    </div>
+
+</body>
+</html>
