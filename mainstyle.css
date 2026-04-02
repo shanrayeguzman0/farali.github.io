@@ -491,46 +491,54 @@ border: solid rgba(0, 0, 0, 0.479);
 @keyframes popUp {to {transform:scale(1)}}
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
 
-.btn-pahaba {
-  /* Ginagawa itong block para masunod ang width at padding */
-  display: block; 
+.share-post-container {
+  background-color: #252525;
+  border: 1px solid #000000; /* Soft border */
+  border-radius: 12px;
+  padding: 20px;
   
-  /* Width para sa Mobile (Sasakop sa 90% ng screen para may konting margin) */
-  width: 90%; 
+  /* Width handling for desktop vs mobile */
+  width: 95%;
+  max-width: 500px; /* Caps the size on large screens */
   
-  /* Max-width para sa Desktop (Para hindi siya maging sobrang habang-haba sa malalaking screen) */
-  max-width: 400px; 
+  /* Centers the container on the screen */
+  margin: 20px auto; 
   
-  /* Gitna ang button */
-  margin: 15px auto; 
-  
-  /* Spacing sa loob ng button (Taas/Baba, Kaliwa/Kanan) */
-  padding: 14px 20px; 
-  
-  /* Hitsura ng Button */
-  background-color: #464646; /* Kulay Blue */
-  color: #ffffff !important; /* Kulay ng Text */
-  text-align: center;
-  text-decoration: none; /* Tinatanggal ang underline ng link */
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 8px; /* Pa-curve ang kanto */
-  
-  /* Soft shadow para magmukhang clickable */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  
-  /* Smooth transition para sa hover effect */
-  transition: all 0.3s ease;
-  box-sizing: border-box; /* Para sakto ang sukat kasama padding */
+  /* Modern clean shadow */
+  box-shadow: 0 4px 12px rgba(177, 177, 177, 0.05);
+  box-sizing: border-box;
 }
 
-/* Effect kapag tinatapatan ng mouse (Desktop) o pinipindot (Mobile) */
+.share-post-title {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 16px; /* Spacing between text and button */
+}
+
+.btn-pahaba {
+  display: block; 
+  width: 100%; /* Fills the whole width of the container */
+  padding: 12px 20px; 
+  background-color: #3a3a3a; /* Primary blue */
+  color: #ffffff; 
+  text-align: center;
+  text-decoration: none; 
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 8px; 
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover & Active States */
 .btn-pahaba:hover {
-  background-color: #ffffff; /* Mas madilim na blue */
-  transform: translateY(-2px); /* Umaangat ng konti */
-  box-shadow: 0 6px 12px rgba(218, 218, 218, 0.15);
+  background-color: #ffffff;
+  color: #000;
 }
 
 .btn-pahaba:active {
-  transform: translateY(0); /* Babalik sa dati kapag pinindot */
+  transform: scale(0.98); /* Slight click shrink effect */
 }
