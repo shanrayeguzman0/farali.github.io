@@ -508,7 +508,7 @@ border: solid rgba(0, 0, 0, 0.479);
   padding: 14px 20px; 
   
   /* Hitsura ng Button */
-  background-color: #007bff; /* Kulay Blue */
+  background-color: #464646; /* Kulay Blue */
   color: #ffffff !important; /* Kulay ng Text */
   text-align: center;
   text-decoration: none; /* Tinatanggal ang underline ng link */
@@ -526,9 +526,9 @@ border: solid rgba(0, 0, 0, 0.479);
 
 /* Effect kapag tinatapatan ng mouse (Desktop) o pinipindot (Mobile) */
 .btn-pahaba:hover {
-  background-color: #0056b3; /* Mas madilim na blue */
+  background-color: #ffffff; /* Mas madilim na blue */
   transform: translateY(-2px); /* Umaangat ng konti */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(218, 218, 218, 0.15);
 }
 
 .btn-pahaba:active {
