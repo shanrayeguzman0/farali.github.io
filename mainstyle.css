@@ -490,3 +490,47 @@ border: solid rgba(0, 0, 0, 0.479);
 @keyframes fadeText { to {opacity: 1 }}
 @keyframes popUp {to {transform:scale(1)}}
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
+
+.btn-pahaba {
+  /* Ginagawa itong block para masunod ang width at padding */
+  display: block; 
+  
+  /* Width para sa Mobile (Sasakop sa 90% ng screen para may konting margin) */
+  width: 90%; 
+  
+  /* Max-width para sa Desktop (Para hindi siya maging sobrang habang-haba sa malalaking screen) */
+  max-width: 400px; 
+  
+  /* Gitna ang button */
+  margin: 15px auto; 
+  
+  /* Spacing sa loob ng button (Taas/Baba, Kaliwa/Kanan) */
+  padding: 14px 20px; 
+  
+  /* Hitsura ng Button */
+  background-color: #007bff; /* Kulay Blue */
+  color: #ffffff !important; /* Kulay ng Text */
+  text-align: center;
+  text-decoration: none; /* Tinatanggal ang underline ng link */
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px; /* Pa-curve ang kanto */
+  
+  /* Soft shadow para magmukhang clickable */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  /* Smooth transition para sa hover effect */
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Para sakto ang sukat kasama padding */
+}
+
+/* Effect kapag tinatapatan ng mouse (Desktop) o pinipindot (Mobile) */
+.btn-pahaba:hover {
+  background-color: #0056b3; /* Mas madilim na blue */
+  transform: translateY(-2px); /* Umaangat ng konti */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-pahaba:active {
+  transform: translateY(0); /* Babalik sa dati kapag pinindot */
+}
