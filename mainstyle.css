@@ -496,7 +496,7 @@ border: solid rgba(0, 0, 0, 0.479);
   border: 1px solid #000000; /* Soft border */
   border-radius: 12px;
   padding: 20px;
-  
+  width: 100%;
   /* Width handling for desktop vs mobile */
   width: 95%;
   max-width: 500px; /* Caps the size on large screens */
