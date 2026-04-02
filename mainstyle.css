@@ -492,7 +492,7 @@ border: solid rgba(0, 0, 0, 0.479);
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
 
 .share-post-container {
-  background-color: #3b3b3b;
+  background-color: #161616;
   border: 1px solid #000000; /* Soft border */
   border-radius: 12px;
   padding: 20px;
