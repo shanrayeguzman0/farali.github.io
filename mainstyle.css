@@ -492,7 +492,7 @@ border: solid rgba(0, 0, 0, 0.479);
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
 
 .share-post-container {
-  background-color: #252525;
+  background-color: #000000;
   border: 1px solid #000000; /* Soft border */
   border-radius: 12px;
   padding: 20px;
@@ -510,10 +510,10 @@ border: solid rgba(0, 0, 0, 0.479);
 }
 
 .share-post-title {
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #ffffff;
   margin-top: 0;
   margin-bottom: 16px; /* Spacing between text and button */
 }
