@@ -138,42 +138,38 @@ allPosts.forEach((post, index) => {
 const apiKey = '835d63d6d1194c94ac179be2ed86c683';
         const url = `https://newsapi.org/v2/top-headlines?country=ph&apiKey=${apiKey}`;
 
-        async function fetchNews() {
+        async function getNews() {
             try {
-                const response = await fetch(url);
-                const data = await response.json();
-                displayNews(data.articles);
-            } catch (error) {
-                console.error('Error fetching news:', error);
-                document.getElementById('news-container').innerHTML = '<p>Failed to load news. Please try again later.</p>';
-            } finally {
-                document.getElementById('loader').style.display = 'none';
+                const res = await fetch(url);
+                const data = await res.json();
+                renderArticles(data.articles);
+            } catch (err) {
+                console.error("Fetch error:", err);
             }
         }
 
-        function displayNews(articles) {
+        function renderArticles(articles) {
             const container = document.getElementById('news-container');
             
-            articles.forEach((article, index) => {
-                if(!article.title || article.title === '[Removed]') return;
+            articles.forEach((art, i) => {
+                if (!art.title || art.title === '[Removed]') return;
 
                 const card = document.createElement('div');
                 card.className = 'news-card';
-                // Delay animation for each card for a "staggered" effect
-                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animationDelay = `${i * 0.1}s`;
 
-                const imageUrl = article.urlToImage || 'https://via.placeholder.com/400x200?text=No+Image+Available';
+                const img = art.urlToImage || 'https://images.unsplash.com/photo-1504711432869-5d5932e23d01?q=80&w=600&auto=format&fit=crop';
 
                 card.innerHTML = `
-                    <img class="news-image" src="${imageUrl}" alt="News Image">
+                    <img src="${img}" class="news-image" alt="news">
                     <div class="news-content">
-                        <span class="news-source">${article.source.name}</span>
-                        <a href="${article.url}" target="_blank" class="news-title">${article.title}</a>
-                        <p class="news-description">${article.description || 'No description available for this article.'}</p>
+                        <span class="news-source">${art.source.name}</span>
+                        <a href="${art.url}" target="_blank" class="news-title">${art.title}</a>
+                        <p class="news-desc">${art.description || 'No description available for this headline.'}</p>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
-        fetchNews();
+        getNews();
