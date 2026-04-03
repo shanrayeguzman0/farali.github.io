@@ -542,8 +542,9 @@ border: solid rgba(0, 0, 0, 0.479);
   transform: scale(0.98); /* Slight click shrink effect */
 }
 
- background: #0f172a;
-      color: #fff;
+  body {
+      background: #0f172a;
+      color: #0a0a0a;
       font-family: Arial, sans-serif;
       padding: 20px;
     }
