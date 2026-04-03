@@ -565,7 +565,7 @@ border: solid rgba(0, 0, 0, 0.479);
         #news-widget {
             /* Desktop Default */
             width: 90%; 
-            max-width: 1200px; 
+            max-width: 2200px; 
             min-height: 150px;
             
             background: var(--card-dark);
