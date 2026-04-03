@@ -550,7 +550,7 @@ body {
         }
 
         .news-container {
-            width: 100%;
+            width: 40%;
             max-width: 1000px;
             border-radius: 12px;
             overflow: hidden;
