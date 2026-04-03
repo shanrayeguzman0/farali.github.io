@@ -166,7 +166,7 @@ allPosts.forEach((post, index) => {
 
     } catch (err) {
       console.error(err);
-      document.getElementById("news").innerHTML = "<p>Failed to load news.</p>";
+      document.getElementById("news").innerHTML = "<p>Failed</p>";
     }
   }
 
