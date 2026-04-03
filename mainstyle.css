@@ -543,8 +543,8 @@ border: solid rgba(0, 0, 0, 0.479);
 }
 
 :root {
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
+            --bg-color: #000000;
+            --card-bg: #000000;
             --text-main: #333;
             --accent: #007bff;
         }
@@ -625,19 +625,4 @@ border: solid rgba(0, 0, 0, 0.479);
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-50px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Loading Spinner */
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--accent);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }

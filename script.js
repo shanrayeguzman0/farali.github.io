@@ -135,3 +135,45 @@ allPosts.forEach((post, index) => {
     render();
 });
 
+const apiKey = '835d63d6d1194c94ac179be2ed86c683';
+        const url = `https://newsapi.org/v2/top-headlines?country=ph&apiKey=${apiKey}`;
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayNews(data.articles);
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                document.getElementById('news-container').innerHTML = '<p>Failed to load news. Please try again later.</p>';
+            } finally {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }
+
+        function displayNews(articles) {
+            const container = document.getElementById('news-container');
+            
+            articles.forEach((article, index) => {
+                if(!article.title || article.title === '[Removed]') return;
+
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                // Delay animation for each card for a "staggered" effect
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                const imageUrl = article.urlToImage || 'https://via.placeholder.com/400x200?text=No+Image+Available';
+
+                card.innerHTML = `
+                    <img class="news-image" src="${imageUrl}" alt="News Image">
+                    <div class="news-content">
+                        <span class="news-source">${article.source.name}</span>
+                        <a href="${article.url}" target="_blank" class="news-title">${article.title}</a>
+                        <p class="news-description">${article.description || 'No description available for this article.'}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        fetchNews();
