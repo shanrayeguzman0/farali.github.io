@@ -134,3 +134,60 @@ allPosts.forEach((post, index) => {
     // Run render pagka-load ng page
     render();
 });
+
+const RSS_URL = "https://data.gmanetwork.com/gno/rss/news/feed.xml";
+
+let currentIndex = 0;
+let items = [];
+
+// FETCH RSS
+async function loadRSS() {
+  const response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(RSS_URL));
+  const data = await response.json();
+
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(data.contents, "text/xml");
+
+  const news = xml.querySelectorAll("item");
+  const slider = document.getElementById("slider");
+
+  news.forEach((item, index) => {
+    const title = item.querySelector("title").textContent;
+    const desc = item.querySelector("description").textContent;
+    const link = item.querySelector("link").textContent;
+
+    const div = document.createElement("div");
+    div.classList.add("news-item");
+
+    div.innerHTML = `
+      <h3>${title}</h3>
+      <p>${desc.substring(0, 100)}...</p>
+      <a href="${link}" target="_blank" style="color:#4da6ff;">Read more</a>
+    `;
+
+    slider.appendChild(div);
+    items.push(div);
+  });
+}
+
+// CAROUSEL
+function updateSlider() {
+  const slider = document.getElementById("slider");
+  slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % items.length;
+  updateSlider();
+}
+
+function prevSlide() {
+  currentIndex = (currentIndex - 1 + items.length) % items.length;
+  updateSlider();
+}
+
+// AUTO SLIDE
+setInterval(nextSlide, 5000);
+
+// INIT
+loadRSS();
