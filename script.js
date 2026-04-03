@@ -134,37 +134,3 @@ allPosts.forEach((post, index) => {
     // Run render pagka-load ng page
     render();
 });
-
- const url = "https://newsdata.io/api/1/news?apikey=pub_2501573d5a66fa29132ca8fa301fb38bbf7cc&q=";
-
-    async function getNews() {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-
-        const container = document.getElementById("news");
-
-        data.results.forEach((article, index) => {
-          const card = document.createElement("div");
-          card.className = "card";
-          card.style.animationDelay = `${index * 0.1}s`;
-
-          card.innerHTML = `
-            <img src="${article.image_url || 'https://via.placeholder.com/400x200'}" alt="">
-            <div class="content">
-              <div class="title">${article.title}</div>
-              <div class="desc">${article.description || "No description available."}</div>
-              <a class="link" href="${article.link}" target="_blank">Read more →</a>
-            </div>
-          `;
-
-          container.appendChild(card);
-        });
-
-      } catch (error) {
-        document.getElementById("news").innerHTML = "<p>Failed to load news.</p>";
-        console.error(error);
-      }
-    }
-
-    getNews();
