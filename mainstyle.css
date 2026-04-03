@@ -541,3 +541,35 @@ border: solid rgba(0, 0, 0, 0.479);
 .btn-pahaba:active {
   transform: scale(0.98); /* Slight click shrink effect */
 }
+body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            background-color: #0f172a; /* Dark background to make cards pop */
+        }
+
+        .news-container {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            
+            /* Entry Animation */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.8s ease-out forwards;
+        }
+
+        iframe {
+            display: block;
+            border: none;
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
