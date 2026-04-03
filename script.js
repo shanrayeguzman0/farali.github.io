@@ -134,3 +134,70 @@ allPosts.forEach((post, index) => {
     // Run render pagka-load ng page
     render();
 });
+
+        // The RSS feed URL you provided
+        const rssUrl = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
+        // Using rss2json API to bypass CORS and convert XML to JSON
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+        
+        let newsItems = [];
+        let currentIndex = 0;
+        const displayDuration = 5000; // How long each news item stays (5 seconds)
+        const fadeDuration = 800;     // Must match the CSS transition time (0.8s)
+
+        // 1. Fetch the data
+        async function fetchNews() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    newsItems = data.items;
+                    displayNews();
+                    // Start the cycle
+                    setInterval(cycleNews, displayDuration);
+                } else {
+                    document.getElementById('news-content').innerHTML = "Failed to load news feed.";
+                }
+            } catch (error) {
+                document.getElementById('news-content').innerHTML = "Error connecting to the news feed.";
+                console.error(error);
+            }
+        }
+
+        // 2. Inject the current news item into the HTML
+        function displayNews() {
+            if (newsItems.length === 0) return;
+            
+            const item = newsItems[currentIndex];
+            // Format the date to be more readable
+            const dateObj = new Date(item.pubDate);
+            const formattedDate = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            const content = `
+                <a href="${item.link}" target="_blank" class="news-title">${item.title}</a>
+                <div class="news-date">${formattedDate}</div>
+            `;
+            document.getElementById('news-content').innerHTML = content;
+        }
+
+        // 3. Handle the fading animation and looping logic
+        function cycleNews() {
+            const contentDiv = document.getElementById('news-content');
+            
+            // Fade out
+            contentDiv.classList.add('fade-out');
+
+            // Wait for the fade-out to finish, then change text and fade back in
+            setTimeout(() => {
+                // Move to the next item, loop back to 0 if at the end
+                currentIndex = (currentIndex + 1) % newsItems.length;
+                displayNews();
+                
+                // Fade in
+                contentDiv.classList.remove('fade-out');
+            }, fadeDuration);
+        }
+
+        // Initialize
+        fetchNews();
