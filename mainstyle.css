@@ -551,7 +551,7 @@ body {
 
         .news-container {
             width: 50%;
-            max-width: 1000px;
+            max-width: 100px;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
