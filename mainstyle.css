@@ -562,7 +562,7 @@ border: solid rgba(0, 0, 0, 0.479);
 
         /* Main Container: No max-width, full viewport width */
         #news-widget {
-            width: 95vw; 
+            width: 97vw; 
             min-height: 160px;
             background: var(--card-dark);
             border-bottom: 2px solid #222; /* Bottom divider for full-width look */
