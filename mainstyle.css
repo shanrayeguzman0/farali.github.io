@@ -499,7 +499,7 @@ border: solid rgba(0, 0, 0, 0.479);
 
   /* Width handling for desktop vs mobile */
   width: 100%;
-  max-width: 1000px; /* Caps the size on large screens */
+  max-width: 1200px; /* Caps the size on large screens */
   
   /* Centers the container on the screen */
   margin: 20px auto; 
