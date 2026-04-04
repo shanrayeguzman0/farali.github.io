@@ -563,8 +563,8 @@ border: solid rgba(0, 0, 0, 0.479);
             width: 100vw;
             min-height: 50px;
             background: var(--card-dark);
-            border-left: 10px solid var(--gma-red);
-            padding: 50px 8%;
+            border-left: 6px solid var(--gma-red);
+            padding: 25px 5%;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -599,10 +599,10 @@ border: solid rgba(0, 0, 0, 0.479);
         }
 
         .headline {
-            font-size: 2.8rem;
+            font-size: 1.8rem;
             font-weight: 800;
             line-height: 1.1;
-            margin: 0 0 20px 0;
+            margin: 0 0 10px 0;
             color: var(--text-primary);
         }
 
@@ -612,9 +612,9 @@ border: solid rgba(0, 0, 0, 0.479);
         }
 
         .summary {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            line-height: 1.7;
+            line-height: 1.5;
             max-width: 1400px;
             margin: 0; /* Removed bottom margin since the date is gone */
             display: -webkit-box;
@@ -624,7 +624,7 @@ border: solid rgba(0, 0, 0, 0.479);
         }
 
         @media (max-width: 768px) {
-            #news-widget { padding: 30px 25px; min-height: 250px; }
-            .headline { font-size: 1.7rem; }
-            .summary { font-size: 1rem; -webkit-line-clamp: 3; }
+            #news-widget { padding: 20px 5%; min-height: 150px; }
+            .headline { font-size: 1.3rem; }
+            .summary { font-size: 0.9rem; -webkit-line-clamp: 3; }
         }
