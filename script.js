@@ -182,9 +182,8 @@ const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
 
 
 
-    
 
-    const searchRoutes = {
+const searchRoutes = {
     "chat area": "chat.html",
     "chat": "chat.html",
     "contact us": "contactus.html",
