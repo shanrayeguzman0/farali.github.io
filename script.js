@@ -183,38 +183,22 @@ const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
 
 
 
-const searchRoutes = {
-    "chat area": "chat.html",
-    "chat": "chat.html",
-    "contact us": "contactus.html",
-    "contact": "contactus.html",
-    "games": "games.html",
-    "post": "post.html",
-    "about me": "about.html",
-    "about": "about.html"
-};
+function searchPage() {
+    let input = document.getElementById("searchInput").value.toLowerCase().trim();
+    let message = document.getElementById("message");
 
-function performSearch() {
-    const inputField = document.getElementById('searchInput');
-    const errorMsg = document.getElementById('errorMsg');
-    
-    const query = inputField.value.trim().toLowerCase();
+    // Pages map
+    let pages = {
+        "chat area": "chat.html",
+        "contact us": "contactus.html",
+        "games": "games.html",
+        "post": "post.html",
+        "about me": "about.html"
+    };
 
-    if (searchRoutes[query]) {
-        errorMsg.style.display = 'none';
-        window.location.href = searchRoutes[query];
+    if (pages[input]) {
+        window.location.href = pages[input];
     } else {
-        errorMsg.style.display = 'block';
-        
-        // Auto-hides error message after 3 seconds
-        setTimeout(() => {
-            errorMsg.style.display = 'none';
-        }, 3000);
-    }
-}
-
-function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-        performSearch();
+        message.textContent = "No search found";
     }
 }

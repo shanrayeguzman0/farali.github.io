@@ -631,99 +631,57 @@ border: solid rgba(0, 0, 0, 0.479);
 
 
 
-      /* Main Search Container (Now behaves as a regular block element) */
-.main-container {
+     /* Container */
+.search-container {
     width: 100%;
+    padding: 15px;
+    background: #272727;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    padding: 40px 0; /* Gives breathing room above and below */
-    box-sizing: border-box;
 }
 
-.logo-text {
-    font-size: clamp(2rem, 6vw, 3.5rem); /* Slightly shrunk so it fits well in a feed */
-    font-weight: bold;
-    margin-bottom: 20px;
-    letter-spacing: -1px;
-    text-align: center;
-}
-
-/* Fully responsive container width */
-.search-box-wrapper {
-    width: 90%; 
-    max-width: 650px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-}
-
-/* The "Pill" Search Bar holding input and button */
-.search-bar {
+/* Search box */
+.search-box {
     width: 100%;
-    height: 48px;
-    background-color: #303134;
-    border: 1px solid #5f6368;
-    border-radius: 24px;
+    max-width: 600px;
     display: flex;
-    align-items: center;
-    padding: 0 6px 0 15px; 
-    box-sizing: border-box;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.search-bar:hover, .search-bar:focus-within {
-    background-color: #303134;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.4);
-    border-color: transparent;
-}
-
-.search-icon {
-    width: 20px;
-    height: 20px;
-    fill: #9aa0a6;
-    margin-right: 10px;
-    flex-shrink: 0;
-}
-
-.search-bar input {
+/* Input */
+.search-box input {
     flex: 1;
-    background: transparent;
+    padding: 12px;
     border: none;
     outline: none;
-    color: #e8eaed;
     font-size: 16px;
-    height: 100%;
-    min-width: 0; 
 }
 
-/* The button sitting inside the input pill */
-.inline-search-btn {
-    background-color: #00adb5;
-    color: #ffffff;
+/* Button */
+.search-box button {
+    padding: 12px 20px;
     border: none;
-    border-radius: 18px;
-    height: 36px;
-    padding: 0 18px;
-    font-size: 14px;
-    font-weight: bold;
+    background: #333;
+    color: white;
     cursor: pointer;
-    transition: background-color 0.2s;
-    margin-left: 10px;
-    flex-shrink: 0;
 }
 
-.inline-search-btn:hover {
-    background-color: #007c82;
+/* Mobile */
+@media (max-width: 600px) {
+    .search-box input {
+        font-size: 14px;
+        padding: 10px;
+    }
+    .search-box button {
+        padding: 10px;
+    }
 }
 
-/* Error Message */
-.error-message {
-    display: none;
-    color: #f28b82;
-    font-size: 14px;
-    margin-top: 12px;
+/* Message */
+#message {
     text-align: center;
+    margin-top: 10px;
+    color: red;
 }
