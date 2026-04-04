@@ -657,13 +657,14 @@ border: solid rgba(0, 0, 0, 0.479);
     border: none;
     outline: none;
     font-size: 16px;
+    background-color: #272727;
 }
 
 /* Button */
 .search-box button {
     padding: 12px 20px;
     border: none;
-    color: rgb(59, 59, 59);
+    color: rgb(27, 27, 27);
     cursor: pointer;
 }
 
