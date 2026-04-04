@@ -196,9 +196,18 @@ function searchPage() {
         "about me": "about.html"
     };
 
+    // 🎉 Easter Egg
+    if (input === "ilovefarali2026") {
+        message.style.color = "green";
+        message.textContent = "🎉 Congratulations! You found the easter egg!";
+        return;
+    }
+
+    // Normal search
     if (pages[input]) {
         window.location.href = pages[input];
     } else {
+        message.style.color = "red";
         message.textContent = "No search found";
     }
 }
