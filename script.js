@@ -134,51 +134,53 @@ allPosts.forEach((post, index) => {
     // Run render pagka-load ng page
     render();
 });
-
-    const FEED_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
-    const API_CONVERTER = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEED_URL)}`;
+const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
+    const API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
     
-    let newsData = [];
+    let newsItems = [];
     let currentIndex = 0;
 
-    async function getNews() {
+    async function loadFeed() {
         try {
-            const res = await fetch(API_CONVERTER);
-            const json = await res.json();
-            if (json.status === 'ok') {
-                newsData = json.items;
-                updateDisplay();
-                setInterval(nextHeadline, 9000); // 9 seconds for reading long headlines
+            const response = await fetch(API);
+            const data = await response.json();
+            
+            if (data.status === 'ok') {
+                newsItems = data.items;
+                render();
+                // Set the rotation speed (10 seconds)
+                setInterval(transitionNews, 10000);
             }
-        } catch (err) {
-            document.querySelector('.headline').innerText = "Unable to load feed.";
+        } catch (e) {
+            document.querySelector('.headline').innerText = "Feed Connection Error";
         }
     }
 
-    function updateDisplay() {
-        const item = newsData[currentIndex];
-        const content = document.getElementById('content-area');
+    function render() {
+        const item = newsItems[currentIndex];
+        const container = document.getElementById('content-area');
 
-        const cleanSummary = item.description.replace(/<[^>]*>?/gm, '').trim();
-        const categoryLabel = (item.categories && item.categories.length > 0) ? item.categories[0] : 'News';
+        // Scrub HTML tags from the description
+        const cleanText = item.description.replace(/<[^>]*>?/gm, '').trim();
+        const category = (item.categories && item.categories.length > 0) ? item.categories[0] : 'Latest News';
 
-        content.innerHTML = `
-            <span class="category">${categoryLabel}</span>
+        container.innerHTML = `
+            <span class="category">${category}</span>
             <h2 class="headline"><a href="${item.link}" target="_blank">${item.title}</a></h2>
-            <p class="summary">${cleanSummary}</p>
-            <div class="meta">${new Date(item.pubDate).toLocaleString()}</div>
+            <p class="summary">${cleanText}</p>
+            <div class="meta">${new Date(item.pubDate).toLocaleString('en-PH', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
         `;
     }
 
-    function nextHeadline() {
+    function transitionNews() {
         const wrapper = document.getElementById('fade-wrapper');
         wrapper.classList.add('hidden');
 
         setTimeout(() => {
-            currentIndex = (currentIndex + 1) % newsData.length;
-            updateDisplay();
+            currentIndex = (currentIndex + 1) % newsItems.length;
+            render();
             wrapper.classList.remove('hidden');
-        }, 500);
+        }, 700);
     }
 
-    getNews();
+    loadFeed();
