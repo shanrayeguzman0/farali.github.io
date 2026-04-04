@@ -663,8 +663,7 @@ border: solid rgba(0, 0, 0, 0.479);
 .search-box button {
     padding: 12px 20px;
     border: none;
-    background: #333;
-    color: white;
+    color: rgb(59, 59, 59);
     cursor: pointer;
 }
 
