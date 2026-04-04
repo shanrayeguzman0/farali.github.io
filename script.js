@@ -144,33 +144,38 @@ const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
         try {
             const response = await fetch(API);
             const data = await response.json();
+            
             if (data.status === 'ok') {
                 newsItems = data.items;
                 render();
-                setInterval(transitionNews, 8000); 
+                // Set the rotation speed (10 seconds)
+                setInterval(transitionNews, 10000);
             }
         } catch (e) {
-            document.querySelector('.headline').innerText = "Feed Error";
+            document.querySelector('.headline').innerText = "Feed Connection Error";
         }
     }
 
     function render() {
         const item = newsItems[currentIndex];
         const container = document.getElementById('content-area');
+
+        // Scrub HTML tags from the description
         const cleanText = item.description.replace(/<[^>]*>?/gm, '').trim();
-        const category = (item.categories && item.categories.length > 0) ? item.categories[0] : 'News Update';
+        const category = (item.categories && item.categories.length > 0) ? item.categories[0] : 'Latest News';
 
         container.innerHTML = `
             <span class="category">${category}</span>
             <h2 class="headline"><a href="${item.link}" target="_blank">${item.title}</a></h2>
             <p class="summary">${cleanText}</p>
-            <div class="meta">Today in April</div>
+            <div class="meta">${new Date(item.pubDate).toLocaleString('en-PH', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
         `;
     }
 
     function transitionNews() {
         const wrapper = document.getElementById('fade-wrapper');
         wrapper.classList.add('hidden');
+
         setTimeout(() => {
             currentIndex = (currentIndex + 1) % newsItems.length;
             render();
