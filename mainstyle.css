@@ -542,82 +542,67 @@ border: solid rgba(0, 0, 0, 0.479);
   transform: scale(0.98); /* Slight click shrink effect */
 }
 
- :root {
+:root {
             --gma-red: #ff3b3b;
-            --bg-dark: #0f0f0f;
-            --card-dark: #1a1a1a;
-            --text-primary: #f0f0f0;
-            --text-secondary: #aaaaaa;
+            --bg-dark: #080808;
+            --card-dark: #121212;
+            --text-primary: #ffffff;
+            --text-secondary: #b5b5b5;
         }
 
-      /* Remove all default margins to allow 100% width */
-       body {
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
-            overflow-x: hidden; /* Prevents unwanted horizontal scroll */
             background-color: var(--bg-dark);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Main Container: No max-width, full viewport width */
         #news-widget {
-            width: 97vw; 
-            min-height: 160px;
+            width: 100vw;
+            min-height: 200px;
             background: var(--card-dark);
-            border-bottom: 2px solid #222; /* Bottom divider for full-width look */
-            border-left: 8px solid var(--gma-red);
-            padding: 40px;
+            border-left: 10px solid var(--gma-red);
+            padding: 50px 8%;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            animation: borderPulse 4s infinite;
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 600px) {
-            #news-widget {
-                width: 100%;
-                border-radius: 0; /* Full edge-to-edge look on mobile */
-                padding: 20px;
-                min-height: 200px;
-                border-left-width: 4px;
-            }
-            
-            .headline { font-size: 1.1rem !important; }
-            .summary { font-size: 0.85rem !important; }
+        @keyframes borderPulse {
+            0% { border-left-color: #ff3b3b; }
+            50% { border-left-color: #7a1111; }
+            100% { border-left-color: #ff3b3b; }
         }
 
-        /* Fading & Animation */
         #fade-wrapper {
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             opacity: 1;
         }
 
         #fade-wrapper.hidden {
             opacity: 0;
-            transform: scale(0.99); /* Slight shrink effect */
+            transform: translateY(10px);
         }
 
-        /* Content Styling */
         .category {
             display: inline-block;
             text-transform: uppercase;
-            font-size: 11px;
-            font-weight: 800;
+            font-size: 13px;
+            font-weight: 900;
             color: var(--gma-red);
-            letter-spacing: 1.2px;
-            margin-bottom: 12px;
-            background: rgba(255, 59, 59, 0.15);
-            padding: 4px 10px;
-            border-radius: 4px;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
         }
 
         .headline {
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin: 0 0 15px 0;
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin: 0 0 20px 0;
             color: var(--text-primary);
         }
 
@@ -627,20 +612,19 @@ border: solid rgba(0, 0, 0, 0.479);
         }
 
         .summary {
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            /* Limits summary to 2 lines on desktop, more on mobile */
+            line-height: 1.7;
+            max-width: 1400px;
+            margin: 0; /* Removed bottom margin since the date is gone */
             display: -webkit-box;
-           -webkit-line-clamp: 2;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
-        .meta {
-            font-size: 0.8rem;
-            color: #555;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+        @media (max-width: 768px) {
+            #news-widget { padding: 30px 25px; min-height: 250px; }
+            .headline { font-size: 1.7rem; }
+            .summary { font-size: 1rem; -webkit-line-clamp: 3; }
         }
