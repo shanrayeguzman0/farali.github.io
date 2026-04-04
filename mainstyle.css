@@ -561,7 +561,7 @@ border: solid rgba(0, 0, 0, 0.479);
 
         #news-widget {
             width: 100vw;
-            min-height: 200px;
+            min-height: 50px;
             background: var(--card-dark);
             border-left: 10px solid var(--gma-red);
             padding: 50px 8%;
