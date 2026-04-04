@@ -166,3 +166,12 @@ color: white;
     hr {
   border: 1px solid rgb(83, 83, 83);
 }
+
+  .icon-container {
+      display: flex;
+      gap: 20px;
+      font-size: 60px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 50px;
+    }
