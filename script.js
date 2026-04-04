@@ -196,7 +196,8 @@ function searchPage() {
         "contact us": "contactus.html",
         "games": "games.html",
         "post": "post.html",
-        "about me": "about.html"
+        "about me": "about.html",
+        "info": "aboutfarali.html"
     };
 
     // 🎉 Easter Egg
