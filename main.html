@@ -13,17 +13,30 @@
 
 <style>
     li {
-background: rgb(53, 52, 52);
- transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  font-family: Arial, Helvetica, sans-serif;
+        background: rgb(53, 52, 52);
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        font-family: Arial, Helvetica, sans-serif;
     }
+
     li:hover {
-         background: white;
-  color: #4e54c8;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+        background: white;
+        color: #4e54c8;
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
     } 
+
+    /* NEW: This cancels the hover effect ONLY for the dropdown list item */
+    li.dropdown:hover {
+        background: rgb(53, 52, 52) !important; /* Keeps it dark */
+        transform: none !important; /* Stops it from blowing up in size */
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2) !important; /* Keeps original shadow */
+    }
+
+    /* Keeps the "About ▾" text white when hovering the dropdown */
+    li.dropdown:hover .dropbtn {
+        color: white !important;
+    }
 </style>
 <body>
  <link rel="stylesheet" href="navbar.css">
