@@ -36,18 +36,23 @@ border: solid rgba(0, 0, 0, 0.479);
 <div id="content" style="display:none;">
    </div>
                    
-   <link rel="stylesheet"
-   href="navbar.css">
-     <nav class="navbar">
+ <link rel="stylesheet" href="navbar.css">
+<nav class="navbar">
     <div class="logo">Farali</div>
 
     <ul class="nav-links" id="navLinks">
-         <li><a href="chat.html">Chat Area</a></li>
+        <li><a href="chat.html">Chat Area</a></li>
         <li><a href="contactus.html">Contact us</a></li>
         <li><a href="games.html">Games</a></li>
         <li><a href="post.html">Post</a></li>
-        <li><a href="about.html">About me</a></li>
-          <li><a href="aboutfarali.html">About Farali</a></li>
+        
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">About ▾</a>
+            <div class="dropdown-content">
+                <a href="about.html">About Me</a>
+                <a href="aboutfarali.html">About Farali</a>
+            </div>
+        </li>
     </ul>
 
     <div class="hamburger" id="hamburger">
@@ -56,7 +61,6 @@ border: solid rgba(0, 0, 0, 0.479);
         <span></span>
     </div>
 </nav>
-
 <div class="boxx"> 
  <div><div>  <h1>News Page</h1> </div> <div></div>
     <br>
