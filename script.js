@@ -189,11 +189,7 @@ allPosts.forEach((post, index) => {
 function searchPage() {
     let input = document.getElementById("searchInput").value.toLowerCase().trim();
     let message = document.getElementById("message");
-    document.getElementById("searchInput").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        searchPage();
-    }
-});
+    
 
     // Pages map
     let pages = {
