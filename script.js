@@ -134,7 +134,8 @@ allPosts.forEach((post, index) => {
     // Run render pagka-load ng page
     render();
 });
-const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
+// Your exact requested XML link
+    const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
     const API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
     
     let newsItems = [];
@@ -147,7 +148,7 @@ const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
             if (data.status === 'ok') {
                 newsItems = data.items;
                 render();
-                setInterval(transitionNews, 8000); 
+                setInterval(transitionNews, 8000); // Rotates every 8 seconds
             }
         } catch (e) {
             document.querySelector('.headline').innerText = "Feed Error";
@@ -157,10 +158,12 @@ const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
     function render() {
         const item = newsItems[currentIndex];
         const container = document.getElementById('content-area');
+        
+        // Removes any unwanted HTML/images from the summary text
         const cleanText = item.description.replace(/<[^>]*>?/gm, '').trim();
         const category = (item.categories && item.categories.length > 0) ? item.categories[0] : 'News Update';
 
-        // The meta div for the date has been entirely removed from this block
+        // Date has been intentionally left out of the HTML injection
         container.innerHTML = `
             <span class="category">${category}</span>
             <h2 class="headline"><a href="${item.link}" target="_blank">${item.title}</a></h2>
@@ -175,7 +178,7 @@ const RSS_URL = 'https://data.gmanetwork.com/gno/rss/news/feed.xml';
             currentIndex = (currentIndex + 1) % newsItems.length;
             render();
             wrapper.classList.remove('hidden');
-        }, 700);
+        }, 700); // 0.7 second fade time
     }
 
     loadFeed();
