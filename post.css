@@ -212,6 +212,7 @@ color: white;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: white;
   }
 
   .image-block {
@@ -226,7 +227,7 @@ color: white;
   .caption {
     margin-top: 5px;
     font-size: 14px;
-    color: #555;
+    color: #ffffff;
   }
 
   /* MOBILE */
