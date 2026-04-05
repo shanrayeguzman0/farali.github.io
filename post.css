@@ -192,3 +192,36 @@ color: white;
        transform: scale(1.15) translateY(-5px); /* Enlarges by 15% and moves up 5px */
        filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3)); /* Adds a shadow */
    }
+
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .column {
+    flex: 1;
+  }
+
+  .column img {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .text {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  /* MOBILE VIEW */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  }
