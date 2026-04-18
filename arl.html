@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Rank List</title>
+    <style>
+        :root {
+            --bg-primary: #0f0f12;
+            --bg-secondary: #1a1a1f;
+            --bg-tertiary: #25252b;
+            --bg-card: #1e1e24;
+            --accent-gold: #ffd700;
+            --accent-fire: #ff6b35;
+            --accent-star: #4ecdc4;
+            --accent-good: #95e1d3;
+            --accent-bad: #f38181;
+            --accent-worst: #6c5ce7;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6c6c7c;
+            --border: #2d2d35;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --glow-gold: rgba(255, 215, 0, 0.3);
+            --glow-fire: rgba(255, 107, 53, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-bottom: 3px solid var(--accent-gold);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '✨';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.1;
+            top: -20px;
+            left: 50px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        header::after {
+            content: '🎬';
+            position: absolute;
+            font-size: 80px;
+            opacity: 0.1;
+            bottom: -10px;
+            right: 50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-fire), var(--accent-star));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px var(--glow-gold);
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            border: 1px solid var(--border);
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-fire), #ff8c42);
+            color: white;
+            box-shadow: 0 4px 15px var(--glow-fire);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--glow-fire);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--accent-star);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .tier-section {
+            margin-bottom: 40px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .tier-header {
+            padding: 20px 25px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid;
+        }
+
+        .tier-golden { 
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            text-shadow: 0 0 10px var(--glow-gold);
+        }
+
+        .tier-peak { 
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 107, 53, 0.05));
+            border-color: var(--accent-fire);
+            color: var(--accent-fire);
+        }
+
+        .tier-remarkable { 
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15), rgba(78, 205, 196, 0.05));
+            border-color: var(--accent-star);
+            color: var(--accent-star);
+        }
+
+        .tier-good { 
+            background: linear-gradient(135deg, rgba(149, 225, 211, 0.15), rgba(149, 225, 211, 0.05));
+            border-color: var(--accent-good);
+            color: var(--accent-good);
+        }
+
+        .tier-bad { 
+            background: linear-gradient(135deg, rgba(243, 129, 129, 0.15), rgba(243, 129, 129, 0.05));
+            border-color: var(--accent-bad);
+            color: var(--accent-bad);
+        }
+
+        .tier-worst { 
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.15), rgba(108, 92, 231, 0.05));
+            border-color: var(--accent-worst);
+            color: var(--accent-worst);
+        }
+
+        .tier-content {
+            padding: 20px;
+        }
+
+        .anime-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anime-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-gold);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .anime-card:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+
+        .anime-card:hover::before {
+            opacity: 1;
+        }
+
+        .rank-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-shadow: 0 0 10px var(--glow-gold);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .anime-info h3 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .anime-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .anime-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating-badge {
+            background: linear-gradient(135deg, var(--accent-gold), #ffaa00);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px var(--glow-gold);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .watching-section {
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent-star);
+        }
+
+        .watching-section h2 {
+            color: var(--accent-star);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .watching-card {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .watching-card:hover {
+            border-color: var(--accent-star);
+            transform: translateX(5px);
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-star), var(--accent-good));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px var(--glow-gold);
+        }
+
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .score-item {
+            background: var(--bg-card);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .score-item label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .max-score {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        .score-item input[type="range"] {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            text-align: center;
+            color: var(--accent-gold);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-bad);
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-shadow: 0 0 10px var(--glow-gold);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .anime-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .anime-meta {
+                justify-content: center;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .episode-rating-modal .episode-header {
+            background: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .episode-number {
+            font-size: 1.5em;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>✨ ANIME RANKING LIST ✨</h1>
+        <p class="subtitle">Track, Rate & Rank Your Anime Journey</p>
+    </header>
+
+    <div class="container">
+        <div class="stats-summary" id="statsSummary">
+            <div class="stat-card">
+                <div class="stat-value" id="totalAnime">0</div>
+                <div class="stat-label">Total Anime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgRating">0</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="watchingCount">0</div>
+                <div class="stat-label">Currently Watching</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="topRated">-</div>
+                <div class="stat-label">Top Rated</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-primary" onclick="openModal('addWatchingModal')">➕ Add Anime (Watching)</button>
+            <button class="btn-primary" onclick="openModal('finishEpisodeModal')">✅ Finish Episode</button>
+            <button class="btn-secondary" onclick="openModal('editModal')">✏️ Edit Anime</button>
+            <button class="btn-secondary" onclick="openModal('deleteModal')">🗑️ Delete Anime</button>
+            <button class="btn-danger" onclick="deleteAll()">💥 Delete All</button>
+            <button class="btn-secondary" onclick="exportData()">📤 Export List</button>
+            <button class="btn-secondary" onclick="document.getElementById('importFile').click()">📥 Import List</button>
+            <input type="file" id="importFile" class="hidden-file-input" accept=".json" onchange="importData(this)">
+        </div>
+
+        <div class="watching-section">
+            <h2>📺 Currently Watching</h2>
+            <div id="watchingList">
+                <div class="empty-state">No anime currently watching</div>
+            </div>
+        </div>
+
+        <div id="rankingList">
+            <!-- Tiers will be generated here -->
+        </div>
+    </div>
+
+    <!-- Add Watching Modal -->
+    <div class="modal-overlay" id="addWatchingModal">
+        <div class="modal">
+            <h2>➕ Add Anime to Watching List</h2>
+            <div class="form-group">
+                <label>Anime Name</label>
+                <input type="text" id="watchingName" placeholder="Enter anime name...">
+            </div>
+            <div class="form-group">
+                <label>Total Episodes</label>
+                <input type="number" id="watchingTotalEpisodes" min="1" value="12">
+            </div>
+            <div class="form-group">
+                <label>Start Date (Auto-set to today)</label>
+                <input type="text" id="watchingStartDate" readonly>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal('addWatchingModal')">Cancel</button>
+                <button class="btn-primary" onclick="addToWatching()">Add to List</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Finish Episode Modal -->
+    <div class="modal-overlay" id="finishEpisodeModal">
+        <div class="modal episode-rating-modal">
+            <h2>✅ Finish & Rate Episodes</h2>
+            <div class="form-group">
+                <label>Select Anime</label>
+                <select id="finishAnimeSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>Episodes to Rate</label>
+                <input type="number" id="episodesToRate" min="1" value="1">
+            </div>
+            <div id="episodeRatingContainer"></div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal('finishEpisodeModal')">Cancel</button>
+                <button class="btn-primary" onclick="finishEpisodes()">Submit Ratings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <h2>✏️ Edit Anime</h2>
+            <div class="form-group">
+                <label>Select Anime to Edit</label>
+                <select id="editAnimeSelect"></select>
+            </div>
+            <div id="editScoreContainer"></div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal('editModal')">Cancel</button>
+                <button class="btn-primary" onclick="saveEdit()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <h2>🗑️ Delete Anime</h2>
+            <div class="form-group">
+                <label>Select Anime to Delete</label>
+                <select id="deleteAnimeSelect"></select>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+                <button class="btn-danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Episode Rating Form Template -->
+    <div id="episodeRatingTemplate" style="display: none;">
+        <div class="episode-header">
+            <span class="episode-number">Episode <span class="ep-num">1</span></span>
+        </div>
+        <div class="score-grid">
+            <div class="score-item">
+                <label>Storyline <span class="max-score">/10</span></label>
+                <input type="range" class="storyline" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                <div class="score-value">5</div>
+            </div>
+            <div class="score-item">
+                <label>Dialogues <span class="max-score">/8</span></label>
+                <input type="range" class="dialogues" min="0" max="8" value="4" oninput="updateScoreValue(this)">
+                <div class="score-value">4</div>
+            </div>
+            <div class="score-item">
+                <label>Clarity <span class="max-score">/7</span></label>
+                <input type="range" class="clarity" min="0" max="7" value="3.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">3.5</div>
+            </div>
+            <div class="score-item">
+                <label>Art Style <span class="max-score">/10</span></label>
+                <input type="range" class="art-style" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                <div class="score-value">5</div>
+            </div>
+            <div class="score-item">
+                <label>Motion/FX <span class="max-score">/10</span></label>
+                <input type="range" class="motion-fx" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                <div class="score-value">5</div>
+            </div>
+            <div class="score-item">
+                <label>OP Music <span class="max-score">/4</span></label>
+                <input type="range" class="op-music" min="0" max="4" value="2" oninput="updateScoreValue(this)">
+                <div class="score-value">2</div>
+            </div>
+            <div class="score-item">
+                <label>ED Music <span class="max-score">/4</span></label>
+                <input type="range" class="ed-music" min="0" max="4" value="2" oninput="updateScoreValue(this)">
+                <div class="score-value">2</div>
+            </div>
+            <div class="score-item">
+                <label>Music Concept <span class="max-score">/6</span></label>
+                <input type="range" class="music-concept" min="0" max="6" value="3" oninput="updateScoreValue(this)">
+                <div class="score-value">3</div>
+            </div>
+            <div class="score-item">
+                <label>SFX <span class="max-score">/3</span></label>
+                <input type="range" class="sfx" min="0" max="3" value="1.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">1.5</div>
+            </div>
+            <div class="score-item">
+                <label>Attractive <span class="max-score">/3</span></label>
+                <input type="range" class="attractive" min="0" max="3" value="1.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">1.5</div>
+            </div>
+            <div class="score-item">
+                <label>Voice Acting <span class="max-score">/10</span></label>
+                <input type="range" class="voice-acting" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                <div class="score-value">5</div>
+            </div>
+            <div class="score-item">
+                <label>EXP Intensity <span class="max-score">/5</span></label>
+                <input type="range" class="exp-intensity" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">2.5</div>
+            </div>
+            <div class="score-item">
+                <label>EXP Enjoyment <span class="max-score">/5</span></label>
+                <input type="range" class="exp-enjoyment" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">2.5</div>
+            </div>
+            <div class="score-item">
+                <label>EXP Expressive <span class="max-score">/5</span></label>
+                <input type="range" class="exp-expressive" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">2.5</div>
+            </div>
+            <div class="score-item">
+                <label>Character Personalities <span class="max-score">/5</span></label>
+                <input type="range" class="char-personalities" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">2.5</div>
+            </div>
+            <div class="score-item">
+                <label>Character Styles <span class="max-score">/5</span></label>
+                <input type="range" class="char-styles" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                <div class="score-value">2.5</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let animeList = [];
+        let currentlyWatching = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            document.getElementById('watchingStartDate').value = getFormattedToday();
+            renderAll();
+        });
+
+        // Local Storage functions
+        function saveToLocalStorage() {
+            localStorage.setItem('animeRankList', JSON.stringify({ animeList, currentlyWatching }));
+        }
+
+        function loadFromLocalStorage() {
+            const data = localStorage.getItem('animeRankList');
+            if (data) {
+                const parsed = JSON.parse(data);
+                animeList = parsed.animeList || [];
+                currentlyWatching = parsed.currentlyWatching || [];
+            }
+        }
+
+        // Utility functions
+        function getFormattedToday() {
+            const today = new Date();
+            const months = ['Jan', 'Feb', 'march', 'april', 'may', 'jun', 'july', 'Aug', 'sept', 'oct', 'nov', 'dec'];
+            const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            const month = months[today.getMonth()];
+            const day = today.getDate();
+            const weekday = weekdays[today.getDay()];
+            
+            return `${month} ${day} (${weekday})`;
+        }
+
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            if (modalId === 'finishEpisodeModal') updateFinishSelect();
+            if (modalId === 'editModal') updateEditSelect();
+            if (modalId === 'deleteModal') updateDeleteSelect();
+            if (modalId === 'addWatchingModal') {
+                document.getElementById('watchingStartDate').value = getFormattedToday();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Update select options
+        function updateFinishSelect() {
+            const select = document.getElementById('finishAnimeSelect');
+            select.innerHTML = currentlyWatching.map((anime, index) => 
+                `<option value="${index}">${anime.name} (EP ${anime.currentEpisode}/${anime.totalEpisodes})</option>`
+            ).join('');
+            
+            if (currentlyWatching.length === 0) {
+                select.innerHTML = '<option>No anime currently watching</option>';
+            }
+        }
+
+        function updateEditSelect() {
+            const select = document.getElementById('editAnimeSelect');
+            select.innerHTML = animeList.map((anime, index) => 
+                `<option value="${index}">${anime.name} (${anime.rating.toFixed(2)})</option>`
+            ).join('');
+            
+            if (animeList.length === 0) {
+                select.innerHTML = '<option>No anime to edit</option>';
+            } else {
+                select.onchange = () => loadEditScores(select.value);
+                loadEditScores(0);
+            }
+        }
+
+        function updateDeleteSelect() {
+            const select = document.getElementById('deleteAnimeSelect');
+            const allAnime = [
+                ...currentlyWatching.map((a, i) => ({ ...a, index: i, type: 'watching' })),
+                ...animeList.map((a, i) => ({ ...a, index: i, type: 'ranked' }))
+            ];
+            
+            select.innerHTML = allAnime.map(anime => 
+                `<option value="${anime.type}-${anime.index}">${anime.name} ${anime.type === 'watching' ? '(Watching)' : ''}</option>`
+            ).join('');
+            
+            if (allAnime.length === 0) {
+                select.innerHTML = '<option>No anime to delete</option>';
+            }
+        }
+
+        // Score calculation
+        function calculateEpisodeScore(container) {
+            const getVal = (className) => parseFloat(container.querySelector(`.${className}`).value) || 0;
+            
+            const story = getVal('storyline') + getVal('dialogues') + getVal('clarity');
+            const animation = getVal('art-style') + getVal('motion-fx');
+            const music = getVal('op-music') + getVal('ed-music') + getVal('music-concept') + getVal('sfx') + getVal('attractive');
+            const voice = getVal('voice-acting');
+            const experience = getVal('exp-intensity') + getVal('exp-enjoyment') + getVal('exp-expressive');
+            const characters = getVal('char-personalities') + getVal('char-styles');
+            
+            return story + animation + music + voice + experience + characters;
+        }
+
+        function updateScoreValue(input) {
+            input.nextElementSibling.textContent = input.value;
+        }
+
+        // Add to watching
+        function addToWatching() {
+            const name = document.getElementById('watchingName').value.trim();
+            const totalEpisodes = parseInt(document.getElementById('watchingTotalEpisodes').value);
+            const startDate = document.getElementById('watchingStartDate').value;
+            
+            if (!name) {
+                showNotification('Please enter anime name', 'error');
+                return;
+            }
+            
+            currentlyWatching.push({
+                id: generateId(),
+                name,
+                startDate,
+                currentEpisode: 0,
+                totalEpisodes,
+                totalEpisodeScore: 0
+            });
+            
+            saveToLocalStorage();
+            renderAll();
+            closeModal('addWatchingModal');
+            
+            document.getElementById('watchingName').value = '';
+            document.getElementById('watchingTotalEpisodes').value = '12';
+            
+            showNotification('Added to Currently Watching!');
+        }
+
+        // Finish episodes
+        function finishEpisodes() {
+            const select = document.getElementById('finishAnimeSelect');
+            const index = parseInt(select.value);
+            const episodesToRate = parseInt(document.getElementById('episodesToRate').value);
+            
+            if (currentlyWatching.length === 0 || isNaN(index)) {
+                showNotification('No anime selected', 'error');
+                return;
+            }
+            
+            const anime = currentlyWatching[index];
+            const container = document.getElementById('episodeRatingContainer');
+            
+            // Check if rating form exists
+            if (!container.querySelector('.score-grid')) {
+                // Generate rating forms for each episode
+                let html = '';
+                for (let i = 0; i < episodesToRate && (anime.currentEpisode + i) < anime.totalEpisodes; i++) {
+                    const epNum = anime.currentEpisode + i + 1;
+                    html += `
+                        <div style="margin-bottom: 30px; border-bottom: 2px solid var(--border); padding-bottom: 20px;">
+                            <div class="episode-header">
+                                <span class="episode-number">Episode ${epNum}</span>
+                            </div>
+                            <div class="score-grid">
+                                <div class="score-item">
+                                    <label>Storyline <span class="max-score">/10</span></label>
+                                    <input type="range" class="storyline" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Dialogues <span class="max-score">/8</span></label>
+                                    <input type="range" class="dialogues" min="0" max="8" value="4" oninput="updateScoreValue(this)">
+                                    <div class="score-value">4</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Clarity <span class="max-score">/7</span></label>
+                                    <input type="range" class="clarity" min="0" max="7" value="3.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">3.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Art Style <span class="max-score">/10</span></label>
+                                    <input type="range" class="art-style" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Motion/FX <span class="max-score">/10</span></label>
+                                    <input type="range" class="motion-fx" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>OP Music <span class="max-score">/4</span></label>
+                                    <input type="range" class="op-music" min="0" max="4" value="2" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>ED Music <span class="max-score">/4</span></label>
+                                    <input type="range" class="ed-music" min="0" max="4" value="2" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Music Concept <span class="max-score">/6</span></label>
+                                    <input type="range" class="music-concept" min="0" max="6" value="3" oninput="updateScoreValue(this)">
+                                    <div class="score-value">3</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>SFX <span class="max-score">/3</span></label>
+                                    <input type="range" class="sfx" min="0" max="3" value="1.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">1.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Attractive <span class="max-score">/3</span></label>
+                                    <input type="range" class="attractive" min="0" max="3" value="1.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">1.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Voice Acting <span class="max-score">/10</span></label>
+                                    <input type="range" class="voice-acting" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>EXP Intensity <span class="max-score">/5</span></label>
+                                    <input type="range" class="exp-intensity" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>EXP Enjoyment <span class="max-score">/5</span></label>
+                                    <input type="range" class="exp-enjoyment" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>EXP Expressive <span class="max-score">/5</span></label>
+                                    <input type="range" class="exp-expressive" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Character Personalities <span class="max-score">/5</span></label>
+                                    <input type="range" class="char-personalities" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2.5</div>
+                                </div>
+                                <div class="score-item">
+                                    <label>Character Styles <span class="max-score">/5</span></label>
+                                    <input type="range" class="char-styles" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                                    <div class="score-value">2.5</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+                return;
+            }
+            
+            // Calculate scores
+            const episodeDivs = container.querySelectorAll('.score-grid');
+            let totalScore = 0;
+            
+            episodeDivs.forEach(epDiv => {
+                totalScore += calculateEpisodeScore(epDiv.parentElement);
+            });
+            
+            anime.totalEpisodeScore += totalScore;
+            anime.currentEpisode += episodeDivs.length;
+            
+            // Check if anime is finished
+            if (anime.currentEpisode >= anime.totalEpisodes) {
+                const finishDate = getFormattedToday();
+                const watchPeriod = `${anime.startDate} - ${finishDate}`;
+                
+                // Prompt for additional info
+                const releaseYear = prompt('Anime Release Year (ex. 2021):', '2021');
+                const genre = prompt('Genre:', 'Action');
+                
+                if (releaseYear && genre) {
+                    animeList.push({
+                        id: generateId(),
+                        name: anime.name,
+                        totalEpisodeScore: anime.totalEpisodeScore,
+                        episodesRated: anime.totalEpisodes,
+                        releaseYear: parseInt(releaseYear),
+                        genre,
+                        watchPeriod
+                    });
+                    
+                    currentlyWatching.splice(index, 1);
+                    showNotification('Anime completed and added to ranking list!');
+                }
+            } else {
+                showNotification(`Rated ${episodeDivs.length} episode(s). Anime still in watching list.`);
+            }
+            
+            saveToLocalStorage();
+            renderAll();
+            closeModal('finishEpisodeModal');
+            container.innerHTML = '';
+            document.getElementById('episodesToRate').value = '1';
+        }
+
+        // Edit functions
+        function loadEditScores(index) {
+            const container = document.getElementById('editScoreContainer');
+            const anime = animeList[index];
+            
+            container.innerHTML = `
+                <div class="score-grid">
+                    <div class="score-item">
+                        <label>Storyline <span class="max-score">/10</span></label>
+                        <input type="range" class="edit-storyline" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                        <div class="score-value">5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Ending <span class="max-score">/8</span></label>
+                        <input type="range" class="edit-ending" min="0" max="8" value="4" oninput="updateScoreValue(this)">
+                        <div class="score-value">4</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Clarity <span class="max-score">/7</span></label>
+                        <input type="range" class="edit-clarity" min="0" max="7" value="3.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">3.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Art Style <span class="max-score">/10</span></label>
+                        <input type="range" class="edit-art-style" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                        <div class="score-value">5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Motion/FX <span class="max-score">/10</span></label>
+                        <input type="range" class="edit-motion-fx" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                        <div class="score-value">5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>OP Music <span class="max-score">/4</span></label>
+                        <input type="range" class="edit-op-music" min="0" max="4" value="2" oninput="updateScoreValue(this)">
+                        <div class="score-value">2</div>
+                    </div>
+                    <div class="score-item">
+                        <label>ED Music <span class="max-score">/4</span></label>
+                        <input type="range" class="edit-ed-music" min="0" max="4" value="2" oninput="updateScoreValue(this)">
+                        <div class="score-value">2</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Music Concept <span class="max-score">/6</span></label>
+                        <input type="range" class="edit-music-concept" min="0" max="6" value="3" oninput="updateScoreValue(this)">
+                        <div class="score-value">3</div>
+                    </div>
+                    <div class="score-item">
+                        <label>SFX <span class="max-score">/3</span></label>
+                        <input type="range" class="edit-sfx" min="0" max="3" value="1.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">1.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Attractive <span class="max-score">/3</span></label>
+                        <input type="range" class="edit-attractive" min="0" max="3" value="1.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">1.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Voice Acting <span class="max-score">/10</span></label>
+                        <input type="range" class="edit-voice-acting" min="0" max="10" value="5" oninput="updateScoreValue(this)">
+                        <div class="score-value">5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>EXP Intensity <span class="max-score">/5</span></label>
+                        <input type="range" class="edit-exp-intensity" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">2.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>EXP Enjoyment <span class="max-score">/5</span></label>
+                        <input type="range" class="edit-exp-enjoyment" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">2.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>EXP Expressive <span class="max-score">/5</span></label>
+                        <input type="range" class="edit-exp-expressive" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">2.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Character Personalities <span class="max-score">/5</span></label>
+                        <input type="range" class="edit-char-personalities" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">2.5</div>
+                    </div>
+                    <div class="score-item">
+                        <label>Character Styles <span class="max-score">/5</span></label>
+                        <input type="range" class="edit-char-styles" min="0" max="5" value="2.5" step="0.5" oninput="updateScoreValue(this)">
+                        <div class="score-value">2.5</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function saveEdit() {
+            const select = document.getElementById('editAnimeSelect');
+            const index = parseInt(select.value);
+            
+            if (animeList.length === 0 || isNaN(index)) {
+                showNotification('No anime selected', 'error');
+                return;
+            }
+            
+            const old = animeList[index];
+            const container = document.getElementById('editScoreContainer');
+            
+            const getVal = (className) => parseFloat(container.querySelector(`.${className}`).value) || 0;
+            
+            const story = getVal('edit-storyline') + getVal('edit-ending') + getVal('edit-clarity');
+            const animation = getVal('edit-art-style') + getVal('edit-motion-fx');
+            const music = getVal('edit-op-music') + getVal('edit-ed-music') + getVal('edit-music-concept') + getVal('edit-sfx') + getVal('edit-attractive');
+            const voice = getVal('edit-voice-acting');
+            const experience = getVal('edit-exp-intensity') + getVal('edit-exp-enjoyment') + getVal('edit-exp-expressive');
+            const characters = getVal('edit-char-personalities') + getVal('edit-char-styles');
+            
+            const totalScore = story + animation + music + voice + experience + characters;
+            
+            animeList[index] = {
+                ...old,
+                totalEpisodeScore: totalScore,
+                episodesRated: 1,
+                rating: totalScore
+            };
+            
+            saveToLocalStorage();
+            renderAll();
+            closeModal('editModal');
+            showNotification('Anime successfully updated!');
+        }
+
+        // Delete functions
+        function confirmDelete() {
+            const select = document.getElementById('deleteAnimeSelect');
+            const value = select.value;
+            
+            if (!value || value === 'No anime to delete') {
+                showNotification('No anime selected', 'error');
+                return;
+            }
+            
+            const [type, index] = value.split('-');
+            
+            if (type === 'watching') {
+                currentlyWatching.splice(parseInt(index), 1);
+            } else {
+                animeList.splice(parseInt(index), 1);
+            }
+            
+            saveToLocalStorage();
+            renderAll();
+            closeModal('deleteModal');
+            showNotification('Anime deleted successfully!');
+        }
+
+        function deleteAll() {
+            if (confirm('Are you sure you want to delete ALL anime? This cannot be undone!')) {
+                animeList = [];
+                currentlyWatching = [];
+                saveToLocalStorage();
+                renderAll();
+                showNotification('All anime deleted!', 'error');
+            }
+        }
+
+        // Export/Import functions
+        function exportData() {
+            const data = {
+                animeList,
+                currentlyWatching,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `anime-rank-list-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('List exported successfully!');
+        }
+
+        function importData(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (confirm(`Import ${data.animeList?.length || 0} ranked anime and ${data.currentlyWatching?.length || 0} watching anime? This will replace current data.`)) {
+                        animeList = data.animeList || [];
+                        currentlyWatching = data.currentlyWatching || [];
+                        saveToLocalStorage();
+                        renderAll();
+                        showNotification('List imported successfully!');
+                    }
+                } catch (err) {
+                    showNotification('Error importing file. Invalid format.', 'error');
+                }
+            };
+            reader.readAsText(file);
+            input.value = '';
+        }
+
+        // Rendering functions
+        function renderAll() {
+            renderWatching();
+            renderRanking();
+            updateStats();
+        }
+
+        function renderWatching() {
+            const container = document.getElementById('watchingList');
+            
+            if (currentlyWatching.length === 0) {
+                container.innerHTML = '<div class="empty-state">None</div>';
+                return;
+            }
+            
+            container.innerHTML = currentlyWatching.map((anime, index) => {
+                const progress = (anime.currentEpisode / anime.totalEpisodes) * 100;
+                return `
+                    <div class="watching-card">
+                        <div>
+                            <strong>${anime.name}</strong>
+                            <div style="font-size: 0.9em; color: var(--text-secondary); margin-top: 5px;">
+                                Started: ${anime.startDate} | Progress: ${anime.currentEpisode}/${anime.totalEpisodes}
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-secondary icon-btn" onclick="deleteWatching(${index})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteWatching(index) {
+            if (confirm(`Remove ${currentlyWatching[index].name} from watching list?`)) {
+                currentlyWatching.splice(index, 1);
+                saveToLocalStorage();
+                renderAll();
+                showNotification('Removed from Currently Watching');
+            }
+        }
+
+        function renderRanking() {
+            const container = document.getElementById('rankingList');
+            
+            // Sort anime by rating
+            animeList.sort((a, b) => b.rating - a.rating);
+            
+            const tiers = [
+                { name: '👑 GOLDEN PIECE OF ANIME', min: 90, max: 100, class: 'tier-golden' },
+                { name: '🔥 PEAK ANIME', min: 80, max: 90, class: 'tier-peak' },
+                { name: '✨ REMARKABLE ANIME', min: 75, max: 80, class: 'tier-remarkable' },
+                { name: '👍 GOOD ANIME', min: 70, max: 75, class: 'tier-good' },
+                { name: '⚠️ BAD ANIME', min: 60, max: 70, class: 'tier-bad' },
+                { name: '💀 WORST ANIME', min: 0, max: 60, class: 'tier-worst' }
+            ];
+            
+            let html = '';
+            let globalRank = 1;
+            
+            tiers.forEach(tier => {
+                const tierAnime = animeList.filter(a => a.rating >= tier.min && a.rating < tier.max);
+                
+                html += `
+                    <div class="tier-section">
+                        <div class="tier-header ${tier.class}">
+                            ${tier.name} (${tier.min}–${tier.max})
+                        </div>
+                        <div class="tier-content">
+                            ${tierAnime.length === 0 ? 
+                                '<div class="empty-state">None</div>' : 
+                                tierAnime.map(anime => `
+                                    <div class="anime-card">
+                                        <div class="rank-number">#${globalRank++}</div>
+                                        <div class="anime-info">
+                                            <h3>🎬 ${anime.name}</h3>
+                                            <div class="anime-meta">
+                                                <span>📆 ${anime.releaseYear}</span>
+                                                <span>🎭 ${anime.genre}</span>
+                                                <span>🕒 ${anime.watchPeriod}</span>
+                                                <span>📊 ${anime.episodesRated} eps rated</span>
+                                            </div>
+                                        </div>
+                                        <div class="rating-badge">${anime.rating.toFixed(2)}</div>
+                                    </div>
+                                `).join('')
+                            }
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function updateStats() {
+            document.getElementById('totalAnime').textContent = animeList.length;
+            document.getElementById('watchingCount').textContent = currentlyWatching.length;
+            
+            const avg = animeList.length > 0 
+                ? (animeList.reduce((sum, a) => sum + a.rating, 0) / animeList.length).toFixed(1)
+                : '0';
+            document.getElementById('avgRating').textContent = avg;
+            
+            const top = animeList.length > 0 
+                ? animeList.reduce((max, a) => a.rating > max.rating ? a : max, animeList[0]).name
+                : '-';
+            document.getElementById('topRated').textContent = top.length > 15 ? top.substring(0, 15) + '...' : top;
+        }
+
+        // Close modals on outside click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
