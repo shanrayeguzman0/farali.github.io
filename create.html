@@ -42,68 +42,6 @@ border: solid rgba(0, 0, 0, 0.479);
     <div class="logo"> <a class="nodecore" href="main.html">Farali</a></div>
 
     <ul class="nav-links" id="navLinks">
-        <li><a href="chat.html">Chat Area</a></li>
-        <li><a href="games.html">Games</a></li>
-        <li><a href="main.html">News Page</a></li>
-        <li><a href="about.html">About me</a></li>
-    </ul>
-
-    <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-</nav>
-<div class="background">
-    <div class="blob"></div>
-    <div class="blob"></div>
-    <div class="blob"></div>
-    <div class="blob"></div>
-</div>
- <div class="boxx"><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1,
-    maximum-scale=1">
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
-    <title>Farali</title>
-    <link rel="stylesheet"
-    href="games.css">
-</head>
-
-<style>
-    li {
-background: rgb(53, 52, 52);
-border: solid rgba(0, 0, 0, 0.479);
- transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  font-family: Arial, Helvetica, sans-serif;
-    }
-    li:hover {
-         background: white;
-  color: #4e54c8;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-    } 
-</style>
-<body>
-    <div id="loader">
-         <div class="center">
-       
-    <div class="spinner">
-          <div class="spinner1"></div>
-    </div></div>  </div>
-<div id="content" style="display:none;">
-   </div>
-                   
-   <link rel="stylesheet"
-   href="navbar.css">
-     <nav class="navbar">
-    <div class="logo"> <a class="nodecore" href="main.html">Farali</a></div>
-
-    <ul class="nav-links" id="navLinks">
         <li><a href="contactus.html">Contact us</a></li>
         <li><a href="chat.html">Chat Area</a></li>
         <li><a href="main.html">News Page</a></li>
@@ -129,13 +67,49 @@ border: solid rgba(0, 0, 0, 0.479);
     <div class="game-list">
 
         <div class="game-card">
+            <img src="https://lh3.googleusercontent.com/d/17Vxeln4gQVJBzm5OBca_c8h4I4hBmkv-" class="icon-img">
             <div class="info">
-                <h3>Anime Ranking List!</h3>
-                <p>Create Ranking List for your favorite anime</p>
+                <h3>Tetris</h3>
+                <p>Classic block puzzle game(Difficulty⭐)</p>
             </div>
-            <button onclick="goToGame('arl.html')">Create</button>
+            <button onclick="goToGame('tetris.html')">Play</button>
+        </div>
+
+        <div class="game-card">
+            <img src="https://lh3.googleusercontent.com/d/1dPe-OzEiLhx9SbK9sf02DfKQkGr15weM" class="icon-img">
+            <div class="info">
+                <h3>Snake</h3>
+                <p>Eat, grow, survive (Difficulty⭐⭐⭐⭐⭐)</p>
+            </div>
+            <button onclick="goToGame('snake.html')">Play</button>
+        </div>
+
+        <div class="game-card">
+            <img src="https://lh3.googleusercontent.com/d/1u-8hv0gXW1UcKmI5AuXRQISPZ9NU8vwY" class="icon-img">
+            <div class="info">
+                <h3>Block Blast</h3>
+                <p>Fast-paced puzzle action (Difficulty⭐⭐)</p>
+            </div>
+            <button onclick="goToGame('blockblast.html')">Play</button>
+        </div>
+
+        <div class="game-card">
+            <img src="https://lh3.googleusercontent.com/d/1hPEOQPr1AZ1DEZO7k-tZ9J6e7ZvjImTE" class="icon-img">
+            <div class="info">
+                <h3>Quiz</h3>
+                <p>Test your knowledge (Difficulty⭐⭐⭐⭐)</p>
+            </div>
+            <button onclick="goToGame('quiz.html')">Play</button>
+        </div>
+ <div class="game-card">
+            <div class="info">
+                <h3>Typing Test (Coming Soon!)</h3>
+                <p>Now Under Development!</p>
+            </div>
+            <button onclick="goToGame('underdevelopment.html')">Play</button>
         </div>
     </div>
+
 </div>
  <script>
     function goToGame(url) {
