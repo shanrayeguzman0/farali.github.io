@@ -152,6 +152,11 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
         }
+        .btn-back {
+    background-color: #6c757d; /* Gray color */
+    color: white;
+    margin-right: 10px;
+}
 
         .tier-section {
             margin-bottom: 40px;
@@ -615,6 +620,7 @@
         </div>
 
         <div class="controls">
+            <button class="btn-secondary" onclick="window.history.back()">⬅️ Back</button>
             <button class="btn-primary" onclick="openModal('addWatchingModal')">➕ Add Anime (Watching)</button>
             <button class="btn-primary" onclick="openModal('finishEpisodeModal')">✅ Finish Episode</button>
             <button class="btn-secondary" onclick="openModal('editModal')">✏️ Edit Anime</button>
