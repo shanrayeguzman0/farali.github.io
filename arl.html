@@ -620,14 +620,14 @@
         </div>
 
         <div class="controls">
-            <button class="btn-secondary" onclick="window.history.back()">⬅️ Back</button>
             <button class="btn-primary" onclick="openModal('addWatchingModal')">➕ Add Anime (Watching)</button>
             <button class="btn-primary" onclick="openModal('finishEpisodeModal')">✅ Finish Episode</button>
+            <button class="btn-danger" onclick="deleteAll()">💥 Delete All</button>
             <button class="btn-secondary" onclick="openModal('editModal')">✏️ Edit Anime</button>
             <button class="btn-secondary" onclick="openModal('deleteModal')">🗑️ Delete Anime</button>
-            <button class="btn-danger" onclick="deleteAll()">💥 Delete All</button>
             <button class="btn-secondary" onclick="exportData()">📤 Export List</button>
             <button class="btn-secondary" onclick="document.getElementById('importFile').click()">📥 Import List</button>
+             <button class="btn-secondary" onclick="window.history.back()">⬅️ Back</button>
             <input type="file" id="importFile" class="hidden-file-input" accept=".json" onchange="importData(this)">
         </div>
 
