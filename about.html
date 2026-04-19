@@ -137,8 +137,31 @@ border: solid rgba(0, 0, 0, 0.479);
 &#8226; G8-G12
 <h4>ICF Colleges</h4>
 &#8226; BSCS
+<h2>Feel drain?</h2>
+<button id="show-gif-btn">Click This!</button>
 
+  <div id="popup-overlay">
+    <div class="popup-content">
+      <button id="close-btn">✕</button>
+      
+      <img src="https://lh3.googleusercontent.com/d/1b91CYH10oNJM7PULg5xfFAHFLFU4kGpZ" alt="GIF">
+      
+      <p class="gif-caption">You are special! Just smile😁</p>
+    </div>
+  </div>
 
+  <script>
+    const showBtn = document.getElementById('show-gif-btn');
+    const overlay = document.getElementById('popup-overlay');
+    const closeBtn = document.getElementById('close-btn');
+
+    showBtn.onclick = () => overlay.style.display = 'flex';
+    closeBtn.onclick = () => overlay.style.display = 'none';
+    
+    window.onclick = (e) => {
+      if (e.target === overlay) overlay.style.display = 'none';
+    };
+  </script>
  <script src="script.js"></script>
 
 </div>
