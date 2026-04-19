@@ -4,9 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
-     background: 
-                radial-gradient(ellipse at top, rgba(99, 102, 241, 0.08)),
-                radial-gradient(ellipse at bottom right, rgba(165, 94, 234, 0.05));
+    background: linear-gradient(90deg, rgb(24, 24, 24), rgb(44, 44, 44));
     color: white;
     position: fixed;      /* or relative */
     top: 0;
