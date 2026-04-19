@@ -740,7 +740,7 @@
         }
 
         .episode-stepper h3 {
-            font-size: 1.2rem;
+   font-size: 1.2rem;
             margin-bottom: 4px;
         }
 
@@ -834,6 +834,7 @@
                     <button class="btn" onclick="app.exportData()">📤 Export</button>
                     <button class="btn btn-success" onclick="app.showImportModal()">📥 Import</button>
                     <button class="btn btn-danger" onclick="app.confirmDeleteAll()">🗑️ Delete All</button>
+                 <button class="btn" onclick="window.history.back()">⬅️ Back</button>
                 </div>
             </div>
             <nav class="nav-tabs">
@@ -1171,7 +1172,7 @@
                 this.renderRanking();
                 this.renderWatching();
                 this.renderStats();
-            },
+       },
 
             renderRanking() {
                 const container = document.getElementById('ranking-container');
@@ -1514,7 +1515,7 @@
             submitEpisodeRating() {
                 const score = this.calcEpisodeScore();
                 this.currentRateEpisodes.push(score);
-                this.currentRateEpisodeIndex++;
+               this.currentRateEpisodeIndex++;
 
                 const anime = this.currentlyWatching[this.currentRateIndex];
 
