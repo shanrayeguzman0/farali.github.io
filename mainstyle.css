@@ -491,7 +491,7 @@ border: solid rgba(0, 0, 0, 0.479);
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
 
 .share-post-container {
-  background-color: #0f0c16;
+  background-color: #14101d;
   border: 1px solid #000000; /* Soft border */
   border-radius: 12px;
   padding: 20px;
@@ -521,7 +521,7 @@ border: solid rgba(0, 0, 0, 0.479);
   display: block; 
   width: 100%; /* Fills the whole width of the container */
   padding: 12px 20px; 
-  background-color:  #0c0c14; /* Primary blue */
+  background-color:  #25253f; /* Primary blue */
   color: #ffffff; 
   text-align: center;
   text-decoration: none; 
@@ -645,7 +645,7 @@ border: solid rgba(0, 0, 0, 0.479);
     width: 100%;
     max-width: 600px;
     display: flex;
-    border: 2px solid #333;
+    border: 2px solid #141125;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -668,7 +668,7 @@ border: solid rgba(0, 0, 0, 0.479);
 .search-box button {
     padding: 12px 20px;
     border: none;
-    background: #333;
+    background: #0c0d1f;
     color: white;
     cursor: pointer;
 }
