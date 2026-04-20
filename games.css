@@ -176,7 +176,7 @@ color: white;
 .game-card {
     display: flex;
     align-items: center;
-    background:  #07070e;
+    background: linear-gradient(to right, #1a1a33, #07070e);
     padding: 12px;
     border-radius: 14px;
     transition: 0.3s;
