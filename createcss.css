@@ -176,7 +176,7 @@ color: white;
 .game-card {
     display: flex;
     align-items: center;
-    background: #1c1c1c;
+    background:  #07070e;
     padding: 12px;
     border-radius: 14px;
     transition: 0.3s;
@@ -184,7 +184,7 @@ color: white;
 
 /* Hover effect */
 .game-card:hover {
-    background: #ffffff;
+    background: #c0c0ff;
     color: #000;
     transform: scale(1.02);
 }
