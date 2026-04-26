@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6 ">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Rank List</title>
@@ -607,6 +607,10 @@
             animation: modalSlide 0.3s ease;
         }
 
+        .modal-sm {
+            max-width: 420px;
+        }
+
         @keyframes modalSlide {
             from { opacity: 0; transform: scale(0.95) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -734,6 +738,46 @@
             gap: 10px;
         }
 
+        /* Edit Choice Buttons */
+        .edit-choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .edit-choice-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .edit-choice-btn:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .edit-choice-btn .choice-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .edit-choice-btn .choice-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .edit-choice-btn .choice-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
         /* Episode Rating Steps */
         .episode-stepper {
             text-align: center;
@@ -741,7 +785,7 @@
         }
 
         .episode-stepper h3 {
-   font-size: 1.2rem;
+            font-size: 1.2rem;
             margin-bottom: 4px;
         }
 
@@ -806,6 +850,9 @@
             .score-grid {
                 grid-template-columns: 1fr;
             }
+            .edit-choice-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Scrollbar */
@@ -830,18 +877,18 @@
     <div class="app-container">
         <header>
             <div class="header-top">
-                <div class="logo">✨ Anime Rank List</div>
+                <div class="logo">&#10024; Anime Rank List</div>
                 <div class="header-actions">
-                    <button class="btn" onclick="app.exportData()">📤 Export</button>
-                    <button class="btn btn-success" onclick="app.showImportModal()">📥 Import</button>
-                    <button class="btn btn-danger" onclick="app.confirmDeleteAll()">🗑️ Delete All</button>
-                 <button class="btn" onclick="window.history.back()">⬅️ Back</button>
+                    <button class="btn" onclick="app.exportData()">&#128228; Export</button>
+                    <button class="btn btn-success" onclick="app.showImportModal()">&#128229; Import</button>
+                    <button class="btn btn-danger" onclick="app.confirmDeleteAll()">&#128465; Delete All</button>
+                    <button class="btn" onclick="window.history.back()">&#11013; Back</button>
                 </div>
             </div>
             <nav class="nav-tabs">
-                <button class="nav-tab active" onclick="app.switchView('ranking')">🏆 Ranking List</button>
-                <button class="nav-tab" onclick="app.switchView('watching')">📺 Currently Watching</button>
-                <button class="nav-tab" onclick="app.switchView('stats')">📊 Statistics</button>
+                <button class="nav-tab active" onclick="app.switchView('ranking')">&#127942; Ranking List</button>
+                <button class="nav-tab" onclick="app.switchView('watching')">&#128250; Currently Watching</button>
+                <button class="nav-tab" onclick="app.switchView('stats')">&#128202; Statistics</button>
             </nav>
         </header>
 
@@ -993,6 +1040,10 @@
                         <input type="text" class="form-input" id="rate-genre" placeholder="e.g. Action, Fantasy">
                     </div>
                     <div class="form-group">
+                        <label class="form-label">Animation Studio</label>
+                        <input type="text" class="form-input" id="rate-studio" placeholder="e.g. Kyoto Animation">
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Finish Date</label>
                         <input type="text" class="form-input" id="rate-finish-date" readonly>
                     </div>
@@ -1006,7 +1057,68 @@
         </div>
     </div>
 
-    <!-- Edit Modal -->
+    <!-- Edit Choice Modal -->
+    <div class="modal-overlay" id="edit-choice-modal">
+        <div class="modal modal-sm">
+            <div class="modal-header">
+                <div class="modal-title" id="edit-choice-title">Edit Anime</div>
+                <button class="modal-close" onclick="app.closeModal('edit-choice-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: 20px; text-align: center;">Choose what you want to edit</p>
+                <div class="edit-choice-grid">
+                    <button class="edit-choice-btn" onclick="app.openEditInfo()">
+                        <div class="choice-icon">&#128221;</div>
+                        <div class="choice-title">Edit Info</div>
+                        <div class="choice-desc">Name, genre, studio, year, dates</div>
+                    </button>
+                    <button class="edit-choice-btn" onclick="app.openEditScore()">
+                        <div class="choice-icon">&#10024;</div>
+                        <div class="choice-title">Re-score</div>
+                        <div class="choice-desc">Re-edit all scoring criteria</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Info Modal -->
+    <div class="modal-overlay" id="edit-info-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Edit Anime Info</div>
+                <button class="modal-close" onclick="app.closeModal('edit-info-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Anime Name</label>
+                    <input type="text" class="form-input" id="edit-info-name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Release Year</label>
+                    <input type="number" class="form-input" id="edit-info-year" min="1900" max="2099">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Genre</label>
+                    <input type="text" class="form-input" id="edit-info-genre">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Animation Studio</label>
+                    <input type="text" class="form-input" id="edit-info-studio">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Watch Period</label>
+                    <input type="text" class="form-input" id="edit-info-period">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="app.closeModal('edit-info-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="app.saveEditInfo()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Score (Re-score) Modal -->
     <div class="modal-overlay" id="edit-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1129,6 +1241,8 @@
             currentRateEpisodes: [],
             currentRateEpisodeIndex: 0,
             currentRateTotalEpisodes: 0,
+            currentRateOpScores: [],
+            currentRateEdScores: [],
             editingIndex: null,
 
             init() {
@@ -1145,6 +1259,12 @@
                         const parsed = JSON.parse(data);
                         this.animeList = parsed.animeList || [];
                         this.currentlyWatching = parsed.currentlyWatching || [];
+                        // Migrate old data: add studio, opScore, edScore if missing
+                        this.animeList.forEach(a => {
+                            if (a.studio === undefined) a.studio = '';
+                            if (a.opScore === undefined) a.opScore = 0;
+                            if (a.edScore === undefined) a.edScore = 0;
+                        });
                     } catch (e) {
                         console.error('Failed to load data', e);
                     }
@@ -1155,7 +1275,7 @@
                 localStorage.setItem('animeRank_data', JSON.stringify({
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
-                    version: 1
+                    version: 2
                 }));
             },
 
@@ -1173,14 +1293,14 @@
                 this.renderRanking();
                 this.renderWatching();
                 this.renderStats();
-       },
+            },
 
             renderRanking() {
                 const container = document.getElementById('ranking-container');
                 if (this.animeList.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state">
-                            <div class="empty-state-icon">🏆</div>
+                            <div class="empty-state-icon">&#127942;</div>
                             <h3>No ranked anime yet</h3>
                             <p>Finish watching some anime to see them ranked here</p>
                         </div>
@@ -1192,12 +1312,12 @@
                 const sorted = [...this.animeList].sort((a, b) => b.rating - a.rating);
 
                 const tiers = [
-                    { key: 'golden', label: '👑 GOLDEN PIECE OF ANIME', range: [90, 100], color: 'var(--golden)' },
-                    { key: 'peak', label: '🔥 PEAK ANIME', range: [80, 90], color: 'var(--peak)' },
-                    { key: 'remarkable', label: '✨ REMARKABLE ANIME', range: [75, 80], color: 'var(--remarkable)' },
-                    { key: 'good', label: '👍 GOOD ANIME', range: [70, 75], color: 'var(--good)' },
-                    { key: 'bad', label: '⚠️ BAD ANIME', range: [60, 70], color: 'var(--bad)' },
-                    { key: 'worst', label: '💀 WORST ANIME', range: [0, 60], color: 'var(--worst)' }
+                    { key: 'golden', label: '&#128081; GOLDEN PIECE OF ANIME', range: [90, 100], color: 'var(--golden)' },
+                    { key: 'peak', label: '&#128293; PEAK ANIME', range: [80, 90], color: 'var(--peak)' },
+                    { key: 'remarkable', label: '&#10024; REMARKABLE ANIME', range: [75, 80], color: 'var(--remarkable)' },
+                    { key: 'good', label: '&#128077; GOOD ANIME', range: [70, 75], color: 'var(--good)' },
+                    { key: 'bad', label: '&#9888; BAD ANIME', range: [60, 70], color: 'var(--bad)' },
+                    { key: 'worst', label: '&#128128; WORST ANIME', range: [0, 60], color: 'var(--worst)' }
                 ];
 
                 let html = '';
@@ -1213,26 +1333,30 @@
                             <div class="tier-header" onclick="app.toggleTier('tier-${tier.key}')">
                                 <span>${tier.label}</span>
                                 <span style="color: var(--text-muted); font-size: 0.85rem; margin-left: 8px;">(${items.length})</span>
-                                <span class="toggle-icon">▼</span>
+                                <span class="toggle-icon">&#9660;</span>
                             </div>
                             <div class="tier-content">
                                 ${items.length === 0 ? '<div class="tier-empty">None</div>' : ''}
                                 ${items.map((anime, idx) => {
                                     const globalRank = sorted.indexOf(anime) + 1;
+                                    const studioDisplay = anime.studio ? ` &#127909; ${this.escapeHtml(anime.studio)}` : '';
                                     return `
                                         <div class="anime-card">
                                             <div class="anime-rank">#${globalRank}</div>
                                             <div class="anime-title">${this.escapeHtml(anime.name)}</div>
                                             <div class="anime-score">${anime.rating.toFixed(2)}</div>
                                             <div class="anime-meta">
-                                                <span>📆 ${anime.releaseYear}</span>
-                                                <span>🎭 ${this.escapeHtml(anime.genre)}</span>
-                                                <span>🎬 ${anime.episodesRated} ep</span>
+                                                <span>&#128197; ${anime.releaseYear}</span>
+                                                <span>&#127917; ${this.escapeHtml(anime.genre)}</span>
+                                                <span>&#127909; ${anime.episodesRated} ep</span>
                                             </div>
-                                            <div class="anime-period">🕒 ${this.escapeHtml(anime.watchPeriod)}</div>
+                                            <div class="anime-meta" style="margin-top: 6px;">
+                                                <span>&#127970; ${this.escapeHtml(anime.studio || 'Unknown Studio')}</span>
+                                            </div>
+                                            <div class="anime-period">&#128336; ${this.escapeHtml(anime.watchPeriod)}</div>
                                             <div class="card-actions">
-                                                <button class="btn" onclick="app.showEditModal(${this.animeList.indexOf(anime)})">✏️ Edit</button>
-                                                <button class="btn btn-danger" onclick="app.deleteAnime(${this.animeList.indexOf(anime)})">🗑️ Delete</button>
+                                                <button class="btn" onclick="app.showEditChoiceModal(${this.animeList.indexOf(anime)})">&#9999; Edit</button>
+                                                <button class="btn btn-danger" onclick="app.deleteAnime(${this.animeList.indexOf(anime)})">&#128465; Delete</button>
                                             </div>
                                         </div>
                                     `;
@@ -1250,7 +1374,7 @@
                 if (this.currentlyWatching.length === 0) {
                     container.innerHTML = `
                         <div class="empty-state" style="grid-column: 1/-1;">
-                            <div class="empty-state-icon">📺</div>
+                            <div class="empty-state-icon">&#128250;</div>
                             <h3>Not watching anything</h3>
                             <p>Add an anime to start tracking your progress</p>
                         </div>
@@ -1272,8 +1396,8 @@
                                 <span>${progress.toFixed(0)}%</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-primary" onclick="app.showRateModal(${idx})">⭐ Rate Episodes</button>
-                                <button class="btn btn-danger" onclick="app.deleteWatching(${idx})">🗑️ Delete</button>
+                                <button class="btn btn-primary" onclick="app.showRateModal(${idx})">&#11088; Rate Episodes</button>
+                                <button class="btn btn-danger" onclick="app.deleteWatching(${idx})">&#128465; Delete</button>
                             </div>
                         </div>
                     `;
@@ -1316,6 +1440,12 @@
                 const topAnime = sorted[0];
                 const bottomAnime = sorted[sorted.length - 1];
 
+                // Best Opening and Best ED
+                const sortedByOp = [...this.animeList].sort((a, b) => (b.opScore || 0) - (a.opScore || 0));
+                const sortedByEd = [...this.animeList].sort((a, b) => (b.edScore || 0) - (a.edScore || 0));
+                const bestOpAnime = sortedByOp[0];
+                const bestEdAnime = sortedByEd[0];
+
                 container.innerHTML = `
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -1341,7 +1471,7 @@
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">📊 Tier Distribution</div>
+                        <div class="chart-title">&#128202; Tier Distribution</div>
                         <div class="bar-chart">
                             ${tiers.map(t => `
                                 <div class="bar-item">
@@ -1359,7 +1489,7 @@
 
                     ${sortedGenres.length > 0 ? `
                         <div class="chart-container">
-                            <div class="chart-title">🎭 Top Genres</div>
+                            <div class="chart-title">&#127917; Top Genres</div>
                             <div class="genre-tags">
                                 ${sortedGenres.map(([genre, count]) => `
                                     <span class="genre-tag">${this.escapeHtml(genre)} (${count})</span>
@@ -1371,17 +1501,44 @@
                     ${topAnime ? `
                         <div class="stats-grid">
                             <div class="stat-card">
-                                <div class="stat-label">🏆 Highest Rated</div>
+                                <div class="stat-label">&#127942; Highest Rated</div>
                                 <div style="font-size: 1.1rem; font-weight: 700; margin: 8px 0;">${this.escapeHtml(topAnime.name)}</div>
                                 <div class="stat-value" style="font-size: 1.5rem;">${topAnime.rating.toFixed(2)}</div>
                             </div>
                             ${bottomAnime && bottomAnime !== topAnime ? `
                                 <div class="stat-card">
-                                    <div class="stat-label">📉 Lowest Rated</div>
+                                    <div class="stat-label">&#128201; Lowest Rated</div>
                                     <div style="font-size: 1.1rem; font-weight: 700; margin: 8px 0;">${this.escapeHtml(bottomAnime.name)}</div>
                                     <div class="stat-value" style="font-size: 1.5rem;">${bottomAnime.rating.toFixed(2)}</div>
                                 </div>
                             ` : ''}
+                        </div>
+                    ` : ''}
+
+                    ${bestOpAnime && (bestOpAnime.opScore || 0) > 0 ? `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">&#127925; Best Opening</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; margin: 8px 0;">${this.escapeHtml(bestOpAnime.name)}</div>
+                                <div class="stat-value" style="font-size: 1.5rem;">${(bestOpAnime.opScore || 0).toFixed(2)}</div>
+                            </div>
+                            ${bestEdAnime && (bestEdAnime.edScore || 0) > 0 && bestEdAnime !== bestOpAnime ? `
+                                <div class="stat-card">
+                                    <div class="stat-label">&#127926; Best ED</div>
+                                    <div style="font-size: 1.1rem; font-weight: 700; margin: 8px 0;">${this.escapeHtml(bestEdAnime.name)}</div>
+                                    <div class="stat-value" style="font-size: 1.5rem;">${(bestEdAnime.edScore || 0).toFixed(2)}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+
+                    ${bestEdAnime && (bestEdAnime.edScore || 0) > 0 && bestOpAnime && bestEdAnime === bestOpAnime ? `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">&#127926; Best ED</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; margin: 8px 0;">${this.escapeHtml(bestEdAnime.name)}</div>
+                                <div class="stat-value" style="font-size: 1.5rem;">${(bestEdAnime.edScore || 0).toFixed(2)}</div>
+                            </div>
                         </div>
                     ` : ''}
                 `;
@@ -1412,6 +1569,8 @@
             showRateModal(index) {
                 this.currentRateIndex = index;
                 this.currentRateEpisodes = [];
+                this.currentRateOpScores = [];
+                this.currentRateEdScores = [];
                 this.currentRateEpisodeIndex = 0;
                 document.getElementById('rate-episode-count').value = '1';
                 document.getElementById('rate-step-select').classList.remove('hidden');
@@ -1422,14 +1581,60 @@
                 this.showModal('rate-modal');
             },
 
-            showEditModal(index) {
+            // Edit Choice Modal - NEW
+            showEditChoiceModal(index) {
                 this.editingIndex = index;
                 const anime = this.animeList[index];
+                document.getElementById('edit-choice-title').textContent = `Edit: ${anime.name}`;
+                this.showModal('edit-choice-modal');
+            },
+
+            // Open Edit Info Modal - NEW
+            openEditInfo() {
+                this.closeModal('edit-choice-modal');
+                const anime = this.animeList[this.editingIndex];
+                document.getElementById('edit-info-name').value = anime.name;
+                document.getElementById('edit-info-year').value = anime.releaseYear;
+                document.getElementById('edit-info-genre').value = anime.genre;
+                document.getElementById('edit-info-studio').value = anime.studio || '';
+                document.getElementById('edit-info-period').value = anime.watchPeriod;
+                this.showModal('edit-info-modal');
+            },
+
+            // Open Edit Score Modal (existing)
+            openEditScore() {
+                this.closeModal('edit-choice-modal');
+                const anime = this.animeList[this.editingIndex];
                 document.getElementById('edit-title').textContent = anime.name;
                 // Reset edit inputs
                 document.querySelectorAll('[id^="ed-"]').forEach(el => el.value = '0');
                 document.getElementById('ed-preview').textContent = '0.00';
                 this.showModal('edit-modal');
+            },
+
+            // Save Edit Info - NEW
+            saveEditInfo() {
+                const name = document.getElementById('edit-info-name').value.trim();
+                const year = parseInt(document.getElementById('edit-info-year').value);
+                const genre = document.getElementById('edit-info-genre').value.trim();
+                const studio = document.getElementById('edit-info-studio').value.trim();
+                const period = document.getElementById('edit-info-period').value.trim();
+
+                if (!name) { this.showToast('Please enter anime name', 'error'); return; }
+                if (!year || year < 1900 || year > 2100) { this.showToast('Invalid release year', 'error'); return; }
+                if (!genre) { this.showToast('Please enter a genre', 'error'); return; }
+
+                const anime = this.animeList[this.editingIndex];
+                anime.name = name;
+                anime.releaseYear = year;
+                anime.genre = genre;
+                anime.studio = studio;
+                anime.watchPeriod = period;
+
+                this.save();
+                this.render();
+                this.closeModal('edit-info-modal');
+                this.showToast('Anime info updated successfully');
             },
 
             showImportModal() {
@@ -1471,6 +1676,8 @@
                 this.currentRateTotalEpisodes = count;
                 this.currentRateEpisodeIndex = 0;
                 this.currentRateEpisodes = [];
+                this.currentRateOpScores = [];
+                this.currentRateEdScores = [];
 
                 document.getElementById('rate-step-select').classList.add('hidden');
                 document.getElementById('rate-step-rate').classList.remove('hidden');
@@ -1502,6 +1709,14 @@
                 return story + animation + music + voice + experience + characters;
             },
 
+            getEpisodeOpScore() {
+                return parseFloat(document.getElementById('rs-op')?.value) || 0;
+            },
+
+            getEpisodeEdScore() {
+                return parseFloat(document.getElementById('rs-ed')?.value) || 0;
+            },
+
             calcEditScore() {
                 const get = id => parseFloat(document.getElementById(id)?.value) || 0;
                 const story = get('ed-story') + get('ed-ending') + get('ed-clarity');
@@ -1513,10 +1728,22 @@
                 return story + animation + music + voice + experience + characters;
             },
 
+            getEditOpScore() {
+                return parseFloat(document.getElementById('ed-op')?.value) || 0;
+            },
+
+            getEditEdScore() {
+                return parseFloat(document.getElementById('ed-ed')?.value) || 0;
+            },
+
             submitEpisodeRating() {
                 const score = this.calcEpisodeScore();
+                const opScore = this.getEpisodeOpScore();
+                const edScore = this.getEpisodeEdScore();
                 this.currentRateEpisodes.push(score);
-               this.currentRateEpisodeIndex++;
+                this.currentRateOpScores.push(opScore);
+                this.currentRateEdScores.push(edScore);
+                this.currentRateEpisodeIndex++;
 
                 const anime = this.currentlyWatching[this.currentRateIndex];
 
@@ -1536,6 +1763,7 @@
                         document.getElementById('rate-finish-btn').classList.remove('hidden');
                         document.getElementById('rate-year').value = new Date().getFullYear();
                         document.getElementById('rate-genre').value = '';
+                        document.getElementById('rate-studio').value = '';
                         document.getElementById('rate-finish-date').value = this.getFormattedToday();
                     } else {
                         this.save();
@@ -1553,12 +1781,15 @@
                 const anime = this.currentlyWatching[this.currentRateIndex];
                 const year = parseInt(document.getElementById('rate-year').value);
                 const genre = document.getElementById('rate-genre').value.trim();
+                const studio = document.getElementById('rate-studio').value.trim();
                 const finishDate = document.getElementById('rate-finish-date').value;
 
                 if (!year || year < 1900 || year > 2100) { this.showToast('Invalid release year', 'error'); return; }
                 if (!genre) { this.showToast('Please enter a genre', 'error'); return; }
 
                 const rating = anime.totalEpisodeScore / anime.totalEpisodes;
+                const avgOpScore = this.currentRateOpScores.reduce((a, b) => a + b, 0) / this.currentRateOpScores.length;
+                const avgEdScore = this.currentRateEdScores.reduce((a, b) => a + b, 0) / this.currentRateEdScores.length;
 
                 this.animeList.push({
                     name: anime.name,
@@ -1567,7 +1798,10 @@
                     rating: rating,
                     releaseYear: year,
                     genre: genre,
-                    watchPeriod: anime.startDate + ' - ' + finishDate
+                    studio: studio,
+                    watchPeriod: anime.startDate + ' - ' + finishDate,
+                    opScore: avgOpScore,
+                    edScore: avgEdScore
                 });
 
                 this.currentlyWatching.splice(this.currentRateIndex, 1);
@@ -1579,6 +1813,8 @@
 
             saveEdit() {
                 const score = this.calcEditScore();
+                const opScore = this.getEditOpScore();
+                const edScore = this.getEditEdScore();
                 const old = this.animeList[this.editingIndex];
 
                 this.animeList[this.editingIndex] = {
@@ -1588,13 +1824,16 @@
                     rating: score,
                     releaseYear: old.releaseYear,
                     genre: old.genre,
-                    watchPeriod: old.watchPeriod
+                    studio: old.studio || '',
+                    watchPeriod: old.watchPeriod,
+                    opScore: opScore,
+                    edScore: edScore
                 };
 
                 this.save();
                 this.render();
                 this.closeModal('edit-modal');
-                this.showToast('Anime updated successfully');
+                this.showToast('Anime re-scored successfully');
             },
 
             deleteAnime(index) {
@@ -1631,7 +1870,7 @@
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
                     exportedAt: new Date().toISOString(),
-                    version: 1
+                    version: 2
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -1659,6 +1898,12 @@
                         }
                         this.animeList = data.animeList;
                         this.currentlyWatching = data.currentlyWatching;
+                        // Migrate imported data
+                        this.animeList.forEach(a => {
+                            if (a.studio === undefined) a.studio = '';
+                            if (a.opScore === undefined) a.opScore = 0;
+                            if (a.edScore === undefined) a.edScore = 0;
+                        });
                         this.save();
                         this.render();
                         this.closeModal('import-modal');
