@@ -198,7 +198,13 @@ function searchPage() {
         "games": "games.html",
         "post": "post.html",
         "about me": "about.html",
-        "info": "aboutfarali.html"
+        "info": "aboutfarali.html",
+"ranker lister": "create.html",
+"rank": "create.html",
+"ranking": "create.html",
+"rank anime": "arl.html",
+"anime ranker lister": "arl.html"
+
     };
 
     // 🎉 Easter Egg
