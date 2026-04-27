@@ -186,67 +186,39 @@ allPosts.forEach((post, index) => {
 
 
 
-const pages = {
-    "chat area": "chat.html",
-    "contact us": "contactus.html",
-    "games": "games.html",
-    "post": "post.html",
-    "about me": "about.html",
-    "info": "aboutfarali.html",
-    "ranker lister": "create.html",
-    "rank": "create.html",
-    "ranking": "create.html",
-    "rank anime": "arl.html",
-    "anime ranker lister": "arl.html"
-};
-
-function showSuggestions() {
-    let input = document.getElementById("searchInput").value.toLowerCase().trim();
-    let suggestionBox = document.getElementById("suggestions");
-    
-    suggestionBox.innerHTML = ""; // Clear previous results
-
-    if (input.length === 0) {
-        suggestionBox.style.display = "none";
-        return;
-    }
-
-    // Filter keys that include the user's input
-    let matches = Object.keys(pages).filter(key => key.includes(input));
-
-    if (matches.length > 0) {
-        suggestionBox.style.display = "block";
-        matches.forEach(match => {
-            let div = document.createElement("div");
-            div.classList.add("suggestion-item");
-            div.textContent = match;
-            // When user clicks a suggestion
-            div.onclick = function() {
-                document.getElementById("searchInput").value = match;
-                suggestionBox.style.display = "none";
-                searchPage(); // Automatically go to page
-            };
-            suggestionBox.appendChild(div);
-        });
-    } else {
-        suggestionBox.style.display = "none";
-    }
-}
-
 function searchPage() {
     let input = document.getElementById("searchInput").value.toLowerCase().trim();
     let message = document.getElementById("message");
+    
 
+    // Pages map
+    let pages = {
+        "chat area": "chat.html",
+        "contact us": "contactus.html",
+        "games": "games.html",
+        "post": "post.html",
+        "about me": "about.html",
+        "info": "aboutfarali.html",
+"ranker lister": "create.html",
+"rank": "create.html",
+"ranking": "create.html",
+"rank anime": "arl.html",
+"anime ranker lister": "arl.html"
+
+    };
+
+    // 🎉 Easter Egg
+    if (input === "ilovefarali2026") {
+        message.style.color = "green";
+        message.textContent = "🎉 Congratulations! You found the easter egg!";
+        return;
+    }
+
+    // Normal search
     if (pages[input]) {
         window.location.href = pages[input];
     } else {
-        message.textContent = "No page found for: " + input;
+        message.style.color = "red";
+        message.textContent = "No search found";
     }
 }
-
-// Close suggestions if user clicks outside
-document.addEventListener("click", function(e) {
-    if (e.target.id !== "searchInput") {
-        document.getElementById("suggestions").style.display = "none";
-    }
-});

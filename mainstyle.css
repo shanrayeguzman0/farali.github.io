@@ -541,41 +541,7 @@ border: solid rgba(0, 0, 0, 0.479);
 .btn-pahaba:active {
   transform: scale(0.98); /* Slight click shrink effect */
 }
-/* Ensure the parent doesn't let the child escape */
-.search-box {
-  position: relative; 
-  width: 100%;
-}
 
-.suggestion-box {
-  position: absolute; /* Floats over other elements */
-  top: 100%;          /* Appears exactly below the input */
-  left: 0;
-  right: 0;
-  z-index: 1000;      /* Stays on top of everything else */
-  
-  background-color: #151524;
-  border: 1px solid #333;
-  border-radius: 8px;
-  margin-top: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-  display: none;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.5); /* Adds depth */
-}
-
-.suggestion-item {
-  padding: 12px 15px;
-  color: #ffffff;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
-  border-bottom: 1px solid #07070e;
-}
-
-.suggestion-item:hover {
-  background-color: #ffffff;
-  color: #000000;
-}
 :root {
             --gma-red: #ff3b3b;
             --bg-dark: #080808;
