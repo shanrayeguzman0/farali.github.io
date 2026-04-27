@@ -114,13 +114,21 @@ background: rgb(53, 52, 52);
 </div>
 <h2 style="text-align: center;">Farali Official Website</h2>
 <div class="share-post-container">
-    <h2 class="share-post-title">Search Pages</h2>
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Type to search..." oninput="showSuggestions()">
-        <button class="btn-pahaba" style="margin-top: 10px;" onclick="searchPage()">Search</button>
-        <div id="suggestions" class="suggestion-box"></div>
-    </div>
-    <p id="message" style="color: white; margin-top: 10px;"></p>
+  <h2 class="share-post-title">Search</h2>
+  
+  <div class="search-box">
+    <input type="text" id="searchInput" class="btn-pahaba" 
+           style="text-align: left; background-color: #07070e; border: 1px solid #333;" 
+           placeholder="Search here..." oninput="showSuggestions()">
+    
+    <div id="suggestions" class="suggestion-box"></div>
+  </div>
+
+  <button class="btn-pahaba" style="margin-top: 10px;" onclick="searchPage()">
+    Search
+  </button>
+  
+  <p id="message" style="color: gray; font-size: 13px; margin-top: 10px;"></p>
 </div>
 
 <div id="message"></div>
