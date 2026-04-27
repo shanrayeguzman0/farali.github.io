@@ -541,6 +541,32 @@ border: solid rgba(0, 0, 0, 0.479);
 .btn-pahaba:active {
   transform: scale(0.98); /* Slight click shrink effect */
 }
+.suggestion-box {
+    background-color: #151524;
+    border: 1px solid #333;
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none; /* Hidden by default */
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    border-bottom: 1px solid #07070e;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
 
 :root {
             --gma-red: #ff3b3b;

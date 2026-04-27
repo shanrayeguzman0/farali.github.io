@@ -186,39 +186,67 @@ allPosts.forEach((post, index) => {
 
 
 
-function searchPage() {
+const pages = {
+    "chat area": "chat.html",
+    "contact us": "contactus.html",
+    "games": "games.html",
+    "post": "post.html",
+    "about me": "about.html",
+    "info": "aboutfarali.html",
+    "ranker lister": "create.html",
+    "rank": "create.html",
+    "ranking": "create.html",
+    "rank anime": "arl.html",
+    "anime ranker lister": "arl.html"
+};
+
+function showSuggestions() {
     let input = document.getElementById("searchInput").value.toLowerCase().trim();
-    let message = document.getElementById("message");
+    let suggestionBox = document.getElementById("suggestions");
     
+    suggestionBox.innerHTML = ""; // Clear previous results
 
-    // Pages map
-    let pages = {
-        "chat area": "chat.html",
-        "contact us": "contactus.html",
-        "games": "games.html",
-        "post": "post.html",
-        "about me": "about.html",
-        "info": "aboutfarali.html",
-"ranker lister": "create.html",
-"rank": "create.html",
-"ranking": "create.html",
-"rank anime": "arl.html",
-"anime ranker lister": "arl.html"
-
-    };
-
-    // 🎉 Easter Egg
-    if (input === "ilovefarali2026") {
-        message.style.color = "green";
-        message.textContent = "🎉 Congratulations! You found the easter egg!";
+    if (input.length === 0) {
+        suggestionBox.style.display = "none";
         return;
     }
 
-    // Normal search
+    // Filter keys that include the user's input
+    let matches = Object.keys(pages).filter(key => key.includes(input));
+
+    if (matches.length > 0) {
+        suggestionBox.style.display = "block";
+        matches.forEach(match => {
+            let div = document.createElement("div");
+            div.classList.add("suggestion-item");
+            div.textContent = match;
+            // When user clicks a suggestion
+            div.onclick = function() {
+                document.getElementById("searchInput").value = match;
+                suggestionBox.style.display = "none";
+                searchPage(); // Automatically go to page
+            };
+            suggestionBox.appendChild(div);
+        });
+    } else {
+        suggestionBox.style.display = "none";
+    }
+}
+
+function searchPage() {
+    let input = document.getElementById("searchInput").value.toLowerCase().trim();
+    let message = document.getElementById("message");
+
     if (pages[input]) {
         window.location.href = pages[input];
     } else {
-        message.style.color = "red";
-        message.textContent = "No search found";
+        message.textContent = "No page found for: " + input;
     }
 }
+
+// Close suggestions if user clicks outside
+document.addEventListener("click", function(e) {
+    if (e.target.id !== "searchInput") {
+        document.getElementById("suggestions").style.display = "none";
+    }
+});
