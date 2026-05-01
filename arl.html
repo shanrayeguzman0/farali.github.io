@@ -540,6 +540,13 @@
             padding: 24px;
             margin-bottom: 24px;
         }
+         .tutorial-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
 
         .chart-title {
             font-size: 1.1rem;
@@ -1047,6 +1054,7 @@
                 <button class="nav-tab active" onclick="app.switchView('ranking')">&#127942; Ranking List</button>
                 <button class="nav-tab" onclick="app.switchView('watching')">&#128250; Currently Watching</button>
                 <button class="nav-tab" onclick="app.switchView('stats')">&#128202; Statistics</button>
+                    <button class="nav-tab" onclick="app.switchView('tutorial')">&#128214; How? </button>
             </nav>
         </header>
 
@@ -1068,6 +1076,32 @@
             <div id="stats-view" class="view">
                 <div id="stats-container"></div>
             </div>
+             <!-- tutorial View -->
+              <div id="tutorial-view" class="view">
+                <div id="tutorial-container">
+                    <h2 class="chart-title">How to Use Anime Rank List?</h2>
+                    <p style="color: var(--text-secondary);">Anime Rank List is a personal anime tracking and ranking tool designed to help you organize, rate, and analyze your anime watching experience. Here's a quick guide on how to use it:</p>
+                    
+                    <h3>1. Adding Anime to Your Ranking List</h3>
+                    <p style="color: var(--text-secondary);">To add an anime to your ranking list, click the "Add Anime" button in the header. Fill in the anime's name, total episodes, release year, and optionally upload a cover image. Once added, you can rate the anime based on various criteria.</p>
+                    
+                    <h3>2. Rating Anime</h3>
+                    <p style="color: var(--text-secondary);">Click on any anime in your ranking list to open the rating modal. Here you can rate different aspects of the anime such as storyline, dialogues, art style, and more. The overall score will be calculated based on your ratings.</p>
+                    
+                    <h3>3. Managing Your Currently Watching List</h3>
+                    <p style="color: var(--text-secondary);">Switch to the "Currently Watching" tab to manage the anime you're currently watching. You can add new anime to this list, update your progress, and rate episodes as you watch them.</p>
+                    
+                    <h3>4. Viewing Statistics</h3>
+                    <p style="color: var(--text-secondary);">The "Statistics" tab provides insights into your anime watching habits, including average scores, genre distribution, and more. Use this data to discover trends in your preferences.</p>
+                    
+                    <h3>5. Exporting and Importing Data</h3>
+                    <p style="color: var(--text-secondary);">You can export your entire ranking list and currently watching list as a JSON file for backup or sharing purposes. To import data, click the "Import" button and select a previously exported JSON file.</p>
+                    
+                    <h3>6. Deleting Data</h3>
+                    <p style="color: var(--text-secondary);">If you want to start fresh or remove all your data, click the "Delete All" button. Please note that this action is irreversible.</p>
+
+                    <p style="color: var(--text-secondary);"> If you have any questions or need further assistance, feel free to reach out!</p>
+                </div>
         </main>
     </div>
 
