@@ -1,112 +1,123 @@
 :root {
-            --bg: #0d1117;
-            --container: #161b22;
-            --editor: #0d1117;
-            --terminal: #000000;
-            --text: #c9d1d9;
-            --java-kw: #ff7b72;
-            --java-cls: #ffa657;
-            --java-str: #a5d6ff;
-            --java-cmt: #8b949e;
-            --java-num: #79c0ff;
-            --accent: #238636;
+            --bg-color: #121212;
+            --container-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --keyword: #c678dd;
+            --string: #98c379;
+            --comment: #7f848e;
+            --class-name: #e5c07b;
+            --method: #61afef;
+            --number: #d19a66;
+            --terminal-bg: #000000;
+            --terminal-text: #00ff00;
         }
 
-        .btn {
-            padding: 12px 25px;
-            font-size: 15px;
-            font-weight: 600;
-            border: 1px solid #30363d;
-            border-radius: 6px;
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
             margin: 10px;
         }
-        #try-demo { background: #21262d; color: white; }
-        #try-demo:hover { background: #30363d; }
-        #run-btn { background: var(--accent); color: white; display: none; border: none; }
-        #run-btn:hover { background: #2ea043; }
-        #stop-btn { background: #da3633; color: white; display: none; border: none; }
 
-        /* Code Container */
-        #code-container {
-            display: none;
-            width: 100%;
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button#stopBtn {
+            background-color: #f44336;
+        }
+        button#stopBtn:hover {
+            background-color: #da190b;
+        }
+
+        #ideContainer {
+            width: 90%;
             max-width: 1000px;
-            background: var(--container);
-            border: 1px solid #30363d;
+            background-color: var(--container-bg);
             border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: none;
+            flex-direction: column;
+            margin-top: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
 
-        .code-header {
-            background: #21262d;
-            padding: 10px 20px;
+        #editorHeader {
+            background-color: #2c2c2c;
+            padding: 10px 15px;
             font-family: monospace;
-            font-size: 13px;
-            color: #8b949e;
-            border-bottom: 1px solid #30363d;
+            font-size: 14px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        #editor {
-            padding: 20px;
-            background: var(--editor);
-            overflow: auto;
-            max-height: 550px; /* Mas mataas para sa mahabang code */
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        #codeArea {
+            padding: 15px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
             font-size: 14px;
             line-height: 1.5;
             white-space: pre;
-            color: #d1d5db;
+            tab-size: 4;
+            background-color: #1e1e1e;
         }
 
-        /* Syntax Highlighting */
-        .kw { color: var(--java-kw); }
-        .cls { color: var(--java-cls); }
-        .str { color: var(--java-str); }
-        .cmt { color: var(--java-cmt); }
-        .num { color: var(--java-num); }
-
-        /* Terminal Box */
-        #terminal-box {
-            display: none;
-            width: 100%;
-            max-width: 1000px;
-            background: var(--terminal);
-            border: 2px solid #30363d;
-            border-radius: 8px;
-            margin-top: 20px;
+        #controls {
             padding: 15px;
-            box-sizing: border-box;
-            font-family: 'Consolas', monospace;
-        }
-
-        #terminal-output {
-            height: 400px;
-            overflow-y: auto;
-            color: #00ff00;
-            white-space: pre-wrap;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .terminal-input-row {
+            background-color: #252526;
             display: flex;
-            align-items: center;
-            border-top: 1px solid #222;
-            padding-top: 10px;
+            gap: 10px;
+            border-top: 1px solid #444;
         }
 
-        #command-line {
+        #terminalContainer {
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            height: 350px;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            overflow-y: auto;
+            display: none;
+            flex-direction: column;
+        }
+
+        #terminalOutput {
+            white-space: pre-wrap;
+            margin-bottom: 5px;
+        }
+
+        #terminalInputArea {
+            display: flex;
+        }
+
+        #terminalInput {
             background: transparent;
             border: none;
-            color: white;
-            outline: none;
-            flex: 1;
+            color: var(--terminal-text);
             font-family: inherit;
-            font-size: 14px;
+            font-size: inherit;
+            flex-grow: 1;
+            outline: none;
         }
+
+        /* Syntax Highlighting Classes */
+        .kw { color: var(--keyword); }
+        .str { color: var(--string); }
+        .com { color: var(--comment); font-style: italic; }
+        .cls { color: var(--class-name); }
+        .mth { color: var(--method); }
+        .num { color: var(--number); }
+
 /* ===== BODY ===== */
 body {
     margin: 0;

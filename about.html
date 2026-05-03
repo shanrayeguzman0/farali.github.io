@@ -118,525 +118,23 @@ border: solid rgba(0, 0, 0, 0.479);
 &#8226; Calculator app <br>
 &#8226; Individual defense website (1st website project) <br>
 &#8226; AnimeRankerLister <br>
-<button id="try-demo" class="btn">Try Demo</button>
-
-    <div id="code-container">
-        <div class="code-header">AnimeRankList.java</div>
-        <div id="editor"><!-- BUONG JAVA CODE MO ISINALPAK DITO -->
-<span class="kw">import</span> java.io.*;
-<span class="kw">import</span> java.util.*;
-
-<span class="cmt">// ================= WATCHING CLASS =================</span>
-<span class="kw">class</span> <span class="cls">WatchingAnime</span> {
-    String name;
-    String startDate;
-    <span class="kw">int</span> currentEpisode;   <span class="cmt">// how many episodes rated so far</span>
-    <span class="kw">int</span> totalEpisodes;    <span class="cmt">// total episodes</span>
-    <span class="kw">double</span> totalEpisodeScore; <span class="cmt">// sum of episode scores</span>
-
-    <span class="kw">public</span> <span class="cls">WatchingAnime</span>(String name, String startDate, <span class="kw">int</span> totalEpisodes) {
-        <span class="kw">this</span>.name = name;
-        <span class="kw">this</span>.startDate = startDate;
-        <span class="kw">this</span>.totalEpisodes = totalEpisodes;
-        <span class="kw">this</span>.currentEpisode = <span class="num">0</span>;
-        <span class="kw">this</span>.totalEpisodeScore = <span class="num">0</span>;
-    }
-
-    <span class="kw">public double</span> getAverageScore() {
-        <span class="kw">return</span> currentEpisode == <span class="num">0</span> ? <span class="num">0</span> : totalEpisodeScore / currentEpisode;
-    }
-}
-
-<span class="cmt">// ================= ANIME CLASS =================</span>
-<span class="kw">class</span> <span class="cls">Anime</span> <span class="kw">implements</span> <span class="cls">Comparable</span>&lt;<span class="cls">Anime</span>&gt; {
-    String name, genre, watchPeriod;
-    <span class="kw">double</span> totalEpisodeScore;
-    <span class="kw">int</span> episodesRated;
-    <span class="kw">double</span> rating;
-    <span class="kw">int</span> releaseYear;
-
-    <span class="kw">public</span> <span class="cls">Anime</span>(String name,
-                 <span class="kw">double</span> totalEpisodeScore, <span class="kw">int</span> episodesRated,
-                 <span class="kw">int</span> releaseYear,
-                 String genre, String watchPeriod) {
-
-        <span class="kw">this</span>.name = name;
-        <span class="kw">this</span>.totalEpisodeScore = totalEpisodeScore;
-        <span class="kw">this</span>.episodesRated = episodesRated;
-        <span class="kw">this</span>.rating = (episodesRated == <span class="num">0</span>) ? <span class="num">0</span> : totalEpisodeScore / episodesRated;
-        <span class="kw">this</span>.releaseYear = releaseYear;
-        <span class="kw">this</span>.genre = genre;
-        <span class="kw">this</span>.watchPeriod = watchPeriod;
-    }
-
-    <span class="kw">@Override</span>
-    <span class="kw">public int</span> compareTo(<span class="cls">Anime</span> o) {
-        <span class="kw">return</span> <span class="cls">Double</span>.compare(o.rating, <span class="kw">this</span>.rating);
-    }
-}
-
-<span class="cmt">// ================= MAIN PROGRAM =================</span>
-<span class="kw">public class</span> <span class="cls">AnimeRankList</span> {
-
-    <span class="kw">private static final</span> String ANIME_FILE = <span class="str">"anime_list.txt"</span>;
-    <span class="kw">private static final</span> String WATCHING_FILE = <span class="str">"currently_watching.txt"</span>;
-
-    <span class="kw">private static</span> <span class="cls">Scanner</span> scanner = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
-    <span class="kw">private static</span> <span class="cls">List</span>&lt;<span class="cls">Anime</span>&gt; animeList = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
-    <span class="kw">private static</span> <span class="cls">List</span>&lt;<span class="cls">WatchingAnime</span>&gt; currentlyWatching = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
-
-    <span class="kw">public static void</span> main(String[] args) {
-        loadAnimeList();
-        loadCurrentlyWatching();
-
-        <span class="kw">while</span> (<span class="kw">true</span>) {
-            clearScreen();
-            showRankingList();
-
-            <span class="cls">System</span>.out.println(<span class="str">"\n━━━━━━━━━━━━━━━━━━━━━━━━━━"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"1️⃣ Add anime (Watching)"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"2️⃣ Finish episode"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"3️⃣ Edit anime"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"4️⃣ Delete selected anime (Ranking List)"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"5️⃣ Delete all anime"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"6️⃣ Delete anime from Currently Watching"</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"7️⃣ Exit"</span>);
-            <span class="cls">System</span>.out.print(<span class="str">"Choose: "</span>);
-
-            <span class="kw">switch</span> (scanner.nextLine()) {
-                <span class="kw">case</span> <span class="str">"1"</span>: addWatching(); <span class="kw">break</span>;
-                <span class="kw">case</span> <span class="str">"2"</span>: finishEpisode(); <span class="kw">break</span>;
-                <span class="kw">case</span> <span class="str">"3"</span>: editAnime(); <span class="kw">break</span>;
-                <span class="kw">case</span> <span class="str">"4"</span>: deleteAnime(); <span class="kw">break</span>;
-                <span class="kw">case</span> <span class="str">"5"</span>: deleteAll(); <span class="kw">break</span>;
-                <span class="kw">case</span> <span class="str">"6"</span>: deleteCurrentlyWatching(); <span class="kw">break</span>;
-                <span class="kw">case</span> <span class="str">"7"</span>:
-                    saveAnimeList();
-                    saveCurrentlyWatching();
-                    <span class="kw">return</span>;
-                <span class="kw">default</span>:
-                    pause(<span class="str">"Invalid choice"</span>);
-            }
-        }
-    }
-
-    <span class="cmt">// ================= DISPLAY =================</span>
-    <span class="kw">private static void</span> showRankingList() {
-        <span class="cls">System</span>.out.println(<span class="str">"✨✨ ANIME RANKING LIST ✨✨"</span>);
-
-        displayTier(<span class="str">"👑 GOLDEN PIECE OF ANIME (90–100)"</span>, <span class="num">90</span>, <span class="num">100</span>);
-        displayTier(<span class="str">"🔥 PEAK ANIME (80–90)"</span>, <span class="num">80</span>, <span class="num">90</span>);
-        displayTier(<span class="str">"✨ REMARKABLE ANIME (75–80)"</span>, <span class="num">75</span>, <span class="num">80</span>);
-        displayTier(<span class="str">"👍 GOOD ANIME (70–75)"</span>, <span class="num">70</span>, <span class="num">75</span>);
-        displayTier(<span class="str">"⚠️ BAD ANIME (60–70)"</span>, <span class="num">60</span>, <span class="num">70</span>);
-        displayTier(<span class="str">"💀 WORST ANIME (0–60)"</span>, <span class="num">0</span>, <span class="num">60</span>);
-
-        <span class="cls">System</span>.out.println(<span class="str">"\n📺 YOU'RE CURRENTLY WATCHING"</span>);
-        <span class="cls">System</span>.out.println(<span class="str">"━━━━━━━━━━━━━━━━━━━━━━━━━━"</span>);
-
-        <span class="kw">if</span> (currentlyWatching.isEmpty()) {
-            <span class="cls">System</span>.out.println(<span class="str">"None"</span>);
-        } <span class="kw">else</span> {
-            <span class="kw">for</span> (<span class="cls">WatchingAnime</span> a : currentlyWatching) {
-                <span class="cls">System</span>.out.printf(<span class="str">"• %s  (EP %d/%d)%n"</span>, a.name, a.currentEpisode, a.totalEpisodes);
-            }
-        }
-    }
-
-    <span class="kw">private static void</span> displayTier(String title, <span class="kw">double</span> min, <span class="kw">double</span> max) {
-        <span class="cls">System</span>.out.println(<span class="str">"\n━━━━━━━━━━━━━━━━━━━━━━━━━━"</span>);
-        <span class="cls">System</span>.out.println(title);
-        <span class="cls">System</span>.out.println(<span class="str">"━━━━━━━━━━━━━━━━━━━━━━━━━━"</span>);
-
-        <span class="kw">int</span> rank = <span class="num">1</span>;
-        <span class="kw">boolean</span> found = <span class="kw">false</span>;
-
-        <span class="kw">for</span> (<span class="cls">Anime</span> a : animeList) {
-            <span class="kw">if</span> (a.rating >= min && a.rating < max) {
-                <span class="cls">System</span>.out.printf(
-                        <span class="str">"#%d  🎬 %s%n"</span> +
-                        <span class="str">"    ⭐ %.2f / 100%n"</span> +
-                        <span class="str">"    📆 %d%n"</span> +
-                        <span class="str">"    🎭 %s%n"</span> +
-                        <span class="str">"    🕒 %s%n"</span> +
-                        <span class="str">"──────────────────────────%n"</span>,
-                        rank++, a.name, a.rating, a.releaseYear, a.genre, a.watchPeriod
-                );
-                found = <span class="kw">true</span>;
-            }
-        }
-
-        <span class="kw">if</span> (!found) <span class="cls">System</span>.out.println(<span class="str">"None"</span>);
-    }
-
-    <span class="cmt">// ================= WATCHING =================</span>
-    <span class="kw">private static void</span> addWatching() {
-        clearScreen();
-        <span class="cls">System</span>.out.print(<span class="str">"Anime name: "</span>);
-        String name = scanner.nextLine();
-
-        String startDate = getFormattedToday();
-        <span class="cls">System</span>.out.println(<span class="str">"Start Date Automatically Set: "</span> + startDate);
-
-        <span class="cls">System</span>.out.print(<span class="str">"Total number of episodes (ex. 12): "</span>);
-        <span class="kw">int</span> totalEpisodes = <span class="cls">Integer</span>.parseInt(scanner.nextLine());
-
-        currentlyWatching.add(<span class="kw">new</span> <span class="cls">WatchingAnime</span>(name, startDate, totalEpisodes));
-        saveCurrentlyWatching();
-        pause(<span class="str">"Added to Currently Watching"</span>);
-    }
-
-    <span class="kw">private static void</span> finishEpisode() {
-        <span class="kw">if</span> (currentlyWatching.isEmpty()) {
-            pause(<span class="str">"No anime currently watching"</span>);
-            <span class="kw">return</span>;
-        }
-
-        clearScreen();
-        <span class="cls">System</span>.out.println(<span class="str">"Choose anime to rate episodes:\n"</span>);
-
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < currentlyWatching.size(); i++) {
-            <span class="cls">WatchingAnime</span> a = currentlyWatching.get(i);
-            <span class="cls">System</span>.out.printf(<span class="str">"%d. %s  (EP %d/%d)%n"</span>,
-                    i + <span class="num">1</span>, a.name, a.currentEpisode, a.totalEpisodes);
-        }
-
-        <span class="cls">System</span>.out.print(<span class="str">"\nChoice: "</span>);
-        <span class="kw">int</span> index;
-        <span class="kw">try</span> { index = <span class="cls">Integer</span>.parseInt(scanner.nextLine()) - <span class="num">1</span>; } 
-        <span class="kw">catch</span> (<span class="cls">Exception</span> e) { pause(<span class="str">"Invalid choice"</span>); <span class="kw">return</span>; }
-
-        <span class="kw">if</span> (index < <span class="num">0</span> || index >= currentlyWatching.size()) {
-            pause(<span class="str">"Invalid choice"</span>); <span class="kw">return</span>;
-        }
-
-        <span class="cls">WatchingAnime</span> w = currentlyWatching.get(index);
-
-        <span class="cls">System</span>.out.printf(<span class="str">"How many episodes did you finish for %s? "</span>, w.name);
-        <span class="kw">int</span> episodesFinished;
-        <span class="kw">try</span> { episodesFinished = <span class="cls">Integer</span>.parseInt(scanner.nextLine()); } 
-        <span class="kw">catch</span> (<span class="cls">Exception</span> e) { pause(<span class="str">"Invalid number"</span>); <span class="kw">return</span>; }
-
-        <span class="kw">for</span> (<span class="kw">int</span> ep = <span class="num">1</span>; ep <= episodesFinished && w.currentEpisode < w.totalEpisodes; ep++) {
-            <span class="cls">System</span>.out.println(<span class="str">"\n=============================="</span>);
-            <span class="cls">System</span>.out.println(<span class="str">"Rate Episode "</span> + (w.currentEpisode + <span class="num">1</span>));
-            <span class="cls">System</span>.out.println(<span class="str">"=============================="</span>);
-            <span class="kw">double</span> score = rateOneEpisode();
-            w.totalEpisodeScore += score;
-            w.currentEpisode++;
-        }
-
-        <span class="cmt">// If anime finished</span>
-        <span class="kw">if</span> (w.currentEpisode >= w.totalEpisodes) {
-
-            String finishDateInfo = getFormattedToday(); <span class="cmt">// info for watch period</span>
-            <span class="cls">System</span>.out.println(<span class="str">"Finished on: "</span> + finishDateInfo);
-
-            <span class="kw">int</span> releaseYear;
-            <span class="kw">while</span> (<span class="kw">true</span>) {
-                <span class="cls">System</span>.out.print(<span class="str">"Anime Release Year (ex. 2021): "</span>);
-                <span class="kw">try</span> {
-                    releaseYear = <span class="cls">Integer</span>.parseInt(scanner.nextLine());
-                    <span class="kw">if</span> (releaseYear > <span class="num">1900</span> && releaseYear <= java.time.LocalDate.now().getYear())
-                        <span class="kw">break</span>;
-                } <span class="kw">catch</span> (<span class="cls">Exception</span> ignored) {}
-                <span class="cls">System</span>.out.println(<span class="str">"Invalid year"</span>);
-            }
-
-            <span class="cls">System</span>.out.print(<span class="str">"Genre: "</span>);
-            String genre = scanner.nextLine();
-
-            String watchPeriod = w.startDate + <span class="str">" - "</span> + finishDateInfo;
-
-            animeList.add(<span class="kw">new</span> <span class="cls">Anime</span>(
-                    w.name,
-                    w.totalEpisodeScore,
-                    w.totalEpisodes,
-                    releaseYear,
-                    genre,
-                    watchPeriod
-            ));
-
-            currentlyWatching.remove(index);
-            pause(<span class="str">"Anime completed and added to ranking list!"</span>);
-        } <span class="kw">else</span> {
-            pause(<span class="str">"Episodes rated. Anime still in Currently Watching list."</span>);
-        }
-
-        saveCurrentlyWatching();
-        saveAnimeList();
-    }
-
-    <span class="cmt">// ================= DELETE CURRENTLY WATCHING =================</span>
-    <span class="kw">private static void</span> deleteCurrentlyWatching() {
-        <span class="kw">if</span> (currentlyWatching.isEmpty()) {
-            pause(<span class="str">"No anime in Currently Watching list"</span>);
-            <span class="kw">return</span>;
-        }
-
-        clearScreen();
-        <span class="cls">System</span>.out.println(<span class="str">"Select anime to DELETE from Currently Watching:\n"</span>);
-
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < currentlyWatching.size(); i++) {
-            <span class="cls">WatchingAnime</span> a = currentlyWatching.get(i);
-            <span class="cls">System</span>.out.printf(<span class="str">"%d. %s (EP %d/%d)%n"</span>, i + <span class="num">1</span>, a.name, a.currentEpisode, a.totalEpisodes);
-        }
-
-        <span class="cls">System</span>.out.print(<span class="str">"\nChoice: "</span>);
-        <span class="kw">int</span> index;
-        <span class="kw">try</span> {
-            index = <span class="cls">Integer</span>.parseInt(scanner.nextLine()) - <span class="num">1</span>;
-        } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
-            pause(<span class="str">"Invalid choice"</span>);
-            <span class="kw">return</span>;
-        }
-
-        <span class="kw">if</span> (index < <span class="num">0</span> || index >= currentlyWatching.size()) {
-            pause(<span class="str">"Invalid choice"</span>);
-            <span class="kw">return</span>;
-        }
-
-        <span class="cls">WatchingAnime</span> removed = currentlyWatching.remove(index);
-        saveCurrentlyWatching();
-        pause(<span class="str">"Removed from Currently Watching: "</span> + removed.name);
-    }
-
-    <span class="cmt">// ================= EDIT =================</span>
-    <span class="kw">private static void</span> editAnime() {
-        <span class="kw">if</span> (animeList.isEmpty()) { pause(<span class="str">"No anime to edit"</span>); <span class="kw">return</span>; }
-        clearScreen();
-        <span class="cls">System</span>.out.println(<span class="str">"Choose anime to EDIT:\n"</span>);
-
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < animeList.size(); i++) {
-            <span class="cls">System</span>.out.printf(<span class="str">"%d. %s (%.2f)%n"</span>, i + <span class="num">1</span>, animeList.get(i).name, animeList.get(i).rating);
-        }
-
-        <span class="cls">System</span>.out.print(<span class="str">"\nChoice: "</span>);
-        <span class="kw">int</span> index;
-        <span class="kw">try</span> { index = <span class="cls">Integer</span>.parseInt(scanner.nextLine()) - <span class="num">1</span>; } 
-        <span class="kw">catch</span> (<span class="cls">Exception</span> e) { pause(<span class="str">"Invalid choice"</span>); <span class="kw">return</span>; }
-
-        <span class="kw">if</span> (index < <span class="num">0</span> || index >= animeList.size()) { pause(<span class="str">"Invalid choice"</span>); <span class="kw">return</span>; }
-
-        <span class="cls">Anime</span> old = animeList.get(index);
-
-        clearScreen();
-        <span class="cls">System</span>.out.println(<span class="str">"Re-scoring: "</span> + old.name + <span class="str">"\n"</span>);
-
-        <span class="kw">double</span> story = score(<span class="str">"Storyline"</span>, <span class="num">10</span>) + score(<span class="str">"Ending"</span>, <span class="num">8</span>) + score(<span class="str">"Clarity"</span>, <span class="num">7</span>);
-        <span class="kw">double</span> animation = score(<span class="str">"Art Style"</span>, <span class="num">10</span>) + score(<span class="str">"Motion / FX"</span>, <span class="num">10</span>);
-        <span class="kw">double</span> music = score(<span class="str">"Music Opening"</span>, <span class="num">4</span>) + score(<span class="str">"ED"</span>, <span class="num">4</span>)
-                     + score(<span class="str">"Concept"</span>, <span class="num">6</span>) + score(<span class="str">"SFX"</span>, <span class="num">3</span>) + score(<span class="str">"Attractive"</span>, <span class="num">3</span>);
-        <span class="kw">double</span> voice = score(<span class="str">"Voice action"</span>, <span class="num">10</span>);
-        <span class="kw">double</span> experience = score(<span class="str">"EXP Intensity"</span>, <span class="num">5</span>) + score(<span class="str">"EXP Enjoyment"</span>, <span class="num">5</span>) + score(<span class="str">"EXP Expressive"</span>, <span class="num">5</span>);
-        <span class="kw">double</span> characters = score(<span class="str">"CHAR Personalities"</span>, <span class="num">5</span>) + score(<span class="str">"CHAR Styles"</span>, <span class="num">5</span>);
-
-        animeList.set(index, <span class="kw">new</span> <span class="cls">Anime</span>(
-                old.name,
-                story + animation + music + voice + experience + characters,
-                <span class="num">1</span>,
-                old.releaseYear,
-                old.genre,
-                old.watchPeriod
-        ));
-
-        <span class="cls">Collections</span>.sort(animeList);
-        saveAnimeList();
-        pause(<span class="str">"Anime successfully updated"</span>);
-    }
-
-    <span class="cmt">// ================= DELETE =================</span>
-    <span class="kw">private static void</span> deleteAnime() {
-        <span class="kw">if</span> (animeList.isEmpty()) { pause(<span class="str">"No anime to delete"</span>); <span class="kw">return</span>; }
-
-        clearScreen();
-        <span class="cls">System</span>.out.println(<span class="str">"Choose anime to DELETE:\n"</span>);
-
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < animeList.size(); i++) {
-            <span class="cls">System</span>.out.printf(<span class="str">"%d. %s (%.2f)%n"</span>, i + <span class="num">1</span>, animeList.get(i).name, animeList.get(i).rating);
-        }
-
-        <span class="cls">System</span>.out.print(<span class="str">"\nChoice: "</span>);
-        <span class="kw">int</span> index;
-        <span class="kw">try</span> { index = <span class="cls">Integer</span>.parseInt(scanner.nextLine()) - <span class="num">1</span>; } 
-        <span class="kw">catch</span> (<span class="cls">Exception</span> e) { pause(<span class="str">"Invalid choice"</span>); <span class="kw">return</span>; }
-
-        <span class="kw">if</span> (index < <span class="num">0</span> || index >= animeList.size()) { pause(<span class="str">"Invalid choice"</span>); <span class="kw">return</span>; }
-
-        String removed = animeList.get(index).name;
-        animeList.remove(index);
-
-        <span class="cls">Collections</span>.sort(animeList);
-        saveAnimeList();
-        pause(<span class="str">"Deleted: "</span> + removed);
-    }
-
-    <span class="kw">private static void</span> deleteAll() {
-        animeList.clear();
-        currentlyWatching.clear();
-        saveAnimeList();
-        saveCurrentlyWatching();
-        pause(<span class="str">"All anime deleted"</span>);
-    }
-
-    <span class="cmt">// ================= FILE HANDLING =================</span>
-    <span class="kw">private static void</span> saveAnimeList() {
-        <span class="kw">try</span> (<span class="cls">BufferedWriter</span> w = <span class="kw">new</span> <span class="cls">BufferedWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(ANIME_FILE))) {
-            <span class="kw">for</span> (<span class="cls">Anime</span> a : animeList) {
-                w.write(a.name + <span class="str">";"</span> + a.totalEpisodeScore + <span class="str">";"</span> + a.episodesRated + <span class="str">";"</span> +
-                        a.releaseYear + <span class="str">";"</span> + a.genre + <span class="str">";"</span> + a.watchPeriod);
-                w.newLine();
-            }
-        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { <span class="cls">System</span>.out.println(<span class="str">"Error saving anime list"</span>); }
-    }
-
-    <span class="kw">private static void</span> loadAnimeList() {
-        <span class="cls">File</span> file = <span class="kw">new</span> <span class="cls">File</span>(ANIME_FILE);
-        <span class="kw">if</span> (!file.exists()) <span class="kw">return</span>;
-
-        <span class="kw">try</span> (<span class="cls">BufferedReader</span> r = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(file))) {
-            String line;
-            <span class="kw">while</span> ((line = r.readLine()) != <span class="kw">null</span>) {
-                String[] p = line.split(<span class="str">";"</span>);
-                <span class="kw">try</span> {
-                    <span class="kw">if</span> (p.length == <span class="num">6</span>) {
-                        animeList.add(<span class="kw">new</span> <span class="cls">Anime</span>(
-                                p[<span class="num">0</span>],
-                                <span class="cls">Double</span>.parseDouble(p[<span class="num">1</span>]),
-                                <span class="cls">Integer</span>.parseInt(p[<span class="num">2</span>]),
-                                <span class="cls">Integer</span>.parseInt(p[<span class="num">3</span>]),
-                                p[<span class="num">4</span>],
-                                p[<span class="num">5</span>]
-                        ));
-                    }
-                } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
-                    <span class="cls">System</span>.out.println(<span class="str">"Error loading anime line: "</span> + line);
-                }
-            }
-            <span class="cls">Collections</span>.sort(animeList);
-        } <span class="kw">catch</span> (<span class="cls">Exception</span> e) { <span class="cls">System</span>.out.println(<span class="str">"Error loading anime list"</span>); }
-    }
-
-    <span class="kw">private static void</span> saveCurrentlyWatching() {
-        <span class="kw">try</span> (<span class="cls">BufferedWriter</span> w = <span class="kw">new</span> <span class="cls">BufferedWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(WATCHING_FILE))) {
-            <span class="kw">for</span> (<span class="cls">WatchingAnime</span> a : currentlyWatching) {
-                w.write(a.name + <span class="str">";"</span> + a.startDate + <span class="str">";"</span> + a.currentEpisode + <span class="str">";"</span> + a.totalEpisodes + <span class="str">";"</span> + a.totalEpisodeScore);
-                w.newLine();
-            }
-        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { <span class="cls">System</span>.out.println(<span class="str">"Error saving currently watching list"</span>); }
-    }
-
-    <span class="kw">private static void</span> loadCurrentlyWatching() {
-        <span class="cls">File</span> file = <span class="kw">new</span> <span class="cls">File</span>(WATCHING_FILE);
-        <span class="kw">if</span> (!file.exists()) <span class="kw">return</span>;
-
-        <span class="kw">try</span> (<span class="cls">BufferedReader</span> r = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(file))) {
-            String line;
-            <span class="kw">while</span> ((line = r.readLine()) != <span class="kw">null</span>) {
-                String[] p = line.split(<span class="str">";"</span>);
-                <span class="kw">try</span> {
-                    <span class="kw">if</span> (p.length == <span class="num">2</span>) {
-                        <span class="cls">WatchingAnime</span> a = <span class="kw">new</span> <span class="cls">WatchingAnime</span>(p[<span class="num">0</span>], p[<span class="num">1</span>], <span class="num">1</span>);
-                        a.currentEpisode = <span class="num">0</span>;
-                        a.totalEpisodeScore = <span class="num">0</span>;
-                        currentlyWatching.add(a);
-                    } <span class="kw">else if</span> (p.length >= <span class="num">5</span>) {
-                        <span class="cls">WatchingAnime</span> a = <span class="kw">new</span> <span class="cls">WatchingAnime</span>(p[<span class="num">0</span>], p[<span class="num">1</span>], <span class="cls">Integer</span>.parseInt(p[<span class="num">3</span>]));
-                        a.currentEpisode = <span class="cls">Integer</span>.parseInt(p[<span class="num">2</span>]);
-                        a.totalEpisodeScore = <span class="cls">Double</span>.parseDouble(p[<span class="num">4</span>]);
-                        currentlyWatching.add(a);
-                    }
-                } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
-                    <span class="cls">System</span>.out.println(<span class="str">"Error loading currently watching line: "</span> + line);
-                }
-            }
-        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { <span class="cls">System</span>.out.println(<span class="str">"Error loading currently watching list"</span>); }
-    }
-
-    <span class="cmt">// ================= UTIL =================</span>
-    <span class="kw">private static double</span> score(String label, <span class="kw">int</span> max) {
-        <span class="kw">while</span> (<span class="kw">true</span>) {
-            <span class="cls">System</span>.out.print(label + <span class="str">" (0-"</span> + max + <span class="str">"): "</span>);
-            <span class="kw">try</span> {
-                <span class="kw">double</span> v = <span class="cls">Double</span>.parseDouble(scanner.nextLine());
-                <span class="kw">if</span> (v >= <span class="num">0</span> && v <= max) <span class="kw">return</span> v;
-            } <span class="kw">catch</span> (<span class="cls">Exception</span> ignored) {}
-            <span class="cls">System</span>.out.println(<span class="str">"Invalid input"</span>);
-        }
-    }
-
-    <span class="kw">private static double</span> rateOneEpisode() {
-        <span class="cls">System</span>.out.println(<span class="str">"\n🎬 RATE THIS EPISODE"</span>);
-
-        <span class="kw">double</span> story = score(<span class="str">"Storyline"</span>, <span class="num">10</span>) + score(<span class="str">"Dialogues"</span>, <span class="num">8</span>) + score(<span class="str">"Clarity"</span>, <span class="num">7</span>);
-        <span class="kw">double</span> animation = score(<span class="str">"Art Style"</span>, <span class="num">10</span>) + score(<span class="str">"Motion / FX"</span>, <span class="num">10</span>);
-        <span class="kw">double</span> music = score(<span class="str">"Music Opening"</span>, <span class="num">4</span>) + score(<span class="str">"ED"</span>, <span class="num">4</span>)
-                     + score(<span class="str">"Concept"</span>, <span class="num">6</span>) + score(<span class="str">"SFX"</span>, <span class="num">3</span>) + score(<span class="str">"Attractive"</span>, <span class="num">3</span>);
-        <span class="kw">double</span> voice = score(<span class="str">"Voice action"</span>, <span class="num">10</span>);
-        <span class="kw">double</span> experience = score(<span class="str">"EXP Intensity"</span>, <span class="num">5</span>) + score(<span class="str">"EXP Enjoyment"</span>, <span class="num">5</span>) + score(<span class="str">"EXP Expressive"</span>, <span class="num">5</span>);
-        <span class="kw">double</span> characters = score(<span class="str">"CHAR Personalities"</span>, <span class="num">5</span>) + score(<span class="str">"CHAR Styles"</span>, <span class="num">5</span>);
-
-        <span class="kw">double</span> episodeScore = story + animation + music + voice + experience + characters;
-        <span class="cls">System</span>.out.printf(<span class="str">"Episode Score: %.2f / 100%n"</span>, episodeScore);
-        <span class="kw">return</span> episodeScore;
-    }
-
-    <span class="cmt">// ================= AUTO DATE FORMAT WITH WEEKDAY =================</span>
-    <span class="kw">private static</span> String getFormattedToday() {
-        java.time.LocalDate today = java.time.LocalDate.now();
-
-        <span class="kw">int</span> month = today.getMonthValue();
-        <span class="kw">int</span> day = today.getDayOfMonth();
-
-        String monthName = <span class="kw">switch</span> (month) {
-            <span class="kw">case</span> <span class="num">1</span> -> <span class="str">"Jan"</span>;
-            <span class="kw">case</span> <span class="num">2</span> -> <span class="str">"Feb"</span>;
-            <span class="kw">case</span> <span class="num">3</span> -> <span class="str">"march"</span>;
-            <span class="kw">case</span> <span class="num">4</span> -> <span class="str">"april"</span>;
-            <span class="kw">case</span> <span class="num">5</span> -> <span class="str">"may"</span>;
-            <span class="kw">case</span> <span class="num">6</span> -> <span class="str">"jun"</span>;
-            <span class="kw">case</span> <span class="num">7</span> -> <span class="str">"july"</span>;
-            <span class="kw">case</span> <span class="num">8</span> -> <span class="str">"Aug"</span>;
-            <span class="kw">case</span> <span class="num">9</span> -> <span class="str">"sept"</span>;
-            <span class="kw">case</span> <span class="num">10</span> -> <span class="str">"oct"</span>;
-            <span class="kw">case</span> <span class="num">11</span> -> <span class="str">"nov"</span>;
-            <span class="kw">case</span> <span class="num">12</span> -> <span class="str">"dec"</span>;
-            <span class="kw">default</span> -> <span class="str">""</span>;
-        };
-
-        String weekday = <span class="kw">switch</span> (today.getDayOfWeek()) {
-            <span class="kw">case</span> MONDAY -> <span class="str">"Mon"</span>;
-            <span class="kw">case</span> TUESDAY -> <span class="str">"Tue"</span>;
-            <span class="kw">case</span> WEDNESDAY -> <span class="str">"Wed"</span>;
-            <span class="kw">case</span> THURSDAY -> <span class="str">"Thu"</span>;
-            <span class="kw">case</span> FRIDAY -> <span class="str">"Fri"</span>;
-            <span class="kw">case</span> SATURDAY -> <span class="str">"Sat"</span>;
-            <span class="kw">case</span> SUNDAY -> <span class="str">"Sun"</span>;
-        };
-
-        <span class="kw">return</span> monthName + <span class="str">" "</span> + day + <span class="str">" ("</span> + weekday + <span class="str">")"</span>;
-    }
-
-    <span class="kw">private static void</span> clearScreen() {
-        <span class="cls">System</span>.out.print(<span class="str">"\033[H\033[2J"</span>);
-        <span class="cls">System</span>.out.flush();
-    }
-
-    <span class="kw">private static void</span> pause(String msg) {
-        <span class="cls">System</span>.out.println(<span class="str">"\n"</span> + msg);
-        <span class="cls">System</span>.out.print(<span class="str">"Press Enter..."</span>);
-        scanner.nextLine();
-    }
-}</div>
-    </div>
-
-  <button id="run-btn" class="btn">Run Java Output</button>
-<button id="stop-btn" class="btn">Stop Demo</button>
-    <div id="terminal-box">
-        <div id="terminal-output"></div>
-        <div class="terminal-input-row">
-            <span style="color: #00ff00; margin-right: 10px;">></span>
-            <input type="text" id="command-line" autocomplete="off" placeholder="Enter input...">
+<button id="tryDemoBtn">Try Demo</button>
+
+    <div id="ideContainer">
+        <div id="editorHeader">
+            <span>AnimeRankList.java</span>
+            <span>Java Compiler</span>
+        </div>
+        <div id="codeArea"></div>
+        <div id="controls">
+            <button id="outputBtn">Run Output (Execute Code)</button>
+            <button id="stopBtn">Stop</button>
+        </div>
+        <div id="terminalContainer">
+            <div id="terminalOutput"></div>
+            <div id="terminalInputArea">
+                <input type="text" id="terminalInput" autocomplete="off" spellcheck="false">
+            </div>
         </div>
     </div>
 &#8226; 2D Games <br>
@@ -681,190 +179,922 @@ border: solid rgba(0, 0, 0, 0.479);
     
     window.onclick = (e) => {
       if (e.target === overlay) overlay.style.display = 'none';
+    
     };
-    // UI Logic
-      window.onload = function() {
-    // 1. Kunin ang lahat ng elements
-    const tryDemoBtn = document.getElementById('try-demo');
-    const runBtn = document.getElementById('run-btn');
-    const stopBtn = document.getElementById('stop-btn');
-    const codeContainer = document.getElementById('code-container');
-    const terminalBox = document.getElementById('terminal-box');
+    </script>
+  <script type="text/plain" id="rawJava">
+import java.io.*;
+import java.util.*;
 
-    // 2. I-assign ang Click Events (Dito papasok ang "paggana" ng button)
-    tryDemoBtn.addEventListener('click', function() {
-        codeContainer.style.display = 'block'; // Lalabas ang Java Code
-        runBtn.style.display = 'inline-block'; // Lalabas ang Run button
-        tryDemoBtn.style.display = 'none';      // Mawawala ang Try Demo
+// ================= WATCHING CLASS =================
+class WatchingAnime {
+    String name;
+    String startDate;
+    int currentEpisode;   // how many episodes rated so far
+    int totalEpisodes;    // total episodes
+    double totalEpisodeScore; // sum of episode scores
+
+    public WatchingAnime(String name, String startDate, int totalEpisodes) {
+        this.name = name;
+        this.startDate = startDate;
+        this.totalEpisodes = totalEpisodes;
+        this.currentEpisode = 0;
+        this.totalEpisodeScore = 0;
+    }
+
+    public double getAverageScore() {
+        return currentEpisode == 0 ? 0 : totalEpisodeScore / currentEpisode;
+    }
+}
+
+// ================= ANIME CLASS =================
+class Anime implements Comparable<Anime> {
+    String name, genre, watchPeriod;
+    double totalEpisodeScore;
+    int episodesRated;
+    double rating;
+    int releaseYear;
+
+    public Anime(String name,
+                 double totalEpisodeScore, int episodesRated,
+                 int releaseYear,
+                 String genre, String watchPeriod) {
+
+        this.name = name;
+        this.totalEpisodeScore = totalEpisodeScore;
+        this.episodesRated = episodesRated;
+        this.rating = (episodesRated == 0) ? 0 : totalEpisodeScore / episodesRated;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
+        this.watchPeriod = watchPeriod;
+    }
+
+    @Override
+    public int compareTo(Anime o) {
+        return Double.compare(o.rating, this.rating);
+    }
+}
+
+// ================= MAIN PROGRAM =================
+public class AnimeRankList {
+
+    private static final String ANIME_FILE = "anime_list.txt";
+    private static final String WATCHING_FILE = "currently_watching.txt";
+
+    private static Scanner scanner = new Scanner(System.in);
+    private static List<Anime> animeList = new ArrayList<>();
+    private static List<WatchingAnime> currentlyWatching = new ArrayList<>();
+
+    public static void main(String[] args) {
+        loadAnimeList();
+        loadCurrentlyWatching();
+
+        while (true) {
+            clearScreen();
+            showRankingList();
+
+            System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            System.out.println("1️⃣ Add anime (Watching)");
+            System.out.println("2️⃣ Finish episode");
+            System.out.println("3️⃣ Edit anime");
+            System.out.println("4️⃣ Delete selected anime (Ranking List)");
+            System.out.println("5️⃣ Delete all anime");
+            System.out.println("6️⃣ Delete anime from Currently Watching");
+            System.out.println("7️⃣ Exit");
+            System.out.print("Choose: ");
+
+            switch (scanner.nextLine()) {
+                case "1": addWatching(); break;
+                case "2": finishEpisode(); break;
+                case "3": editAnime(); break;
+                case "4": deleteAnime(); break;
+                case "5": deleteAll(); break;
+                case "6": deleteCurrentlyWatching(); break;
+                case "7":
+                    saveAnimeList();
+                    saveCurrentlyWatching();
+                    return;
+                default:
+                    pause("Invalid choice");
+            }
+        }
+    }
+
+    // ================= DISPLAY =================
+    private static void showRankingList() {
+        System.out.println("✨✨ ANIME RANKING LIST ✨✨");
+
+        displayTier("👑 GOLDEN PIECE OF ANIME (90–100)", 90, 100);
+        displayTier("🔥 PEAK ANIME (80–90)", 80, 90);
+        displayTier("✨ REMARKABLE ANIME (75–80)", 75, 80);
+        displayTier("👍 GOOD ANIME (70–75)", 70, 75);
+        displayTier("⚠️ BAD ANIME (60–70)", 60, 70);
+        displayTier("💀 WORST ANIME (0–60)", 0, 60);
+
+        System.out.println("\n📺 YOU'RE CURRENTLY WATCHING");
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+        if (currentlyWatching.isEmpty()) {
+            System.out.println("None");
+        } else {
+            for (WatchingAnime a : currentlyWatching) {
+                System.out.printf("• %s  (EP %d/%d)%n", a.name, a.currentEpisode, a.totalEpisodes);
+            }
+        }
+    }
+
+    private static void displayTier(String title, double min, double max) {
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println(title);
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+        int rank = 1;
+        boolean found = false;
+
+        for (Anime a : animeList) {
+            if (a.rating >= min && a.rating < max) {
+                System.out.printf(
+                        "#%d  🎬 %s%n" +
+                        "    ⭐ %.2f / 100%n" +
+                        "    📆 %d%n" +
+                        "    🎭 %s%n" +
+                        "    🕒 %s%n" +
+                        "──────────────────────────%n",
+                        rank++, a.name, a.rating, a.releaseYear, a.genre, a.watchPeriod
+                );
+                found = true;
+            }
+        }
+
+        if (!found) System.out.println("None");
+    }
+
+    // ================= WATCHING =================
+    private static void addWatching() {
+        clearScreen();
+        System.out.print("Anime name: ");
+        String name = scanner.nextLine();
+
+        String startDate = getFormattedToday();
+        System.out.println("Start Date Automatically Set: " + startDate);
+
+        System.out.print("Total number of episodes (ex. 12): ");
+        int totalEpisodes = Integer.parseInt(scanner.nextLine());
+
+        currentlyWatching.add(new WatchingAnime(name, startDate, totalEpisodes));
+        saveCurrentlyWatching();
+        pause("Added to Currently Watching");
+    }
+
+    private static void finishEpisode() {
+        if (currentlyWatching.isEmpty()) {
+            pause("No anime currently watching");
+            return;
+        }
+
+        clearScreen();
+        System.out.println("Choose anime to rate episodes:\n");
+
+        for (int i = 0; i < currentlyWatching.size(); i++) {
+            WatchingAnime a = currentlyWatching.get(i);
+            System.out.printf("%d. %s  (EP %d/%d)%n",
+                    i + 1, a.name, a.currentEpisode, a.totalEpisodes);
+        }
+
+        System.out.print("\nChoice: ");
+        int index;
+        try { index = Integer.parseInt(scanner.nextLine()) - 1; } 
+        catch (Exception e) { pause("Invalid choice"); return; }
+
+        if (index < 0 || index >= currentlyWatching.size()) {
+            pause("Invalid choice"); return;
+        }
+
+        WatchingAnime w = currentlyWatching.get(index);
+
+        System.out.printf("How many episodes did you finish for %s? ", w.name);
+        int episodesFinished;
+        try { episodesFinished = Integer.parseInt(scanner.nextLine()); } 
+        catch (Exception e) { pause("Invalid number"); return; }
+
+        for (int ep = 1; ep <= episodesFinished && w.currentEpisode < w.totalEpisodes; ep++) {
+            System.out.println("\n==============================");
+            System.out.println("Rate Episode " + (w.currentEpisode + 1));
+            System.out.println("==============================");
+            double score = rateOneEpisode();
+            w.totalEpisodeScore += score;
+            w.currentEpisode++;
+        }
+
+        // If anime finished
+        if (w.currentEpisode >= w.totalEpisodes) {
+
+            String finishDateInfo = getFormattedToday(); // info for watch period
+            System.out.println("Finished on: " + finishDateInfo);
+
+            int releaseYear;
+            while (true) {
+                System.out.print("Anime Release Year (ex. 2021): ");
+                try {
+                    releaseYear = Integer.parseInt(scanner.nextLine());
+                    if (releaseYear > 1900 && releaseYear <= java.time.LocalDate.now().getYear())
+                        break;
+                } catch (Exception ignored) {}
+                System.out.println("Invalid year");
+            }
+
+            System.out.print("Genre: ");
+            String genre = scanner.nextLine();
+
+            String watchPeriod = w.startDate + " - " + finishDateInfo;
+
+            animeList.add(new Anime(
+                    w.name,
+                    w.totalEpisodeScore,
+                    w.totalEpisodes,
+                    releaseYear,
+                    genre,
+                    watchPeriod
+            ));
+
+            currentlyWatching.remove(index);
+            pause("Anime completed and added to ranking list!");
+        } else {
+            pause("Episodes rated. Anime still in Currently Watching list.");
+        }
+
+        saveCurrentlyWatching();
+        saveAnimeList();
+    }
+
+    // ================= DELETE CURRENTLY WATCHING =================
+    private static void deleteCurrentlyWatching() {
+        if (currentlyWatching.isEmpty()) {
+            pause("No anime in Currently Watching list");
+            return;
+        }
+
+        clearScreen();
+        System.out.println("Select anime to DELETE from Currently Watching:\n");
+
+        for (int i = 0; i < currentlyWatching.size(); i++) {
+            WatchingAnime a = currentlyWatching.get(i);
+            System.out.printf("%d. %s (EP %d/%d)%n", i + 1, a.name, a.currentEpisode, a.totalEpisodes);
+        }
+
+        System.out.print("\nChoice: ");
+        int index;
+        try {
+            index = Integer.parseInt(scanner.nextLine()) - 1;
+        } catch (Exception e) {
+            pause("Invalid choice");
+            return;
+        }
+
+        if (index < 0 || index >= currentlyWatching.size()) {
+            pause("Invalid choice");
+            return;
+        }
+
+        WatchingAnime removed = currentlyWatching.remove(index);
+        saveCurrentlyWatching();
+        pause("Removed from Currently Watching: " + removed.name);
+    }
+
+    // ================= EDIT =================
+    private static void editAnime() {
+        if (animeList.isEmpty()) { pause("No anime to edit"); return; }
+        clearScreen();
+        System.out.println("Choose anime to EDIT:\n");
+
+        for (int i = 0; i < animeList.size(); i++) {
+            System.out.printf("%d. %s (%.2f)%n", i + 1, animeList.get(i).name, animeList.get(i).rating);
+        }
+
+        System.out.print("\nChoice: ");
+        int index;
+        try { index = Integer.parseInt(scanner.nextLine()) - 1; } 
+        catch (Exception e) { pause("Invalid choice"); return; }
+
+        if (index < 0 || index >= animeList.size()) { pause("Invalid choice"); return; }
+
+        Anime old = animeList.get(index);
+
+        clearScreen();
+        System.out.println("Re-scoring: " + old.name + "\n");
+
+        double story = score("Storyline", 10) + score("Ending", 8) + score("Clarity", 7);
+        double animation = score("Art Style", 10) + score("Motion / FX", 10);
+        double music = score("Music Opening", 4) + score("ED", 4)
+                     + score("Concept", 6) + score("SFX", 3) + score("Attractive", 3);
+        double voice = score("Voice action", 10);
+        double experience = score("EXP Intensity", 5) + score("EXP Enjoyment", 5) + score("EXP Expressive", 5);
+        double characters = score("CHAR Personalities", 5) + score("CHAR Styles", 5);
+
+        animeList.set(index, new Anime(
+                old.name,
+                story + animation + music + voice + experience + characters,
+                1,
+                old.releaseYear,
+                old.genre,
+                old.watchPeriod
+        ));
+
+        Collections.sort(animeList);
+        saveAnimeList();
+        pause("Anime successfully updated");
+    }
+
+    // ================= DELETE =================
+    private static void deleteAnime() {
+        if (animeList.isEmpty()) { pause("No anime to delete"); return; }
+
+        clearScreen();
+        System.out.println("Choose anime to DELETE:\n");
+
+        for (int i = 0; i < animeList.size(); i++) {
+            System.out.printf("%d. %s (%.2f)%n", i + 1, animeList.get(i).name, animeList.get(i).rating);
+        }
+
+        System.out.print("\nChoice: ");
+        int index;
+        try { index = Integer.parseInt(scanner.nextLine()) - 1; } 
+        catch (Exception e) { pause("Invalid choice"); return; }
+
+        if (index < 0 || index >= animeList.size()) { pause("Invalid choice"); return; }
+
+        String removed = animeList.get(index).name;
+        animeList.remove(index);
+
+        Collections.sort(animeList);
+        saveAnimeList();
+        pause("Deleted: " + removed);
+    }
+
+    private static void deleteAll() {
+        animeList.clear();
+        currentlyWatching.clear();
+        saveAnimeList();
+        saveCurrentlyWatching();
+        pause("All anime deleted");
+    }
+
+    // ================= FILE HANDLING =================
+    private static void saveAnimeList() {
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(ANIME_FILE))) {
+            for (Anime a : animeList) {
+                w.write(a.name + ";" + a.totalEpisodeScore + ";" + a.episodesRated + ";" +
+                        a.releaseYear + ";" + a.genre + ";" + a.watchPeriod);
+                w.newLine();
+            }
+        } catch (IOException e) { System.out.println("Error saving anime list"); }
+    }
+
+    private static void loadAnimeList() {
+        File file = new File(ANIME_FILE);
+        if (!file.exists()) return;
+
+        try (BufferedReader r = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                String[] p = line.split(";");
+                try {
+                    if (p.length == 6) {
+                        animeList.add(new Anime(
+                                p[0],
+                                Double.parseDouble(p[1]),
+                                Integer.parseInt(p[2]),
+                                Integer.parseInt(p[3]),
+                                p[4],
+                                p[5]
+                        ));
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error loading anime line: " + line);
+                }
+            }
+            Collections.sort(animeList);
+        } catch (Exception e) { System.out.println("Error loading anime list"); }
+    }
+
+    private static void saveCurrentlyWatching() {
+        try (BufferedWriter w = new BufferedWriter(new FileWriter(WATCHING_FILE))) {
+            for (WatchingAnime a : currentlyWatching) {
+                w.write(a.name + ";" + a.startDate + ";" + a.currentEpisode + ";" + a.totalEpisodes + ";" + a.totalEpisodeScore);
+                w.newLine();
+            }
+        } catch (IOException e) { System.out.println("Error saving currently watching list"); }
+    }
+
+    private static void loadCurrentlyWatching() {
+        File file = new File(WATCHING_FILE);
+        if (!file.exists()) return;
+
+        try (BufferedReader r = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                String[] p = line.split(";");
+                try {
+                    if (p.length == 2) {
+                        WatchingAnime a = new WatchingAnime(p[0], p[1], 1);
+                        a.currentEpisode = 0;
+                        a.totalEpisodeScore = 0;
+                        currentlyWatching.add(a);
+                    } else if (p.length >= 5) {
+                        WatchingAnime a = new WatchingAnime(p[0], p[1], Integer.parseInt(p[3]));
+                        a.currentEpisode = Integer.parseInt(p[2]);
+                        a.totalEpisodeScore = Double.parseDouble(p[4]);
+                        currentlyWatching.add(a);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error loading currently watching line: " + line);
+                }
+            }
+        } catch (IOException e) { System.out.println("Error loading currently watching list"); }
+    }
+
+    // ================= UTIL =================
+    private static double score(String label, int max) {
+        while (true) {
+            System.out.print(label + " (0-" + max + "): ");
+            try {
+                double v = Double.parseDouble(scanner.nextLine());
+                if (v >= 0 && v <= max) return v;
+            } catch (Exception ignored) {}
+            System.out.println("Invalid input");
+        }
+    }
+
+    private static double rateOneEpisode() {
+        System.out.println("\n🎬 RATE THIS EPISODE");
+
+        double story = score("Storyline", 10) + score("Dialogues", 8) + score("Clarity", 7);
+        double animation = score("Art Style", 10) + score("Motion / FX", 10);
+        double music = score("Music Opening", 4) + score("ED", 4)
+                     + score("Concept", 6) + score("SFX", 3) + score("Attractive", 3);
+        double voice = score("Voice action", 10);
+        double experience = score("EXP Intensity", 5) + score("EXP Enjoyment", 5) + score("EXP Expressive", 5);
+        double characters = score("CHAR Personalities", 5) + score("CHAR Styles", 5);
+
+        double episodeScore = story + animation + music + voice + experience + characters;
+        System.out.printf("Episode Score: %.2f / 100%n", episodeScore);
+        return episodeScore;
+    }
+
+    // ================= AUTO DATE FORMAT WITH WEEKDAY =================
+    private static String getFormattedToday() {
+        java.time.LocalDate today = java.time.LocalDate.now();
+
+        int month = today.getMonthValue();
+        int day = today.getDayOfMonth();
+
+        String monthName = switch (month) {
+            case 1 -> "Jan";
+            case 2 -> "Feb";
+            case 3 -> "march";
+            case 4 -> "april";
+            case 5 -> "may";
+            case 6 -> "jun";
+            case 7 -> "july";
+            case 8 -> "Aug";
+            case 9 -> "sept";
+            case 10 -> "oct";
+            case 11 -> "nov";
+            case 12 -> "dec";
+            default -> "";
+        };
+
+        String weekday = switch (today.getDayOfWeek()) {
+            case MONDAY -> "Mon";
+            case TUESDAY -> "Tue";
+            case WEDNESDAY -> "Wed";
+            case THURSDAY -> "Thu";
+            case FRIDAY -> "Fri";
+            case SATURDAY -> "Sat";
+            case SUNDAY -> "Sun";
+        };
+
+        return monthName + " " + day + " (" + weekday + ")";
+    }
+
+    private static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    private static void pause(String msg) {
+        System.out.println("\n" + msg);
+        System.out.print("Press Enter...");
+        scanner.nextLine();
+    }
+}
+</script>
+
+<script>
+    // --- UI Toggles & Syntax Highlighter ---
+    document.getElementById('tryDemoBtn').addEventListener('click', () => {
+        document.getElementById('ideContainer').style.display = 'flex';
+        document.getElementById('tryDemoBtn').style.display = 'none';
+        
+        // Setup syntax highlighting
+        let rawJava = document.getElementById('rawJava').innerText;
+        rawJava = rawJava.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        
+        // Simple regex highlighting
+        rawJava = rawJava.replace(/\/\/.*/g, '<span class="com">$&</span>'); // Comments
+        rawJava = rawJava.replace(/"(.*?)"/g, '<span class="str">$&</span>'); // Strings
+        rawJava = rawJava.replace(/\b(import|class|public|private|static|final|void|int|double|String|new|if|else|for|while|switch|case|break|return|default|try|catch|implements|Override|this)\b/g, '<span class="kw">$&</span>'); // Keywords
+        rawJava = rawJava.replace(/\b([A-Z][a-zA-Z0-9_]*)\b(?!\()/g, '<span class="cls">$&</span>'); // Classes
+        rawJava = rawJava.replace(/\b([a-z][a-zA-Z0-9_]*)\(/g, '<span class="mth">$1</span>('); // Methods
+        rawJava = rawJava.replace(/\b(\d+(\.\d+)?)\b/g, '<span class="num">$&</span>'); // Numbers
+        
+        document.getElementById('codeArea').innerHTML = rawJava;
     });
 
-    runBtn.addEventListener('click', function() {
-        terminalBox.style.display = 'block';   // Lalabas ang Terminal
-        runBtn.style.display = 'none';
-        stopBtn.style.display = 'inline-block';
-        startProgram(); // Dito tatawagin ang logic ng Java demo mo
+    // --- Fake Compiler Terminal Logic (JS Translation of the Java code) ---
+    
+    let isRunning = false;
+    let inputResolver = null;
+    const terminalOutput = document.getElementById('terminalOutput');
+    const terminalInput = document.getElementById('terminalInput');
+    
+    let animeList = JSON.parse(localStorage.getItem('animeList') || '[]');
+    let currentlyWatching = JSON.parse(localStorage.getItem('currentlyWatching') || '[]');
+
+    document.getElementById('outputBtn').addEventListener('click', () => {
+        document.getElementById('terminalContainer').style.display = 'flex';
+        document.getElementById('codeArea').style.display = 'none';
+        if(!isRunning) startProgram();
     });
 
-    stopBtn.addEventListener('click', function() {
-        location.reload(); // I-refresh ang page para huminto ang demo
+    document.getElementById('stopBtn').addEventListener('click', () => {
+        isRunning = false;
+        if(inputResolver) {
+            inputResolver("7"); // simulate exit
+            inputResolver = null;
+        }
+        document.getElementById('terminalContainer').style.display = 'none';
+        document.getElementById('codeArea').style.display = 'block';
+        terminalOutput.innerHTML = '';
     });
-};
 
-        // Terminal Interaction Logic
-        commandLine.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const val = commandLine.value;
-                printTerminal(val + "\n", "white");
-                commandLine.value = "";
-                if (inputResolver) inputResolver(val);
+    terminalInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            const val = this.value;
+            print(val + '\n');
+            this.value = '';
+            if (inputResolver) {
+                const res = inputResolver;
+                inputResolver = null;
+                res(val);
+            }
+        }
+    });
+
+    function print(text) {
+        terminalOutput.innerText += text;
+        terminalOutput.parentElement.scrollTop = terminalOutput.parentElement.scrollHeight;
+    }
+
+    function clearScreen() {
+        terminalOutput.innerText = '';
+    }
+
+    function askInput(promptText = "") {
+        if (promptText) print(promptText);
+        terminalInput.focus();
+        return new Promise(resolve => {
+            inputResolver = resolve;
+        });
+    }
+
+    function saveAnimeList() {
+        localStorage.setItem('animeList', JSON.stringify(animeList));
+    }
+
+    function saveCurrentlyWatching() {
+        localStorage.setItem('currentlyWatching', JSON.stringify(currentlyWatching));
+    }
+
+    function getFormattedToday() {
+        const today = new Date();
+        const months = ["Jan", "Feb", "march", "april", "may", "jun", "july", "Aug", "sept", "oct", "nov", "dec"];
+        const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        return `${months[today.getMonth()]} ${today.getDate()} (${days[today.getDay()]})`;
+    }
+
+    async function pause(msg) {
+        print("\n" + msg + "\nPress Enter...");
+        await askInput("");
+    }
+
+    // Main Logic Port
+    async function startProgram() {
+        isRunning = true;
+        
+        while (isRunning) {
+            clearScreen();
+            showRankingList();
+
+            print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+            print("1️⃣ Add anime (Watching)\n");
+            print("2️⃣ Finish episode\n");
+            print("3️⃣ Edit anime\n");
+            print("4️⃣ Delete selected anime (Ranking List)\n");
+            print("5️⃣ Delete all anime\n");
+            print("6️⃣ Delete anime from Currently Watching\n");
+            print("7️⃣ Exit\n");
+            
+            const choice = await askInput("Choose: ");
+            if (!isRunning) break;
+
+            switch (choice.trim()) {
+                case "1": await addWatching(); break;
+                case "2": await finishEpisode(); break;
+                case "3": await editAnime(); break;
+                case "4": await deleteAnime(); break;
+                case "5": await deleteAll(); break;
+                case "6": await deleteCurrentlyWatching(); break;
+                case "7":
+                    saveAnimeList();
+                    saveCurrentlyWatching();
+                    isRunning = false;
+                    document.getElementById('stopBtn').click();
+                    return;
+                default:
+                    await pause("Invalid choice");
+            }
+        }
+    }
+
+    function showRankingList() {
+        print("✨✨ ANIME RANKING LIST ✨✨\n");
+        displayTier("👑 GOLDEN PIECE OF ANIME (90–100)", 90, 100);
+        displayTier("🔥 PEAK ANIME (80–90)", 80, 90);
+        displayTier("✨ REMARKABLE ANIME (75–80)", 75, 80);
+        displayTier("👍 GOOD ANIME (70–75)", 70, 75);
+        displayTier("⚠️ BAD ANIME (60–70)", 60, 70);
+        displayTier("💀 WORST ANIME (0–60)", 0, 60);
+
+        print("\n📺 YOU'RE CURRENTLY WATCHING\n");
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+
+        if (currentlyWatching.length === 0) {
+            print("None\n");
+        } else {
+            currentlyWatching.forEach(a => {
+                print(`• ${a.name}  (EP ${a.currentEpisode}/${a.totalEpisodes})\n`);
+            });
+        }
+    }
+
+    function displayTier(title, min, max) {
+        print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+        print(title + "\n");
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+
+        let rank = 1;
+        let found = false;
+
+        // Ensure sorted descending
+        animeList.sort((a, b) => b.rating - a.rating);
+
+        animeList.forEach(a => {
+            if (a.rating >= min && a.rating <= max) {
+                print(`#${rank++}  🎬 ${a.name}\n`);
+                print(`    ⭐ ${a.rating.toFixed(2)} / 100\n`);
+                print(`    📆 ${a.releaseYear}\n`);
+                print(`    🎭 ${a.genre}\n`);
+                print(`    🕒 ${a.watchPeriod}\n`);
+                print(`──────────────────────────\n`);
+                found = true;
             }
         });
 
-        function readInput() {
-            return new Promise(resolve => { inputResolver = resolve; });
+        if (!found) print("None\n");
+    }
+
+    async function addWatching() {
+        clearScreen();
+        const name = await askInput("Anime name: ");
+        if (!isRunning) return;
+
+        const startDate = getFormattedToday();
+        print(`Start Date Automatically Set: ${startDate}\n`);
+
+        const totalEpisodesStr = await askInput("Total number of episodes (ex. 12): ");
+        const totalEpisodes = parseInt(totalEpisodesStr) || 0;
+
+        currentlyWatching.push({
+            name: name,
+            startDate: startDate,
+            totalEpisodes: totalEpisodes,
+            currentEpisode: 0,
+            totalEpisodeScore: 0
+        });
+        saveCurrentlyWatching();
+        await pause("Added to Currently Watching");
+    }
+
+    async function finishEpisode() {
+        if (currentlyWatching.length === 0) {
+            await pause("No anime currently watching");
+            return;
         }
 
-        function printTerminal(text, color = "#00ff00") {
-            const span = document.createElement('span');
-            span.style.color = color;
-            span.textContent = text;
-            terminalOut.appendChild(span);
-            terminalOut.scrollTop = terminalOut.scrollHeight;
+        clearScreen();
+        print("Choose anime to rate episodes:\n\n");
+
+        currentlyWatching.forEach((a, i) => {
+            print(`${i + 1}. ${a.name}  (EP ${a.currentEpisode}/${a.totalEpisodes})\n`);
+        });
+
+        const choiceStr = await askInput("\nChoice: ");
+        if (!isRunning) return;
+        const index = parseInt(choiceStr) - 1;
+
+        if (isNaN(index) || index < 0 || index >= currentlyWatching.length) {
+            await pause("Invalid choice");
+            return;
         }
 
-        // --- Simulated Java Methods (Functional Engine) ---
-        async function runMain() {
-            while (isRunning) {
-                terminalOut.textContent = ""; // Clear Screen logic
-                printTerminal("✨✨ ANIME RANKING LIST ✨✨\n");
-                
-                renderTiers();
-                
-                printTerminal("\n📺 YOU'RE CURRENTLY WATCHING\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
-                if (currentlyWatching.length === 0) printTerminal("None\n");
-                else currentlyWatching.forEach(a => printTerminal(`• ${a.name}  (EP ${a.currentEpisode}/${a.totalEpisodes})\n`));
+        let w = currentlyWatching[index];
+        const epStr = await askInput(`How many episodes did you finish for ${w.name}? `);
+        const episodesFinished = parseInt(epStr) || 0;
 
-                printTerminal("\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n1️⃣ Add anime | 2️⃣ Finish ep | 3️⃣ Edit | 4️⃣ Delete | 5️⃣ Clear All | 6️⃣ Del Watching | 7️⃣ Exit\nChoose: ");
-                
-                let choice = await readInput();
-                switch (choice) {
-                    case "1": await addWatching(); break;
-                    case "2": await finishEpisode(); break;
-                    case "3": await editAnime(); break;
-                    case "4": await deleteRanking(); break;
-                    case "5": currentlyWatching = []; animeList = []; save(); break;
-                    case "6": await deleteWatching(); break;
-                    case "7": isRunning = false; stopApp(); return;
-                    default: await pause("Invalid choice");
-                }
+        for (let ep = 1; ep <= episodesFinished && w.currentEpisode < w.totalEpisodes; ep++) {
+            print("\n==============================\n");
+            print(`Rate Episode ${w.currentEpisode + 1}\n`);
+            print("==============================\n");
+            const score = await rateOneEpisode();
+            if (!isRunning) return;
+            w.totalEpisodeScore += score;
+            w.currentEpisode++;
+        }
+
+        if (w.currentEpisode >= w.totalEpisodes) {
+            const finishDateInfo = getFormattedToday();
+            print(`Finished on: ${finishDateInfo}\n`);
+
+            let releaseYear;
+            while (true) {
+                const yearStr = await askInput("Anime Release Year (ex. 2021): ");
+                if (!isRunning) return;
+                releaseYear = parseInt(yearStr);
+                if (releaseYear > 1900 && releaseYear <= new Date().getFullYear()) break;
+                print("Invalid year\n");
             }
-        }
 
-        function renderTiers() {
-            const tiers = [
-                { title: "👑 GOLDEN PIECE OF ANIME (90–100)", min: 90, max: 100 },
-                { title: "🔥 PEAK ANIME (80–90)", min: 80, max: 90 },
-                { title: "✨ REMARKABLE ANIME (75–80)", min: 75, max: 80 },
-                { title: "👍 GOOD ANIME (70–75)", min: 70, max: 75 },
-                { title: "⚠️ BAD ANIME (60–70)", min: 60, max: 70 },
-                { title: "💀 WORST ANIME (0–60)", min: 0, max: 60 }
-            ];
+            const genre = await askInput("Genre: ");
+            const watchPeriod = `${w.startDate} - ${finishDateInfo}`;
+            
+            const rating = (w.totalEpisodes === 0) ? 0 : w.totalEpisodeScore / w.totalEpisodes;
 
-            tiers.forEach(t => {
-                printTerminal(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n${t.title}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
-                let items = animeList.filter(a => a.rating >= t.min && a.rating < t.max);
-                if (items.length === 0) printTerminal("None\n");
-                else {
-                    items.forEach((a, idx) => {
-                        printTerminal(`#${idx+1}  🎬 ${a.name}\n    ⭐ ${a.rating.toFixed(2)} / 100\n    📆 ${a.year}\n    🎭 ${a.genre}\n    🕒 ${a.period}\n──────────────────────────\n`);
-                    });
-                }
+            animeList.push({
+                name: w.name,
+                totalEpisodeScore: w.totalEpisodeScore,
+                episodesRated: w.totalEpisodes,
+                rating: rating,
+                releaseYear: releaseYear,
+                genre: genre,
+                watchPeriod: watchPeriod
             });
+
+            currentlyWatching.splice(index, 1);
+            await pause("Anime completed and added to ranking list!");
+        } else {
+            await pause("Episodes rated. Anime still in Currently Watching list.");
         }
 
-        async function addWatching() {
-            printTerminal("\nAnime name: ");
-            let name = await readInput();
-            let date = getToday();
-            printTerminal("Start Date Automatically Set: " + date + "\n");
-            printTerminal("Total episodes: ");
-            let total = parseInt(await readInput()) || 12;
+        saveCurrentlyWatching();
+        saveAnimeList();
+    }
 
-            currentlyWatching.push({ name, startDate: date, currentEpisode: 0, totalEpisodes: total, totalScore: 0 });
-            save();
-            await pause("Added to Currently Watching");
+    async function deleteCurrentlyWatching() {
+        if (currentlyWatching.length === 0) {
+            await pause("No anime in Currently Watching list");
+            return;
         }
 
-        async function finishEpisode() {
-            if (currentlyWatching.length === 0) { await pause("No anime currently watching"); return; }
-            printTerminal("\nChoose anime:\n");
-            currentlyWatching.forEach((a, i) => printTerminal(`${i+1}. ${a.name} (EP ${a.currentEpisode}/${a.totalEpisodes})\n`));
-            
-            let idx = parseInt(await readInput()) - 1;
-            if (idx < 0 || idx >= currentlyWatching.length) { await pause("Invalid choice"); return; }
-            
-            let w = currentlyWatching[idx];
-            printTerminal(`Episodes finished for ${w.name}: `);
-            let count = parseInt(await readInput()) || 0;
+        clearScreen();
+        print("Select anime to DELETE from Currently Watching:\n\n");
 
-            for (let i = 0; i < count && w.currentEpisode < w.totalEpisodes; i++) {
-                printTerminal(`\nRate Episode ${w.currentEpisode + 1} (0-100 sum): `);
-                let score = parseFloat(await readInput()) || 0;
-                w.totalScore += score;
-                w.currentEpisode++;
-            }
+        currentlyWatching.forEach((a, i) => {
+            print(`${i + 1}. ${a.name} (EP ${a.currentEpisode}/${a.totalEpisodes})\n`);
+        });
 
-            if (w.currentEpisode >= w.totalEpisodes) {
-                printTerminal("\nAnime Finished! Year: ");
-                let year = await readInput();
-                printTerminal("Genre: ");
-                let genre = await readInput();
-                
-                animeList.push({
-                    name: w.name,
-                    rating: w.totalScore / w.totalEpisodes,
-                    year: year,
-                    genre: genre,
-                    period: `${w.startDate} - ${getToday()}`
-                });
-                animeList.sort((a,b) => b.rating - a.rating);
-                currentlyWatching.splice(idx, 1);
-                save();
-                await pause("Completed!");
-            } else {
-                save();
-                await pause("Rated!");
-            }
+        const choiceStr = await askInput("\nChoice: ");
+        if (!isRunning) return;
+        const index = parseInt(choiceStr) - 1;
+
+        if (isNaN(index) || index < 0 || index >= currentlyWatching.length) {
+            await pause("Invalid choice");
+            return;
         }
 
-        async function deleteRanking() {
-            printTerminal("\nDelete Rank # (1, 2...): ");
-            let idx = parseInt(await readInput()) - 1;
-            if(animeList[idx]) { animeList.splice(idx, 1); save(); await pause("Deleted"); }
-        }
+        const removed = currentlyWatching.splice(index, 1)[0];
+        saveCurrentlyWatching();
+        await pause(`Removed from Currently Watching: ${removed.name}`);
+    }
 
-        async function deleteWatching() {
-            printTerminal("\nDelete Watching # (1, 2...): ");
-            let idx = parseInt(await readInput()) - 1;
-            if(currentlyWatching[idx]) { currentlyWatching.splice(idx, 1); save(); await pause("Removed"); }
-        }
+    async function editAnime() {
+        if (animeList.length === 0) { await pause("No anime to edit"); return; }
+        clearScreen();
+        print("Choose anime to EDIT:\n\n");
 
-        async function pause(msg) {
-            printTerminal(`\n${msg}\nPress Enter...`, "yellow");
-            await readInput();
-        }
+        animeList.forEach((a, i) => {
+            print(`${i + 1}. ${a.name} (${a.rating.toFixed(2)})\n`);
+        });
 
-        function save() {
-            localStorage.setItem('anime_list', JSON.stringify(animeList));
-            localStorage.setItem('watching_list', JSON.stringify(currentlyWatching));
-        }
+        const choiceStr = await askInput("\nChoice: ");
+        if (!isRunning) return;
+        const index = parseInt(choiceStr) - 1;
 
-        function getToday() {
-            const d = new Date();
-            const months = ["Jan", "Feb", "march", "april", "may", "jun", "july", "Aug", "sept", "oct", "nov", "dec"];
-            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            return `${months[d.getMonth()]} ${d.getDate()} (${days[d.getDay()]})`;
+        if (isNaN(index) || index < 0 || index >= animeList.length) { await pause("Invalid choice"); return; }
+
+        let old = animeList[index];
+        clearScreen();
+        print(`Re-scoring: ${old.name}\n\n`);
+
+        const story = await getScore("Storyline", 10) + await getScore("Ending", 8) + await getScore("Clarity", 7);
+        const animation = await getScore("Art Style", 10) + await getScore("Motion / FX", 10);
+        const music = await getScore("Music Opening", 4) + await getScore("ED", 4) + await getScore("Concept", 6) + await getScore("SFX", 3) + await getScore("Attractive", 3);
+        const voice = await getScore("Voice action", 10);
+        const experience = await getScore("EXP Intensity", 5) + await getScore("EXP Enjoyment", 5) + await getScore("EXP Expressive", 5);
+        const characters = await getScore("CHAR Personalities", 5) + await getScore("CHAR Styles", 5);
+
+        if (!isRunning) return;
+        
+        const newTotalScore = story + animation + music + voice + experience + characters;
+
+        animeList[index] = {
+            name: old.name,
+            totalEpisodeScore: newTotalScore,
+            episodesRated: 1,
+            rating: newTotalScore,
+            releaseYear: old.releaseYear,
+            genre: old.genre,
+            watchPeriod: old.watchPeriod
+        };
+
+        saveAnimeList();
+        await pause("Anime successfully updated");
+    }
+
+    async function deleteAnime() {
+        if (animeList.length === 0) { await pause("No anime to delete"); return; }
+        clearScreen();
+        print("Choose anime to DELETE:\n\n");
+
+        animeList.forEach((a, i) => {
+            print(`${i + 1}. ${a.name} (${a.rating.toFixed(2)})\n`);
+        });
+
+        const choiceStr = await askInput("\nChoice: ");
+        if (!isRunning) return;
+        const index = parseInt(choiceStr) - 1;
+
+        if (isNaN(index) || index < 0 || index >= animeList.length) { await pause("Invalid choice"); return; }
+
+        const removed = animeList.splice(index, 1)[0];
+        saveAnimeList();
+        await pause(`Deleted: ${removed.name}`);
+    }
+
+    async function deleteAll() {
+        animeList = [];
+        currentlyWatching = [];
+        saveAnimeList();
+        saveCurrentlyWatching();
+        await pause("All anime deleted");
+    }
+
+    async function getScore(label, max) {
+        while (isRunning) {
+            const valStr = await askInput(`${label} (0-${max}): `);
+            if (!isRunning) return 0;
+            const v = parseFloat(valStr);
+            if (!isNaN(v) && v >= 0 && v <= max) return v;
+            print("Invalid input\n");
         }
+        return 0;
+    }
+
+    async function rateOneEpisode() {
+        print("\n🎬 RATE THIS EPISODE\n");
+        const story = await getScore("Storyline", 10) + await getScore("Dialogues", 8) + await getScore("Clarity", 7);
+        const animation = await getScore("Art Style", 10) + await getScore("Motion / FX", 10);
+        const music = await getScore("Music Opening", 4) + await getScore("ED", 4) + await getScore("Concept", 6) + await getScore("SFX", 3) + await getScore("Attractive", 3);
+        const voice = await getScore("Voice action", 10);
+        const experience = await getScore("EXP Intensity", 5) + await getScore("EXP Enjoyment", 5) + await getScore("EXP Expressive", 5);
+        const characters = await getScore("CHAR Personalities", 5) + await getScore("CHAR Styles", 5);
+
+        if (!isRunning) return 0;
+
+        const episodeScore = story + animation + music + voice + experience + characters;
+        print(`Episode Score: ${episodeScore.toFixed(2)} / 100\n`);
+        return episodeScore;
+    }
   </script>
  <script src="script.js"></script>
 
