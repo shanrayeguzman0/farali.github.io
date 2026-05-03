@@ -118,7 +118,7 @@ border: solid rgba(0, 0, 0, 0.479);
 &#8226; Calculator app <br>
 &#8226; Individual defense website (1st website project) <br>
 &#8226; AnimeRankerLister <br>
-<button id="try-demo" class="btn" onclick="initEditor()">Try Demo</button>
+<button id="try-demo" class="btn">Try Demo</button>
 
     <div id="code-container">
         <div class="code-header">AnimeRankList.java</div>
@@ -630,9 +630,8 @@ border: solid rgba(0, 0, 0, 0.479);
 }</div>
     </div>
 
-    <button id="run-btn" class="btn" onclick="startApp()">Run Code (Output)</button>
-    <button id="stop-btn" class="btn" onclick="stopApp()">Stop Demo</button>
-
+  <button id="run-btn" class="btn">Run Java Output</button>
+<button id="stop-btn" class="btn">Stop Demo</button>
     <div id="terminal-box">
         <div id="terminal-output"></div>
         <div class="terminal-input-row">
@@ -684,36 +683,32 @@ border: solid rgba(0, 0, 0, 0.479);
       if (e.target === overlay) overlay.style.display = 'none';
     };
     // UI Logic
-        const codeContainer = document.getElementById('code-container');
-        const runBtn = document.getElementById('run-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const terminalBox = document.getElementById('terminal-box');
-        const terminalOut = document.getElementById('terminal-output');
-        const commandLine = document.getElementById('command-line');
+      window.onload = function() {
+    // 1. Kunin ang lahat ng elements
+    const tryDemoBtn = document.getElementById('try-demo');
+    const runBtn = document.getElementById('run-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const codeContainer = document.getElementById('code-container');
+    const terminalBox = document.getElementById('terminal-box');
 
-        let animeList = JSON.parse(localStorage.getItem('anime_list')) || [];
-        let currentlyWatching = JSON.parse(localStorage.getItem('watching_list')) || [];
-        let isRunning = false;
-        let inputResolver = null;
+    // 2. I-assign ang Click Events (Dito papasok ang "paggana" ng button)
+    tryDemoBtn.addEventListener('click', function() {
+        codeContainer.style.display = 'block'; // Lalabas ang Java Code
+        runBtn.style.display = 'inline-block'; // Lalabas ang Run button
+        tryDemoBtn.style.display = 'none';      // Mawawala ang Try Demo
+    });
 
-        function initEditor() {
-            codeContainer.style.display = 'block';
-            runBtn.style.display = 'inline-block';
-            document.getElementById('try-demo').style.display = 'none';
-        }
+    runBtn.addEventListener('click', function() {
+        terminalBox.style.display = 'block';   // Lalabas ang Terminal
+        runBtn.style.display = 'none';
+        stopBtn.style.display = 'inline-block';
+        startProgram(); // Dito tatawagin ang logic ng Java demo mo
+    });
 
-        async function startApp() {
-            terminalBox.style.display = 'block';
-            runBtn.style.display = 'none';
-            stopBtn.style.display = 'inline-block';
-            terminalOut.textContent = "";
-            isRunning = true;
-            await runMain();
-        }
-
-        function stopApp() {
-            location.reload(); // Hard reset
-        }
+    stopBtn.addEventListener('click', function() {
+        location.reload(); // I-refresh ang page para huminto ang demo
+    });
+};
 
         // Terminal Interaction Logic
         commandLine.addEventListener('keypress', (e) => {
