@@ -1,138 +1,111 @@
 :root {
-            --bg-dark: #1e1e1e;
-            --bg-darker: #121212;
-            --text-light: #d4d4d4;
-            --accent-blue: #007acc;
-            --accent-red: #d16969;
-            --accent-green: #6a9955;
-            --keyword: #569cd6;
-            --string: #ce9178;
-            --comment: #6a9955;
-            --class-name: #4ec9b0;
+            --bg: #0d1117;
+            --container: #161b22;
+            --editor: #0d1117;
+            --terminal: #000000;
+            --text: #c9d1d9;
+            --java-kw: #ff7b72;
+            --java-cls: #ffa657;
+            --java-str: #a5d6ff;
+            --java-cmt: #8b949e;
+            --java-num: #79c0ff;
+            --accent: #238636;
         }
 
-        .editor-container {
-            width: 100%;
-            max-width: 900px;
-            background-color: var(--bg-dark);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-
-        .editor-header {
-            background-color: #2d2d2d;
-            padding: 10px 15px;
-            font-size: 14px;
-            border-bottom: 1px solid #444;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .editor-header span {
-            color: #9cdcfe;
-            font-family: Consolas, 'Courier New', monospace;
-        }
-
-        pre {
-            margin: 0;
-            padding: 15px;
-            overflow-x: auto;
-            max-height: 400px;
-            font-family: Consolas, 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        /* Basic Syntax Highlighting */
-        .kw { color: var(--keyword); }
-        .str { color: var(--string); }
-        .cmt { color: var(--comment); }
-        .cls { color: var(--class-name); }
-
-        /* Buttons */
-        .controls {
-            width: 100%;
-            max-width: 900px;
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
+        .btn {
+            padding: 12px 25px;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid #30363d;
+            border-radius: 6px;
             cursor: pointer;
             transition: 0.2s;
-            color: white;
+            margin: 10px;
         }
+        #try-demo { background: #21262d; color: white; }
+        #try-demo:hover { background: #30363d; }
+        #run-btn { background: var(--accent); color: white; display: none; border: none; }
+        #run-btn:hover { background: #2ea043; }
+        #stop-btn { background: #da3633; color: white; display: none; border: none; }
 
-        .btn-run {
-            background-color: var(--accent-blue);
-        }
-        .btn-run:hover { background-color: #005f9e; }
-
-        .btn-stop {
-            background-color: var(--accent-red);
+        /* Code Container */
+        #code-container {
             display: none;
-        }
-        .btn-stop:hover { background-color: #a14d4d; }
-
-        /* Terminal Output Container */
-        .terminal-container {
             width: 100%;
-            max-width: 900px;
-            background-color: #000000;
+            max-width: 1000px;
+            background: var(--container);
+            border: 1px solid #30363d;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            display: none;
-            flex-direction: column;
             overflow: hidden;
-            border: 1px solid #333;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
 
-        .terminal-header {
-            background-color: #333;
-            padding: 8px 15px;
-            font-size: 12px;
-            color: #ccc;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .code-header {
+            background: #21262d;
+            padding: 10px 20px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #8b949e;
+            border-bottom: 1px solid #30363d;
         }
 
-        .terminal-body {
-            padding: 15px;
-            height: 350px;
-            overflow-y: auto;
-            font-family: Consolas, 'Courier New', monospace;
+        #editor {
+            padding: 20px;
+            background: var(--editor);
+            overflow: auto;
+            max-height: 550px; /* Mas mataas para sa mahabang code */
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 14px;
-            color: #00ff00; /* Hacker terminal vibe */
-            white-space: pre-wrap;
-            display: flex;
-            flex-direction: column;
+            line-height: 1.5;
+            white-space: pre;
+            color: #d1d5db;
         }
 
-        .input-line {
+        /* Syntax Highlighting */
+        .kw { color: var(--java-kw); }
+        .cls { color: var(--java-cls); }
+        .str { color: var(--java-str); }
+        .cmt { color: var(--java-cmt); }
+        .num { color: var(--java-num); }
+
+        /* Terminal Box */
+        #terminal-box {
             display: none;
-            align-items: center;
-            margin-top: 5px;
+            width: 100%;
+            max-width: 1000px;
+            background: var(--terminal);
+            border: 2px solid #30363d;
+            border-radius: 8px;
+            margin-top: 20px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-family: 'Consolas', monospace;
         }
 
-        .input-line span { margin-right: 8px; }
+        #terminal-output {
+            height: 400px;
+            overflow-y: auto;
+            color: #00ff00;
+            white-space: pre-wrap;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
 
-        .terminal-input {
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #222;
+            padding-top: 10px;
+        }
+
+        #command-line {
             background: transparent;
             border: none;
-            color: #fff;
-            font-family: Consolas, 'Courier New', monospace;
-            font-size: 14px;
+            color: white;
             outline: none;
-            flex-grow: 1;
+            flex: 1;
+            font-family: inherit;
+            font-size: 14px;
         }
 /* ===== BODY ===== */
 body {
@@ -280,7 +253,7 @@ hr {
   border: 1px solid rgb(83, 83, 83);
 }
 
-#show-gif-btn {
+#show-gif-bt {
     padding: 12px 24px;
     font-size: 16px;
     font-weight: bold;
@@ -292,7 +265,7 @@ hr {
     transition: background-color 0.3s ease, transform 0.1s ease;
   }
 
-  #show-gif-btn:hover {
+  #show-gif-bt:hover {
     background-color: #2a2a2a;
   }
 
@@ -330,7 +303,7 @@ hr {
     letter-spacing: 0.5px;
   }
 
-  #close-btn {
+  #close-bt {
     position: absolute;
     top: -15px;
     right: -15px;
@@ -345,7 +318,7 @@ hr {
     transition: 0.2s;
   }
   
-  #close-btn:hover {
+  #close-bt:hover {
     background: #ff4757;
   }
 
