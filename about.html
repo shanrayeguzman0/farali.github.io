@@ -118,6 +118,86 @@ border: solid rgba(0, 0, 0, 0.479);
 &#8226; Calculator app <br>
 &#8226; Individual defense website (1st website project) <br>
 &#8226; RankerLister <br>
+<h3>Demo</h3>
+<div class="editor-container">
+        <div class="editor-header">
+            <span>📄 AnimeRankList.java</span>
+            <span style="color:#666">Java</span>
+        </div>
+<pre><code><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="cmt">// ================= WATCHING CLASS =================</span>
+<span class="kw">class</span> <span class="cls">WatchingAnime</span> {
+    String name;
+    String startDate;
+    <span class="kw">int</span> currentEpisode;   <span class="cmt">// how many episodes rated so far</span>
+    <span class="kw">int</span> totalEpisodes;    <span class="cmt">// total episodes</span>
+    <span class="kw">double</span> totalEpisodeScore; <span class="cmt">// sum of episode scores</span>
+
+    <span class="kw">public</span> WatchingAnime(String name, String startDate, <span class="kw">int</span> totalEpisodes) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.startDate = startDate;
+        <span class="kw">this</span>.totalEpisodes = totalEpisodes;
+        <span class="kw">this</span>.currentEpisode = 0;
+        <span class="kw">this</span>.totalEpisodeScore = 0;
+    }
+
+    <span class="kw">public double</span> getAverageScore() {
+        <span class="kw">return</span> currentEpisode == 0 ? 0 : totalEpisodeScore / currentEpisode;
+    }
+}
+
+<span class="cmt">// ================= ANIME CLASS =================</span>
+<span class="kw">class</span> <span class="cls">Anime</span> <span class="kw">implements</span> Comparable&lt;Anime&gt; {
+    String name, genre, watchPeriod;
+    <span class="kw">double</span> totalEpisodeScore;
+    <span class="kw">int</span> episodesRated;
+    <span class="kw">double</span> rating;
+    <span class="kw">int</span> releaseYear;
+
+    <span class="kw">public</span> Anime(String name, <span class="kw">double</span> totalEpisodeScore, <span class="kw">int</span> episodesRated,
+                 <span class="kw">int</span> releaseYear, String genre, String watchPeriod) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.totalEpisodeScore = totalEpisodeScore;
+        <span class="kw">this</span>.episodesRated = episodesRated;
+        <span class="kw">this</span>.rating = (episodesRated == 0) ? 0 : totalEpisodeScore / episodesRated;
+        <span class="kw">this</span>.releaseYear = releaseYear;
+        <span class="kw">this</span>.genre = genre;
+        <span class="kw">this</span>.watchPeriod = watchPeriod;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public int</span> compareTo(Anime o) {
+        <span class="kw">return</span> Double.compare(o.rating, <span class="kw">this</span>.rating);
+    }
+}
+
+<span class="cmt">// ... (Rest of the Java code is visually simulated here) ...</span>
+<span class="kw">public class</span> <span class="cls">AnimeRankList</span> {
+    <span class="kw">public static void</span> main(String[] args) {
+        <span class="cmt">// Run output below to interact!</span>
+    }
+}</code></pre>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button class="btn-run" id="btnRun">▶ Run Output</button>
+        <button class="btn-stop" id="btnStop">⏹ Stop</button>
+    </div>
+
+  
+    <div class="terminal-container" id="terminalContainer">
+        <div class="terminal-header">Terminal Output</div>
+        <div class="terminal-body" id="terminalOutput">
+            <div id="outputLog"></div>
+            <div class="input-line" id="inputLine">
+                <span>&gt;</span>
+                <input type="text" class="terminal-input" id="terminalInput" autocomplete="off">
+            </div>
+        </div>
+    </div>
 &#8226; 2D Games <br>
 &#8226; Bank Account System <br>
 <hr>
@@ -161,6 +241,317 @@ border: solid rgba(0, 0, 0, 0.479);
     window.onclick = (e) => {
       if (e.target === overlay) overlay.style.display = 'none';
     };
+    // --- JS ENGINE TO SIMULATE JAVA CONSOLE ---
+        const btnRun = document.getElementById('btnRun');
+        const btnStop = document.getElementById('btnStop');
+        const terminalContainer = document.getElementById('terminalContainer');
+        const outputLog = document.getElementById('outputLog');
+        const inputLine = document.getElementById('inputLine');
+        const terminalInput = document.getElementById('terminalInput');
+
+        let isRunning = false;
+        let resolveInput = null;
+
+        // DB Arrays
+        let animeList = [];
+        let currentlyWatching = [];
+
+        // Terminal Functions
+        function print(text) {
+            outputLog.innerHTML += text;
+            scrollToBottom();
+        }
+
+        function println(text = "") {
+            outputLog.innerHTML += text + "<br>";
+            scrollToBottom();
+        }
+
+        function clearScreen() {
+            outputLog.innerHTML = '';
+        }
+
+        function scrollToBottom() {
+            const body = document.getElementById('terminalOutput');
+            body.scrollTop = body.scrollHeight;
+        }
+
+        async function readLine() {
+            inputLine.style.display = 'flex';
+            terminalInput.value = '';
+            terminalInput.focus();
+            scrollToBottom();
+
+            return new Promise((resolve) => {
+                resolveInput = resolve;
+            });
+        }
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && resolveInput && isRunning) {
+                const val = terminalInput.value;
+                println(`<span style="color:#fff">&gt; ${val}</span>`);
+                inputLine.style.display = 'none';
+                let res = resolveInput;
+                resolveInput = null;
+                res(val);
+            }
+        });
+
+        async function pause(msg) {
+            println("<br>" + msg);
+            print("Press Enter...");
+            await readLine();
+        }
+
+        // --- CORE APPLICATION LOGIC (Converted from Java) ---
+
+        function loadData() {
+            const savedAnime = localStorage.getItem('animeList');
+            const savedWatch = localStorage.getItem('currentlyWatching');
+            if (savedAnime) animeList = JSON.parse(savedAnime);
+            if (savedWatch) currentlyWatching = JSON.parse(savedWatch);
+        }
+
+        function saveData() {
+            localStorage.setItem('animeList', JSON.stringify(animeList));
+            localStorage.setItem('currentlyWatching', JSON.stringify(currentlyWatching));
+        }
+
+        function displayTier(title, min, max) {
+            println("<br>━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            println(title);
+            println("━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            let rank = 1;
+            let found = false;
+
+            for (let a of animeList) {
+                if (a.rating >= min && a.rating < max) {
+                    println(`#${rank++}  🎬 ${a.name}`);
+                    println(`    ⭐ ${a.rating.toFixed(2)} / 100`);
+                    println(`    📆 ${a.releaseYear}`);
+                    println(`    🎭 ${a.genre}`);
+                    println(`    🕒 ${a.watchPeriod}`);
+                    println("──────────────────────────");
+                    found = true;
+                }
+            }
+            if (!found) println("None");
+        }
+
+        function showRankingList() {
+            println("✨✨ ANIME RANKING LIST ✨✨");
+            displayTier("👑 GOLDEN PIECE OF ANIME (90–100)", 90, 101);
+            displayTier("🔥 PEAK ANIME (80–90)", 80, 90);
+            displayTier("✨ REMARKABLE ANIME (75–80)", 75, 80);
+            displayTier("👍 GOOD ANIME (70–75)", 70, 75);
+            displayTier("⚠️ BAD ANIME (60–70)", 60, 70);
+            displayTier("💀 WORST ANIME (0–60)", 0, 60);
+
+            println("<br>📺 YOU'RE CURRENTLY WATCHING");
+            println("━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            if (currentlyWatching.length === 0) {
+                println("None");
+            } else {
+                currentlyWatching.forEach(a => {
+                    println(`• ${a.name}  (EP ${a.currentEpisode}/${a.totalEpisodes})`);
+                });
+            }
+        }
+
+        function getFormattedToday() {
+            const today = new Date();
+            const months = ["Jan", "Feb", "march", "april", "may", "jun", "july", "Aug", "sept", "oct", "nov", "dec"];
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            return `${months[today.getMonth()]} ${today.getDate()} (${days[today.getDay()]})`;
+        }
+
+        async function score(label, max) {
+            while (isRunning) {
+                print(`${label} (0-${max}): `);
+                let val = parseFloat(await readLine());
+                if (!isNaN(val) && val >= 0 && val <= max) return val;
+                println("Invalid input");
+            }
+            return 0;
+        }
+
+        async function rateOneEpisode() {
+            println("<br>🎬 RATE THIS EPISODE");
+            let story = await score("Storyline", 10) + await score("Dialogues", 8) + await score("Clarity", 7);
+            let animation = await score("Art Style", 10) + await score("Motion / FX", 10);
+            let music = await score("Music Opening", 4) + await score("ED", 4) + await score("Concept", 6) + await score("SFX", 3) + await score("Attractive", 3);
+            let voice = await score("Voice action", 10);
+            let experience = await score("EXP Intensity", 5) + await score("EXP Enjoyment", 5) + await score("EXP Expressive", 5);
+            let chars = await score("CHAR Personalities", 5) + await score("CHAR Styles", 5);
+
+            let epScore = story + animation + music + voice + experience + chars;
+            println(`Episode Score: ${epScore.toFixed(2)} / 100`);
+            return epScore;
+        }
+
+        async function addWatching() {
+            clearScreen();
+            print("Anime name: ");
+            let name = await readLine();
+            if (!isRunning) return;
+
+            let startDate = getFormattedToday();
+            println("Start Date Automatically Set: " + startDate);
+            
+            print("Total number of episodes (ex. 12): ");
+            let totalEp = parseInt(await readLine());
+
+            currentlyWatching.push({ name: name, startDate: startDate, totalEpisodes: isNaN(totalEp) ? 1 : totalEp, currentEpisode: 0, totalEpisodeScore: 0 });
+            saveData();
+            await pause("Added to Currently Watching");
+        }
+
+        async function finishEpisode() {
+            if (currentlyWatching.length === 0) {
+                await pause("No anime currently watching"); return;
+            }
+            clearScreen();
+            println("Choose anime to rate episodes:<br>");
+            currentlyWatching.forEach((a, i) => println(`${i + 1}. ${a.name}  (EP ${a.currentEpisode}/${a.totalEpisodes})`));
+            
+            print("<br>Choice: ");
+            let idx = parseInt(await readLine()) - 1;
+            if (isNaN(idx) || idx < 0 || idx >= currentlyWatching.length) {
+                await pause("Invalid choice"); return;
+            }
+
+            let w = currentlyWatching[idx];
+            print(`How many episodes did you finish for ${w.name}? `);
+            let eps = parseInt(await readLine());
+            if (isNaN(eps)) { await pause("Invalid number"); return; }
+
+            for (let ep = 1; ep <= eps && w.currentEpisode < w.totalEpisodes; ep++) {
+                if(!isRunning) return;
+                println("<br>==============================");
+                println("Rate Episode " + (w.currentEpisode + 1));
+                println("==============================");
+                let sc = await rateOneEpisode();
+                w.totalEpisodeScore += sc;
+                w.currentEpisode++;
+            }
+
+            if (w.currentEpisode >= w.totalEpisodes) {
+                let finishDate = getFormattedToday();
+                println("Finished on: " + finishDate);
+                let year = 0;
+                while (isRunning) {
+                    print("Anime Release Year (ex. 2021): ");
+                    year = parseInt(await readLine());
+                    if (!isNaN(year) && year > 1900 && year <= new Date().getFullYear()) break;
+                    println("Invalid year");
+                }
+                print("Genre: ");
+                let genre = await readLine();
+
+                animeList.push({
+                    name: w.name,
+                    totalEpisodeScore: w.totalEpisodeScore,
+                    episodesRated: w.totalEpisodes,
+                    rating: w.totalEpisodeScore / w.totalEpisodes,
+                    releaseYear: year,
+                    genre: genre,
+                    watchPeriod: w.startDate + " - " + finishDate
+                });
+                currentlyWatching.splice(idx, 1);
+                animeList.sort((a, b) => b.rating - a.rating);
+                await pause("Anime completed and added to ranking list!");
+            } else {
+                await pause("Episodes rated. Anime still in Currently Watching list.");
+            }
+            saveData();
+        }
+
+        // Main Loop
+        async function runMainProgram() {
+            loadData();
+            while (isRunning) {
+                clearScreen();
+                showRankingList();
+                
+                println("<br>━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                println("1️⃣ Add anime (Watching)");
+                println("2️⃣ Finish episode");
+                println("3️⃣ Edit anime (Omitted for brevity in JS port)");
+                println("4️⃣ Delete selected anime (Ranking List)");
+                println("5️⃣ Delete all anime");
+                println("6️⃣ Delete anime from Currently Watching");
+                println("7️⃣ Exit");
+                print("Choose: ");
+
+                let choice = await readLine();
+                if (!isRunning) break;
+
+                switch (choice) {
+                    case "1": await addWatching(); break;
+                    case "2": await finishEpisode(); break;
+                    case "3": await pause("Edit feature mock omitted. Please rate via finish episode!"); break;
+                    case "4": 
+                        if(animeList.length === 0) { await pause("No anime"); break; }
+                        clearScreen();
+                        animeList.forEach((a, i) => println(`${i+1}. ${a.name}`));
+                        print("Choice: ");
+                        let d = parseInt(await readLine()) - 1;
+                        if(d >= 0 && d < animeList.length) {
+                            let n = animeList[d].name;
+                            animeList.splice(d, 1);
+                            saveData();
+                            await pause("Deleted: " + n);
+                        }
+                        break;
+                    case "5": animeList = []; currentlyWatching = []; saveData(); await pause("All anime deleted"); break;
+                    case "6": 
+                        if(currentlyWatching.length === 0) { await pause("None watching"); break; }
+                        clearScreen();
+                        currentlyWatching.forEach((a, i) => println(`${i+1}. ${a.name}`));
+                        print("Choice: ");
+                        let c = parseInt(await readLine()) - 1;
+                        if(c >= 0 && c < currentlyWatching.length) {
+                            currentlyWatching.splice(c, 1);
+                            saveData();
+                            await pause("Deleted from watching");
+                        }
+                        break;
+                    case "7": 
+                        println("Exiting and saving...");
+                        saveData();
+                        stopProgram(); 
+                        break;
+                    default: await pause("Invalid choice");
+                }
+            }
+        }
+
+        // --- BUTTON TRIGGERS ---
+        btnRun.addEventListener('click', () => {
+            if (isRunning) return;
+            terminalContainer.style.display = 'flex';
+            btnRun.style.display = 'none';
+            btnStop.style.display = 'inline-block';
+            isRunning = true;
+            clearScreen();
+            runMainProgram();
+        });
+
+        function stopProgram() {
+            isRunning = false;
+            terminalContainer.style.display = 'none';
+            btnStop.style.display = 'none';
+            btnRun.style.display = 'inline-block';
+            if (resolveInput) {
+                resolveInput(""); // Resolve hanging promise
+                resolveInput = null;
+            }
+        }
+
+        btnStop.addEventListener('click', stopProgram);
   </script>
  <script src="script.js"></script>
 

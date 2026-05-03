@@ -1,3 +1,139 @@
+:root {
+            --bg-dark: #1e1e1e;
+            --bg-darker: #121212;
+            --text-light: #d4d4d4;
+            --accent-blue: #007acc;
+            --accent-red: #d16969;
+            --accent-green: #6a9955;
+            --keyword: #569cd6;
+            --string: #ce9178;
+            --comment: #6a9955;
+            --class-name: #4ec9b0;
+        }
+
+        .editor-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--bg-dark);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .editor-header {
+            background-color: #2d2d2d;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-header span {
+            color: #9cdcfe;
+            font-family: Consolas, 'Courier New', monospace;
+        }
+
+        pre {
+            margin: 0;
+            padding: 15px;
+            overflow-x: auto;
+            max-height: 400px;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Basic Syntax Highlighting */
+        .kw { color: var(--keyword); }
+        .str { color: var(--string); }
+        .cmt { color: var(--comment); }
+        .cls { color: var(--class-name); }
+
+        /* Buttons */
+        .controls {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+
+        .btn-run {
+            background-color: var(--accent-blue);
+        }
+        .btn-run:hover { background-color: #005f9e; }
+
+        .btn-stop {
+            background-color: var(--accent-red);
+            display: none;
+        }
+        .btn-stop:hover { background-color: #a14d4d; }
+
+        /* Terminal Output Container */
+        .terminal-container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #000000;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .terminal-header {
+            background-color: #333;
+            padding: 8px 15px;
+            font-size: 12px;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .terminal-body {
+            padding: 15px;
+            height: 350px;
+            overflow-y: auto;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 14px;
+            color: #00ff00; /* Hacker terminal vibe */
+            white-space: pre-wrap;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-line {
+            display: none;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .input-line span { margin-right: 8px; }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: Consolas, 'Courier New', monospace;
+            font-size: 14px;
+            outline: none;
+            flex-grow: 1;
+        }
 /* ===== BODY ===== */
 body {
     margin: 0;
