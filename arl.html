@@ -1034,8 +1034,55 @@
             background: var(--border-hover);
         }
 
+        /* Type Selector */
+        .type-selector { display: flex; gap: 12px; margin-bottom: 4px; }
+        .type-option { flex: 1; padding: 14px 10px; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; text-align: center; transition: all 0.2s; color: var(--text-secondary); }
+        .type-option:hover { border-color: var(--border-hover); color: var(--text-primary); }
+        .type-option.selected { border-color: var(--accent); background: rgba(99, 102, 241, 0.1); color: var(--accent-hover); }
+        .type-option .type-icon { font-size: 1.5rem; margin-bottom: 4px; }
+        .type-option .type-label { font-size: 0.85rem; font-weight: 600; }
+
+        /* Summary display */
+        .anime-summary { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Character image upload */
+        .char-image-upload { width: 44px; height: 44px; border-radius: 50%; border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; flex-shrink: 0; background: var(--bg-primary); transition: all 0.2s; position: relative; }
+        .char-image-upload:hover { border-color: var(--accent); }
+        .char-image-upload img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .char-image-upload .plus { color: var(--text-muted); font-size: 1.2rem; font-weight: 500; user-select: none; }
+        .character-item .char-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; background: var(--bg-secondary); }
+        .character-item .char-img-placeholder { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); flex-shrink: 0; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.65rem; }
+
+        /* Crop Modal */
+        .crop-canvas-container { position: relative; width: 100%; height: 320px; background: var(--bg-primary); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 12px; border: 1px solid var(--border); touch-action: none; }
+        #crop-canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+        #crop-canvas:active { cursor: grabbing; }
+        .crop-controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+
+        /* Details Modal */
+        .details-cover { width: 100%; max-width: 180px; aspect-ratio: 2/3; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border); margin: 0 auto 20px; display: block; background: var(--bg-primary); }
+        .details-section { margin-bottom: 24px; }
+        .details-section h4 { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .details-section p, .details-section .details-text { color: var(--text-primary); line-height: 1.7; font-size: 0.95rem; }
+        .details-meta-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 16px; font-size: 0.9rem; }
+        .details-meta-grid > div { color: var(--text-secondary); }
+        .details-meta-grid > div strong { color: var(--text-primary); font-weight: 600; }
+        .details-char-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 14px; }
+        .details-char-item { text-align: center; }
+        .details-char-item img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); margin: 0 auto 6px; display: block; background: var(--bg-primary); }
+        .details-char-item .char-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; word-break: break-word; }
+        .details-char-item .char-rating { font-size: 0.8rem; color: var(--accent-hover); font-weight: 700; }
+        .details-char-item .char-img-placeholder { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--border); margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; background: var(--bg-primary); color: var(--text-muted); font-size: 0.7rem; }
+
+        /* Stats character image */
+        .stat-char-img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--golden); margin: 8px auto; display: block; background: var(--bg-primary); }
+
+        /* Type badge */
+        .type-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; color: var(--accent-hover); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+
         .hidden { display: none !important; }
     </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -1157,6 +1204,23 @@
                 <div class="form-group">
                     <label class="form-label">Anime Name</label>
                     <input type="text" class="form-input" id="add-name" placeholder="Enter anime name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <div class="type-selector">
+                        <div class="type-option selected" id="type-series" onclick="app.selectType('series')">
+                            <div class="type-icon">&#127909;</div>
+                            <div class="type-label">Series</div>
+                        </div>
+                        <div class="type-option" id="type-movie" onclick="app.selectType('movie')">
+                            <div class="type-icon">&#127902;</div>
+                            <div class="type-label">Movie</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Summary</label>
+                    <textarea class="form-input" id="add-summary" rows="2" placeholder="Brief summary of the anime..."></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Total Episodes</label>
@@ -1321,6 +1385,11 @@
                     <div class="form-group">
                         <label class="form-label">Character Ratings (Optional)</label>
                         <div class="character-input-row">
+                            <div class="char-image-upload" onclick="document.getElementById('char-image-input').click()" title="Add character image">
+                                <img id="char-image-preview" class="hidden" alt="">
+                                <span class="plus" id="char-image-plus">+</span>
+                            </div>
+                            <input type="file" id="char-image-input" accept=".jpg,.jpeg,.png" style="display:none" onchange="app.handleCharImagePreview(this, 'char-image-preview', 'char-image-plus')">
                             <input type="text" class="form-input" id="char-name" placeholder="Character name">
                             <div class="slider-row" style="flex:1; min-width:120px;">
                                 <input type="range" id="char-rating" min="0" max="10" step="0.1" value="5" oninput="document.getElementById('char-rating-val').textContent=parseFloat(this.value).toFixed(1)">
@@ -1355,7 +1424,7 @@
                     <button class="edit-choice-btn" onclick="app.openEditInfo()">
                         <div class="choice-icon">&#128221;</div>
                         <div class="choice-title">Edit Info</div>
-                        <div class="choice-desc">Name, genre, studio, year, dates, cover, characters</div>
+                        <div class="choice-desc">Name, genre, studio, year, dates, cover, summary, characters</div>
                     </button>
                     <button class="edit-choice-btn" onclick="app.openEditScore()">
                         <div class="choice-icon">&#10024;</div>
@@ -1398,6 +1467,14 @@
                     <input type="text" class="form-input" id="edit-info-studio">
                 </div>
                 <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <input type="text" class="form-input" id="edit-info-type" readonly style="opacity:0.7; cursor:not-allowed;">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Summary</label>
+                    <textarea class="form-input" id="edit-info-summary" rows="2"></textarea>
+                </div>
+                <div class="form-group">
                     <label class="form-label">Watch Period</label>
                     <input type="text" class="form-input" id="edit-info-period">
                 </div>
@@ -1405,6 +1482,11 @@
                 <div class="form-group">
                     <label class="form-label">Characters</label>
                     <div class="character-input-row">
+                        <div class="char-image-upload" onclick="document.getElementById('edit-char-image-input').click()" title="Add character image">
+                            <img id="edit-char-image-preview" class="hidden" alt="">
+                            <span class="plus" id="edit-char-image-plus">+</span>
+                        </div>
+                        <input type="file" id="edit-char-image-input" accept=".jpg,.jpeg,.png" style="display:none" onchange="app.handleCharImagePreview(this, 'edit-char-image-preview', 'edit-char-image-plus')">
                         <input type="text" class="form-input" id="edit-char-name" placeholder="Character name">
                         <div class="slider-row" style="flex:1; min-width:120px;">
                             <input type="range" id="edit-char-rating" min="0" max="10" step="0.1" value="5" oninput="document.getElementById('edit-char-rating-val').textContent=parseFloat(this.value).toFixed(1)">
@@ -1569,6 +1651,41 @@
         </div>
     </div>
 
+    <!-- Crop Modal -->
+    <div class="modal-overlay" id="crop-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Crop Character Image</div>
+                <button class="modal-close" onclick="app.closeModal('crop-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="crop-canvas-container" id="crop-canvas-container">
+                    <canvas id="crop-canvas"></canvas>
+                </div>
+                <div class="crop-controls">
+                    <button class="btn" onclick="app.zoomCrop(-0.1)">- Zoom Out</button>
+                    <button class="btn" onclick="app.zoomCrop(0.1)">+ Zoom In</button>
+                    <button class="btn" onclick="app.resetCrop()">Reset</button>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">Drag to pan. Use zoom to adjust. The square area will be cropped to 1:1.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="app.closeModal('crop-modal')">Cancel</button>
+                <button class="btn btn-primary" onclick="app.applyCrop()">Crop & Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div class="modal-overlay" id="details-modal">
+        <div class="modal" style="max-width: 700px;">
+            <div class="modal-header">
+                <div class="modal-title" id="details-title">Anime Details</div>
+                <button class="modal-close" onclick="app.closeModal('details-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="details-body"></div>
+        </div>
+    </div>
     <div class="toast-container" id="toast-container"></div>
 
     <script>
@@ -1585,6 +1702,19 @@
             tempCoverImage: null,
             tempEditCoverImage: null,
             pendingCharacters: [],
+            pendingCharImage: null,
+            cropImageSrc: null,
+            cropImageObj: null,
+            cropCanvas: null,
+            cropCtx: null,
+            cropScale: 1,
+            cropOffsetX: 0,
+            cropOffsetY: 0,
+            isDraggingCrop: false,
+            lastCropMouseX: 0,
+            lastCropMouseY: 0,
+            cropSizeRatio: 0.55,
+            pendingCharImageCallback: null,
 
             init() {
                 this.load();
@@ -1607,9 +1737,14 @@
                             if (a.edScore === undefined) a.edScore = 0;
                             if (a.coverImage === undefined) a.coverImage = '';
                             if (a.characters === undefined) a.characters = [];
+                            a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
+                            if (a.summary === undefined) a.summary = '';
+                            if (a.type === undefined) a.type = 'series';
                         });
                         this.currentlyWatching.forEach(a => {
                             if (a.coverImage === undefined) a.coverImage = '';
+                            if (a.summary === undefined) a.summary = '';
+                            if (a.type === undefined) a.type = 'series';
                         });
                     } catch (e) {
                         console.error('Failed to load data', e);
@@ -1621,11 +1756,10 @@
                 localStorage.setItem('animeRank_data', JSON.stringify({
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
-                    version: 3
+                    version: 4
                 }));
             },
 
-            // Navigation
             switchView(viewName) {
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                 document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1688,6 +1822,8 @@
                                         `<img src="${anime.coverImage}" class="cover-preview" alt="cover">` : '';
                                     const chars = anime.characters || [];
                                     const favChar = chars.length ? chars.reduce((max, c) => c.rating > max.rating ? c : max, chars[0]) : null;
+                                    const isMovie = anime.type === 'movie';
+                                    const summaryShort = anime.summary ? this.truncateWords(anime.summary, 20) : '';
                                     return `
                                         <div class="anime-card ${anime.coverImage ? 'card-with-cover' : ''}">
                                             ${coverHtml}
@@ -1698,14 +1834,17 @@
                                                 <div class="anime-meta">
                                                     <span>&#128197; ${anime.releaseYear}</span>
                                                     <span>&#127917; ${this.escapeHtml(anime.genre)}</span>
-                                                    <span>&#127909; ${anime.episodesRated} ep</span>
+                                                    <span>${isMovie ? 'Movie' : anime.episodesRated + ' ep'}</span>
+                                                    ${isMovie ? '<span class="type-badge">Movie</span>' : ''}
                                                 </div>
+                                                ${summaryShort ? `<div class="anime-summary">${this.escapeHtml(summaryShort)}</div>` : ''}
                                                 <div class="anime-meta" style="margin-top: 6px;">
                                                     <span>&#127970; ${this.escapeHtml(anime.studio || 'Unknown Studio')}</span>
                                                     ${favChar ? `<span>&#11088; ${this.escapeHtml(favChar.name)} (${favChar.rating.toFixed(1)})</span>` : ''}
                                                 </div>
                                                 <div class="anime-period">&#128336; ${this.escapeHtml(anime.watchPeriod)}</div>
                                                 <div class="card-actions">
+                                                    <button class="btn" onclick="app.showDetailsModal(${this.animeList.indexOf(anime)})">View All</button>
                                                     <button class="btn" onclick="app.showEditChoiceModal(${this.animeList.indexOf(anime)})">&#9999; Edit</button>
                                                     <button class="btn btn-danger" onclick="app.deleteAnime(${this.animeList.indexOf(anime)})">&#128465; Delete</button>
                                                 </div>
@@ -1738,21 +1877,31 @@
                     const progress = (anime.currentEpisode / anime.totalEpisodes) * 100;
                     const coverHtml = anime.coverImage ? 
                         `<img src="${anime.coverImage}" class="cover-preview" alt="cover">` : '';
+                    const summaryShort = anime.summary ? this.truncateWords(anime.summary, 20) : '';
+                    const isMovie = anime.type === 'movie';
                     return `
                         <div class="watching-card ${anime.coverImage ? 'card-with-cover' : ''}">
                             ${coverHtml}
                             <div class="card-content">
-                                <div class="watching-title">${this.escapeHtml(anime.name)}</div>
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
+                                    <div class="watching-title">${this.escapeHtml(anime.name)}</div>
+                                    ${isMovie ? '<span class="type-badge">Movie</span>' : ''}
+                                </div>
                                 <div class="watching-date">Started: ${anime.startDate}</div>
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width: ${progress}%"></div>
-                                </div>
-                                <div class="watching-meta">
-                                    <span>EP ${anime.currentEpisode}/${anime.totalEpisodes}</span>
-                                    <span>${progress.toFixed(0)}%</span>
-                                </div>
+                                ${summaryShort ? `<div class="anime-summary">${this.escapeHtml(summaryShort)}</div>` : ''}
+                                ${isMovie ? `
+                                    <div class="watching-meta"><span>Movie</span></div>
+                                ` : `
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill" style="width: ${progress}%"></div>
+                                    </div>
+                                    <div class="watching-meta">
+                                        <span>EP ${anime.currentEpisode}/${anime.totalEpisodes}</span>
+                                        <span>${progress.toFixed(0)}%</span>
+                                    </div>
+                                `}
                                 <div class="card-actions">
-                                    <button class="btn btn-primary" onclick="app.showRateModal(${idx})">&#11088; Rate Episodes</button>
+                                    <button class="btn btn-primary" onclick="app.showRateModal(${idx})">&#11088; ${isMovie ? 'Rate Movie' : 'Rate Episodes'}</button>
                                     <button class="btn btn-danger" onclick="app.deleteWatching(${idx})">&#128465; Delete</button>
                                 </div>
                             </div>
@@ -1805,7 +1954,7 @@
                     if (a.characters && a.characters.length) {
                         a.characters.forEach(c => {
                             if (!favCharacter || c.rating > favCharacter.rating) {
-                                favCharacter = { name: c.name, rating: c.rating, anime: a.name };
+                                favCharacter = { name: c.name, rating: c.rating, anime: a.name, image: c.image || '' };
                             }
                         });
                     }
@@ -1884,6 +2033,7 @@
                         <div class="stats-grid">
                             <div class="stat-card">
                                 <div class="stat-label">&#11088; Most Favorite Character</div>
+                                ${favCharacter.image ? `<img src="${favCharacter.image}" class="stat-char-img" alt="">` : ''}
                                 <div style="font-size: 1.1rem; font-weight: 700; margin: 8px 0;">${this.escapeHtml(favCharacter.name)}</div>
                                 <div class="stat-value" style="font-size: 1.5rem;">${favCharacter.rating.toFixed(1)}</div>
                                 <div class="stat-sub">from ${this.escapeHtml(favCharacter.anime)}</div>
@@ -1920,6 +2070,49 @@
                 `;
             },
 
+            showDetailsModal(index) {
+                const anime = this.animeList[index];
+                document.getElementById('details-title').textContent = anime.name;
+                const coverHtml = anime.coverImage ? `<img src="${anime.coverImage}" class="details-cover" alt="cover">` : '';
+                const charsHtml = (anime.characters || []).map(c => `
+                    <div class="details-char-item">
+                        ${c.image ? `<img src="${c.image}" alt="">` : `<div class="char-img-placeholder">No Image</div>`}
+                        <div class="char-name">${this.escapeHtml(c.name)}</div>
+                        <div class="char-rating">${c.rating.toFixed(1)}</div>
+                    </div>
+                `).join('');
+                const isMovie = anime.type === 'movie';
+                document.getElementById('details-body').innerHTML = `
+                    ${coverHtml}
+                    <div class="details-section">
+                        <h4>Information</h4>
+                        <div class="details-meta-grid">
+                            <div><strong>Release Year:</strong> ${anime.releaseYear}</div>
+                            <div><strong>Type:</strong> ${isMovie ? 'Movie' : 'Series'}</div>
+                            <div><strong>Genre:</strong> ${this.escapeHtml(anime.genre)}</div>
+                            <div><strong>Studio:</strong> ${this.escapeHtml(anime.studio || 'Unknown')}</div>
+                            <div><strong>Rating:</strong> ${anime.rating.toFixed(2)}</div>
+                            <div><strong>Episodes:</strong> ${isMovie ? 'Movie' : anime.episodesRated + ' episodes'}</div>
+                        </div>
+                        <div style="margin-top: 10px; color: var(--text-secondary); font-size: 0.9rem;">
+                            <strong style="color: var(--text-primary);">Watch Period:</strong> ${this.escapeHtml(anime.watchPeriod)}
+                        </div>
+                    </div>
+                    <div class="details-section">
+                        <h4>Summary</h4>
+                        <p>${this.escapeHtml(anime.summary || 'No summary provided.')}</p>
+                    </div>
+                    ${anime.characters && anime.characters.length ? `
+                    <div class="details-section">
+                        <h4>Characters</h4>
+                        <div class="details-char-grid">${charsHtml}</div>
+                    </div>
+                    ` : ''}
+                `;
+                this.showModal('details-modal');
+            },
+
+
             toggleTier(id) {
                 document.getElementById(id).classList.toggle('collapsed');
             },
@@ -1942,31 +2135,80 @@
                 document.getElementById('add-cover').value = '';
                 document.getElementById('add-cover-preview').classList.add('hidden');
                 document.getElementById('add-cover-preview').src = '';
+                document.getElementById('add-summary').value = '';
+                this.selectType('series');
                 this.tempCoverImage = null;
                 this.showModal('add-modal');
             },
 
             showRateModal(index) {
                 this.currentRateIndex = index;
+                const anime = this.currentlyWatching[index];
+
+                this.pendingCharacters = [];
                 this.currentRateEpisodes = [];
                 this.currentRateOpScores = [];
                 this.currentRateEdScores = [];
                 this.currentRateEpisodeIndex = 0;
-                this.pendingCharacters = [];
-                document.getElementById('rate-episode-count').value = '1';
-                document.getElementById('rate-step-select').classList.remove('hidden');
-                document.getElementById('rate-step-rate').classList.add('hidden');
-                document.getElementById('rate-step-finish').classList.add('hidden');
-                document.getElementById('rate-next-btn').classList.add('hidden');
-                document.getElementById('rate-finish-btn').classList.add('hidden');
+                this.pendingCharImage = null;
+
+                // Reset char inputs
                 document.getElementById('char-name').value = '';
                 document.getElementById('char-rating').value = 5;
                 document.getElementById('char-rating-val').textContent = '5.0';
                 document.getElementById('char-list').innerHTML = '<div style="color:var(--text-muted); font-size:0.85rem;">No characters added yet</div>';
+                this.updateCharImagePreview('char-image-preview', 'char-image-plus', null);
+
+                if (anime.type === 'movie' && anime.currentEpisode >= anime.totalEpisodes) {
+                    // Movie already rated, resume finish step
+                    this.currentRateTotalEpisodes = 1;
+                    this.currentRateEpisodes = [anime.totalEpisodeScore];
+                    this.currentRateOpScores = anime._tempOp !== undefined ? [anime._tempOp] : [];
+                    this.currentRateEdScores = anime._tempEd !== undefined ? [anime._tempEd] : [];
+                    this.currentRateEpisodeIndex = 1;
+
+                    document.getElementById('rate-step-select').classList.add('hidden');
+                    document.getElementById('rate-step-rate').classList.add('hidden');
+                    document.getElementById('rate-step-finish').classList.remove('hidden');
+                    document.getElementById('rate-next-btn').classList.add('hidden');
+                    document.getElementById('rate-finish-btn').classList.remove('hidden');
+
+                    document.getElementById('rate-year').value = new Date().getFullYear();
+                    document.getElementById('rate-genre').value = '';
+                    document.getElementById('rate-studio').value = '';
+                    document.getElementById('rate-finish-date').value = this.getFormattedToday();
+
+                    this.pendingCharacters = anime.characters ? [...anime.characters] : [];
+                    this.renderPendingCharacters('char-list');
+
+                    this.showModal('rate-modal');
+                    return;
+                }
+
+                if (anime.type === 'movie') {
+                    this.currentRateTotalEpisodes = 1;
+                    document.getElementById('rate-step-select').classList.add('hidden');
+                    document.getElementById('rate-step-rate').classList.remove('hidden');
+                    document.getElementById('rate-step-finish').classList.add('hidden');
+                    document.getElementById('rate-next-btn').classList.remove('hidden');
+                    document.getElementById('rate-next-btn').textContent = 'Finish Rating';
+                    document.getElementById('rate-finish-btn').classList.add('hidden');
+                    this.updateEpisodeStepper();
+                    this.clearRateInputs();
+                } else {
+                    this.currentRateTotalEpisodes = 0;
+                    document.getElementById('rate-episode-count').value = '1';
+                    document.getElementById('rate-step-select').classList.remove('hidden');
+                    document.getElementById('rate-step-rate').classList.add('hidden');
+                    document.getElementById('rate-step-finish').classList.add('hidden');
+                    document.getElementById('rate-next-btn').classList.add('hidden');
+                    document.getElementById('rate-next-btn').textContent = 'Next Episode';
+                    document.getElementById('rate-finish-btn').classList.add('hidden');
+                }
+
                 this.showModal('rate-modal');
             },
 
-            // Edit Choice Modal
             showEditChoiceModal(index) {
                 this.editingIndex = index;
                 const anime = this.animeList[index];
@@ -1983,6 +2225,8 @@
                 document.getElementById('edit-info-genre').value = anime.genre;
                 document.getElementById('edit-info-studio').value = anime.studio || '';
                 document.getElementById('edit-info-period').value = anime.watchPeriod;
+                document.getElementById('edit-info-type').value = anime.type === 'movie' ? 'Movie' : 'Series';
+                document.getElementById('edit-info-summary').value = anime.summary || '';
 
                 this.tempEditCoverImage = null;
                 const preview = document.getElementById('edit-info-cover-preview');
@@ -2000,11 +2244,12 @@
                 document.getElementById('edit-char-name').value = '';
                 document.getElementById('edit-char-rating').value = 5;
                 document.getElementById('edit-char-rating-val').textContent = '5.0';
+                this.pendingCharImage = null;
+                this.updateCharImagePreview('edit-char-image-preview', 'edit-char-image-plus', null);
 
                 this.showModal('edit-info-modal');
             },
 
-            // Open Edit Score Modal
             openEditScore() {
                 this.closeModal('edit-choice-modal');
                 const anime = this.animeList[this.editingIndex];
@@ -2024,6 +2269,7 @@
                 const genre = document.getElementById('edit-info-genre').value.trim();
                 const studio = document.getElementById('edit-info-studio').value.trim();
                 const period = document.getElementById('edit-info-period').value.trim();
+                const summary = document.getElementById('edit-info-summary').value.trim();
 
                 if (!name) { this.showToast('Please enter anime name', 'error'); return; }
                 if (!year || year < 1900 || year > 2100) { this.showToast('Invalid release year', 'error'); return; }
@@ -2035,6 +2281,7 @@
                 anime.genre = genre;
                 anime.studio = studio;
                 anime.watchPeriod = period;
+                anime.summary = summary;
                 if (this.tempEditCoverImage !== null) {
                     anime.coverImage = this.tempEditCoverImage;
                 }
@@ -2045,6 +2292,149 @@
                 this.closeModal('edit-info-modal');
                 this.showToast('Anime info updated successfully');
             },
+
+            openCropModal(imageSrc, callback) {
+                this.cropImageSrc = imageSrc;
+                this.pendingCharImageCallback = callback;
+                this.cropOffsetX = 0;
+                this.cropOffsetY = 0;
+                this.cropScale = 1;
+                this.showModal('crop-modal');
+                requestAnimationFrame(() => this.initCropCanvas());
+            },
+
+            initCropCanvas() {
+                const container = document.getElementById('crop-canvas-container');
+                const canvas = document.getElementById('crop-canvas');
+                if (!container || !canvas) return;
+                const rect = container.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                this.cropCanvas = canvas;
+                this.cropCtx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => {
+                    this.cropImageObj = img;
+                    this.fitImageToCanvas();
+                    this.drawCropCanvas();
+                };
+                img.src = this.cropImageSrc;
+            },
+
+            fitImageToCanvas() {
+                const canvas = this.cropCanvas;
+                const img = this.cropImageObj;
+                const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+                this.cropScale = scale;
+                this.cropOffsetX = (canvas.width - img.width * scale) / 2;
+                this.cropOffsetY = (canvas.height - img.height * scale) / 2;
+            },
+
+            drawCropCanvas() {
+                const ctx = this.cropCtx;
+                const canvas = this.cropCanvas;
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+                if (!this.cropImageObj) return;
+                ctx.drawImage(this.cropImageObj, this.cropOffsetX, this.cropOffsetY, this.cropImageObj.width * this.cropScale, this.cropImageObj.height * this.cropScale);
+                const cropSize = Math.min(w, h) * this.cropSizeRatio;
+                const cx = w / 2;
+                const cy = h / 2;
+                const x = cx - cropSize / 2;
+                const y = cy - cropSize / 2;
+                ctx.save();
+                ctx.fillStyle = 'rgba(0,0,0,0.6)';
+                ctx.fillRect(0, 0, w, h);
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.moveTo(x + 4, y);
+                ctx.lineTo(x + cropSize - 4, y);
+                ctx.quadraticCurveTo(x + cropSize, y, x + cropSize, y + 4);
+                ctx.lineTo(x + cropSize, y + cropSize - 4);
+                ctx.quadraticCurveTo(x + cropSize, y + cropSize, x + cropSize - 4, y + cropSize);
+                ctx.lineTo(x + 4, y + cropSize);
+                ctx.quadraticCurveTo(x, y + cropSize, x, y + cropSize - 4);
+                ctx.lineTo(x, y + 4);
+                ctx.quadraticCurveTo(x, y, x + 4, y);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+                ctx.strokeStyle = '#6366f1';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, cropSize, cropSize);
+                const handleSize = 6;
+                ctx.fillStyle = '#6366f1';
+                ctx.fillRect(x - handleSize/2, y - handleSize/2, handleSize, handleSize);
+                ctx.fillRect(x + cropSize - handleSize/2, y - handleSize/2, handleSize, handleSize);
+                ctx.fillRect(x - handleSize/2, y + cropSize - handleSize/2, handleSize, handleSize);
+                ctx.fillRect(x + cropSize - handleSize/2, y + cropSize - handleSize/2, handleSize, handleSize);
+            },
+
+            zoomCrop(delta) {
+                const newScale = Math.max(0.1, Math.min(5, this.cropScale + delta));
+                const canvas = this.cropCanvas;
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const scaleFactor = newScale / this.cropScale;
+                this.cropOffsetX = cx - (cx - this.cropOffsetX) * scaleFactor;
+                this.cropOffsetY = cy - (cy - this.cropOffsetY) * scaleFactor;
+                this.cropScale = newScale;
+                this.drawCropCanvas();
+            },
+
+            resetCrop() {
+                if (!this.cropImageObj || !this.cropCanvas) return;
+                this.fitImageToCanvas();
+                this.drawCropCanvas();
+            },
+
+            startCropDrag(e) {
+                this.isDraggingCrop = true;
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                this.lastCropMouseX = clientX;
+                this.lastCropMouseY = clientY;
+            },
+
+            moveCropDrag(e) {
+                if (!this.isDraggingCrop) return;
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                const dx = clientX - this.lastCropMouseX;
+                const dy = clientY - this.lastCropMouseY;
+                this.cropOffsetX += dx;
+                this.cropOffsetY += dy;
+                this.lastCropMouseX = clientX;
+                this.lastCropMouseY = clientY;
+                this.drawCropCanvas();
+            },
+
+            endCropDrag() {
+                this.isDraggingCrop = false;
+            },
+
+            applyCrop() {
+                if (!this.cropImageObj || !this.cropCanvas) return;
+                const canvas = this.cropCanvas;
+                const cropSize = Math.min(canvas.width, canvas.height) * this.cropSizeRatio;
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const srcX = (cx - cropSize/2 - this.cropOffsetX) / this.cropScale;
+                const srcY = (cy - cropSize/2 - this.cropOffsetY) / this.cropScale;
+                const srcSize = cropSize / this.cropScale;
+                const outCanvas = document.createElement('canvas');
+                outCanvas.width = 300;
+                outCanvas.height = 300;
+                const outCtx = outCanvas.getContext('2d');
+                outCtx.drawImage(this.cropImageObj, srcX, srcY, srcSize, srcSize, 0, 0, 300, 300);
+                const dataUrl = outCanvas.toDataURL('image/jpeg', 0.92);
+                if (this.pendingCharImageCallback) {
+                    this.pendingCharImageCallback(dataUrl);
+                }
+                this.closeModal('crop-modal');
+            },
+
 
             showImportModal() {
                 document.getElementById('import-file').value = '';
@@ -2100,10 +2490,12 @@
                 const name = document.getElementById('char-name').value.trim();
                 const rating = parseFloat(document.getElementById('char-rating').value);
                 if (!name) { this.showToast('Enter character name', 'error'); return; }
-                this.pendingCharacters.push({ name, rating });
+                this.pendingCharacters.push({ name, rating, image: this.pendingCharImage || '' });
                 document.getElementById('char-name').value = '';
                 document.getElementById('char-rating').value = 5;
                 document.getElementById('char-rating-val').textContent = '5.0';
+                this.pendingCharImage = null;
+                this.updateCharImagePreview('char-image-preview', 'char-image-plus', null);
                 this.renderPendingCharacters('char-list');
             },
 
@@ -2116,10 +2508,12 @@
                 const name = document.getElementById('edit-char-name').value.trim();
                 const rating = parseFloat(document.getElementById('edit-char-rating').value);
                 if (!name) { this.showToast('Enter character name', 'error'); return; }
-                this.pendingCharacters.push({ name, rating });
+                this.pendingCharacters.push({ name, rating, image: this.pendingCharImage || '' });
                 document.getElementById('edit-char-name').value = '';
                 document.getElementById('edit-char-rating').value = 5;
                 document.getElementById('edit-char-rating-val').textContent = '5.0';
+                this.pendingCharImage = null;
+                this.updateCharImagePreview('edit-char-image-preview', 'edit-char-image-plus', null);
                 this.renderPendingCharacters('edit-char-list');
             },
 
@@ -2137,6 +2531,7 @@
                 }
                 container.innerHTML = this.pendingCharacters.map((c, i) => `
                     <div class="character-item">
+                        ${c.image ? `<img src="${c.image}" class="char-img" alt="">` : `<div class="char-img-placeholder">No Img</div>`}
                         <span class="character-name">${this.escapeHtml(c.name)}</span>
                         <span class="character-rating">${c.rating.toFixed(1)}</span>
                         <button class="character-delete" onclick="app.${containerId === 'char-list' ? 'removePendingCharacter' : 'removeEditCharacter'}(${i})">&times;</button>
@@ -2144,22 +2539,25 @@
                 `).join('');
             },
 
-            // Anime Operations
             addWatching() {
                 const name = document.getElementById('add-name').value.trim();
                 const episodes = parseInt(document.getElementById('add-episodes').value);
                 const date = document.getElementById('add-date').value;
+                const summary = document.getElementById('add-summary').value.trim();
+                const type = document.getElementById('type-movie').classList.contains('selected') ? 'movie' : 'series';
 
                 if (!name) { this.showToast('Please enter anime name', 'error'); return; }
-                if (!episodes || episodes < 1) { this.showToast('Invalid episode count', 'error'); return; }
+                if (type === 'series' && (!episodes || episodes < 1)) { this.showToast('Invalid episode count', 'error'); return; }
 
                 this.currentlyWatching.push({
                     name,
                     startDate: date,
-                    totalEpisodes: episodes,
+                    totalEpisodes: type === 'movie' ? 1 : episodes,
                     currentEpisode: 0,
                     totalEpisodeScore: 0,
-                    coverImage: this.tempCoverImage || ''
+                    coverImage: this.tempCoverImage || '',
+                    type,
+                    summary
                 });
                 this.tempCoverImage = null;
 
@@ -2191,8 +2589,14 @@
             },
 
             updateEpisodeStepper() {
-                document.getElementById('current-ep-num').textContent = this.currentRateEpisodeIndex + 1;
-                document.getElementById('current-ep-title').textContent = `of ${this.currentRateTotalEpisodes}`;
+                const anime = this.currentlyWatching[this.currentRateIndex];
+                if (anime.type === 'movie') {
+                    document.getElementById('current-ep-num').textContent = 'Rate Movie';
+                    document.getElementById('current-ep-title').textContent = 'Single rating for this movie';
+                } else {
+                    document.getElementById('current-ep-num').textContent = this.currentRateEpisodeIndex + 1;
+                    document.getElementById('current-ep-title').textContent = `of ${this.currentRateTotalEpisodes}`;
+                }
             },
 
             clearRateInputs() {
@@ -2252,6 +2656,12 @@
 
                 const anime = this.currentlyWatching[this.currentRateIndex];
 
+                // Store temp scores for movies in case modal is closed
+                if (anime.type === 'movie') {
+                    anime._tempOp = opScore;
+                    anime._tempEd = edScore;
+                }
+
                 if (this.currentRateEpisodeIndex >= this.currentRateTotalEpisodes) {
                     const newTotalScore = anime.totalEpisodeScore + this.currentRateEpisodes.reduce((a, b) => a + b, 0);
                     const newCurrentEpisode = anime.currentEpisode + this.currentRateEpisodes.length;
@@ -2259,7 +2669,7 @@
                     anime.totalEpisodeScore = newTotalScore;
                     anime.currentEpisode = newCurrentEpisode;
 
-                    if (anime.currentEpisode >= anime.totalEpisodes) {
+                    if (anime.currentEpisode >= anime.totalEpisodes || anime.type === 'movie') {
                         document.getElementById('rate-step-rate').classList.add('hidden');
                         document.getElementById('rate-step-finish').classList.remove('hidden');
                         document.getElementById('rate-next-btn').classList.add('hidden');
@@ -2291,8 +2701,12 @@
                 if (!genre) { this.showToast('Please enter a genre', 'error'); return; }
 
                 const rating = anime.totalEpisodeScore / anime.totalEpisodes;
-                const avgOpScore = this.currentRateOpScores.reduce((a, b) => a + b, 0) / this.currentRateOpScores.length;
-                const avgEdScore = this.currentRateEdScores.reduce((a, b) => a + b, 0) / this.currentRateEdScores.length;
+                let avgOpScore = this.currentRateOpScores.length ? this.currentRateOpScores.reduce((a, b) => a + b, 0) / this.currentRateOpScores.length : 0;
+                let avgEdScore = this.currentRateEdScores.length ? this.currentRateEdScores.reduce((a, b) => a + b, 0) / this.currentRateEdScores.length : 0;
+
+                // Fallback to temp scores for movies if arrays are empty (modal was reopened)
+                if (!avgOpScore && anime._tempOp !== undefined) avgOpScore = anime._tempOp;
+                if (!avgEdScore && anime._tempEd !== undefined) avgEdScore = anime._tempEd;
 
                 this.animeList.push({
                     name: anime.name,
@@ -2306,7 +2720,9 @@
                     opScore: avgOpScore,
                     edScore: avgEdScore,
                     coverImage: anime.coverImage || '',
-                    characters: [...this.pendingCharacters]
+                    characters: [...this.pendingCharacters],
+                    summary: anime.summary || '',
+                    type: anime.type || 'series'
                 });
 
                 this.currentlyWatching.splice(this.currentRateIndex, 1);
@@ -2378,7 +2794,7 @@
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
                     exportedAt: new Date().toISOString(),
-                    version: 3
+                    version: 4
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -2413,9 +2829,14 @@
                             if (a.edScore === undefined) a.edScore = 0;
                             if (a.coverImage === undefined) a.coverImage = '';
                             if (a.characters === undefined) a.characters = [];
+                            a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
+                            if (a.summary === undefined) a.summary = '';
+                            if (a.type === undefined) a.type = 'series';
                         });
                         this.currentlyWatching.forEach(a => {
                             if (a.coverImage === undefined) a.coverImage = '';
+                            if (a.summary === undefined) a.summary = '';
+                            if (a.type === undefined) a.type = 'series';
                         });
                         this.save();
                         this.render();
@@ -2429,6 +2850,64 @@
             },
 
             // Utilities
+            selectType(type) {
+                document.getElementById('type-series').classList.toggle('selected', type === 'series');
+                document.getElementById('type-movie').classList.toggle('selected', type === 'movie');
+                const epInput = document.getElementById('add-episodes');
+                if (type === 'movie') {
+                    epInput.value = 1;
+                    epInput.disabled = true;
+                } else {
+                    epInput.disabled = false;
+                }
+            },
+
+            truncateWords(text, count) {
+                if (!text) return '';
+                const words = text.trim().split(/\s+/);
+                if (words.length <= count) return text.trim();
+                return words.slice(0, count).join(' ') + '...';
+            },
+
+            updateCharImagePreview(previewId, plusId, imageSrc) {
+                const preview = document.getElementById(previewId);
+                const plus = document.getElementById(plusId);
+                if (!preview || !plus) return;
+                if (imageSrc) {
+                    preview.src = imageSrc;
+                    preview.classList.remove('hidden');
+                    plus.classList.add('hidden');
+                } else {
+                    preview.src = '';
+                    preview.classList.add('hidden');
+                    plus.classList.remove('hidden');
+                }
+            },
+
+            handleCharImagePreview(input, previewId, plusId) {
+                const file = input.files[0];
+                if (!file) return;
+                if (!file.type.match(/jpeg|jpg|png/i)) {
+                    this.showToast('Only JPG/PNG files allowed', 'error');
+                    input.value = '';
+                    return;
+                }
+                if (file.size > 3 * 1024 * 1024) {
+                    this.showToast('File must be under 3MB', 'error');
+                    input.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = e => {
+                    this.openCropModal(e.target.result, (croppedImage) => {
+                        this.pendingCharImage = croppedImage;
+                        this.updateCharImagePreview(previewId, plusId, croppedImage);
+                    });
+                };
+                reader.readAsDataURL(file);
+            },
+
+
             getFormattedToday() {
                 const today = new Date();
                 const monthNames = ['Jan', 'Feb', 'march', 'april', 'may', 'jun', 'july', 'Aug', 'sept', 'oct', 'nov', 'dec'];
@@ -2486,7 +2965,20 @@
                         document.querySelectorAll('.modal-overlay.active').forEach(m => this.closeModal(m.id));
                     }
                 });
-            }
+
+                // Crop canvas interactions
+                const cropCanvas = document.getElementById('crop-canvas');
+                if (cropCanvas) {
+                    cropCanvas.addEventListener('mousedown', e => { e.preventDefault(); this.startCropDrag(e); });
+                    cropCanvas.addEventListener('mousemove', e => { if (this.isDraggingCrop) { e.preventDefault(); this.moveCropDrag(e); } });
+                    cropCanvas.addEventListener('mouseup', () => this.endCropDrag());
+                    cropCanvas.addEventListener('mouseleave', () => this.endCropDrag());
+                    cropCanvas.addEventListener('touchstart', e => { e.preventDefault(); this.startCropDrag(e); }, { passive: false });
+                    cropCanvas.addEventListener('touchmove', e => { if (this.isDraggingCrop) { e.preventDefault(); this.moveCropDrag(e); } }, { passive: false });
+                    cropCanvas.addEventListener('touchend', () => this.endCropDrag());
+                }
+            },
+
         };
 
         const app = App;
