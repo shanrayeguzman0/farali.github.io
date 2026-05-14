@@ -2625,11 +2625,11 @@
                 ctx.clearRect(0, 0, w, h);
 
                 // Background
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = '#16161f';
                 ctx.fillRect(0, 0, w, h);
 
                 if (scores.length === 0) {
-                    ctx.fillStyle = '#888';
+                    ctx.fillStyle = '#8b8b9e';
                     ctx.font = '14px Segoe UI, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.fillText('No episode data available', w / 2, h / 2);
@@ -2641,7 +2641,7 @@
                 const scoreRange = maxScore - minScore;
 
                 // Grid lines
-                ctx.strokeStyle = '#e0e0e0';
+                ctx.strokeStyle = '#3a3a4f';
                 ctx.lineWidth = 1;
                 for (let i = 0; i <= 5; i++) {
                     const y = padding.top + (graphH / 5) * i;
@@ -2652,7 +2652,7 @@
                 }
 
                 // Y-axis labels
-                ctx.fillStyle = '#555';
+                ctx.fillStyle = '#8b8b9e';
                 ctx.font = '13px Segoe UI, sans-serif';
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
@@ -2673,7 +2673,7 @@
                 ctx.restore();
 
                 // X-axis labels
-                ctx.fillStyle = '#555';
+                ctx.fillStyle = '#8b8b9e';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
                 const maxLabels = Math.min(scores.length, 24);
@@ -2686,7 +2686,7 @@
                 // Draw line
                 if (scores.length > 0) {
                     ctx.beginPath();
-                    ctx.strokeStyle = '#e91e8c';
+                    ctx.strokeStyle = '#6366f1';
                     ctx.lineWidth = 3;
                     ctx.lineJoin = 'round';
                     ctx.lineCap = 'round';
@@ -2706,18 +2706,18 @@
 
                         ctx.beginPath();
                         ctx.arc(x, y, 8, 0, Math.PI * 2);
-                        ctx.fillStyle = '#e91e8c';
+                        ctx.fillStyle = '#6366f1';
                         ctx.fill();
 
                         ctx.beginPath();
                         ctx.arc(x, y, 4, 0, Math.PI * 2);
-                        ctx.fillStyle = '#ffffff';
+                        ctx.fillStyle = '#16161f';
                         ctx.fill();
                     });
                 }
 
                 // Title
-                ctx.fillStyle = '#222';
+                ctx.fillStyle = '#f0f0f5';
                 ctx.font = '18px Segoe UI, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
@@ -2757,7 +2757,7 @@
                     graphHtml = `
                         <div class="details-section">
                             <h4>Episode Ratings Graph</h4>
-                            <div class="graph-container" style="padding: 16px; background: #fff;">
+                            <div class="graph-container" style="padding: 16px;">
                                 <canvas id="episode-graph-canvas" class="graph-canvas" style="width:100%; height:320px;"></canvas>
                                 <div class="graph-actions">
                                     <button class="btn btn-primary" onclick="app.downloadGraph(${index})">&#128228; Download Graph as Image</button>
