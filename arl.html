@@ -540,7 +540,8 @@
             padding: 24px;
             margin-bottom: 24px;
         }
-         .tutorial-container {
+
+        .tutorial-container {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -656,6 +657,10 @@
 
         .modal-sm {
             max-width: 420px;
+        }
+
+        .modal-lg {
+            max-width: 900px;
         }
 
         @keyframes modalSlide {
@@ -1081,6 +1086,260 @@
         .type-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; color: var(--accent-hover); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
 
         .hidden { display: none !important; }
+
+        /* ===== Episode Graph Styles ===== */
+        .graph-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .graph-canvas {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .graph-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        /* ===== Pie Chart Styles ===== */
+        .pie-chart-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .pie-chart-canvas {
+            width: 280px;
+            height: 280px;
+        }
+        .pie-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .pie-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .pie-legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .pie-legend-count {
+            margin-left: auto;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* ===== Album Styles ===== */
+        .album-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .album-title-section {
+            flex: 1;
+        }
+        .album-title-display {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, var(--accent-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .album-title-display:hover {
+            opacity: 0.8;
+        }
+        .album-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .album-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Collage Grid */
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-auto-rows: 180px;
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+        .collage-grid.dense {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-auto-rows: 140px;
+            gap: 4px;
+        }
+        .collage-item {
+            position: relative;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+        }
+        .collage-item:nth-child(3n+1) {
+            grid-row: span 2;
+        }
+        .collage-item:nth-child(5n+3) {
+            grid-column: span 2;
+        }
+        .collage-item:hover {
+            transform: scale(1.02);
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+            z-index: 2;
+        }
+        .collage-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .collage-item:hover img {
+            transform: scale(1.05);
+        }
+        .collage-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px 10px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.8);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .collage-item:hover .collage-item-overlay {
+            opacity: 1;
+        }
+        .collage-delete-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.85);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s;
+            z-index: 3;
+        }
+        .collage-item:hover .collage-delete-btn {
+            opacity: 1;
+        }
+        .collage-delete-btn:hover {
+            background: rgba(239, 68, 68, 1);
+            transform: scale(1.1);
+        }
+
+        /* Image Viewer Modal */
+        .image-viewer-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .image-viewer-img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            object-fit: contain;
+        }
+        .image-viewer-date {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Album Upload */
+        .album-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            background: var(--bg-card);
+        }
+        .album-upload-area:hover {
+            border-color: var(--accent);
+            background: rgba(99,102,241,0.05);
+        }
+        .album-upload-area .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+        .album-upload-area .upload-text {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .album-upload-area .upload-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Album Title Edit */
+        .album-title-edit {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .album-title-edit input {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        /* Delete mode */
+        .delete-mode .collage-item {
+            border-color: var(--danger);
+            opacity: 0.7;
+        }
+        .delete-mode .collage-item:hover {
+            opacity: 1;
+            border-color: var(--danger);
+        }
+        .delete-mode .collage-delete-btn {
+            opacity: 1;
+        }
     </style>
 <base target="_blank">
 <base target="_blank">
@@ -1101,7 +1360,8 @@
                 <button class="nav-tab active" onclick="app.switchView('ranking')">&#127942; Ranking List</button>
                 <button class="nav-tab" onclick="app.switchView('watching')">&#128250; Currently Watching</button>
                 <button class="nav-tab" onclick="app.switchView('stats')">&#128202; Statistics</button>
-                    <button class="nav-tab" onclick="app.switchView('tutorial')">&#128214; How? </button>
+                <button class="nav-tab" onclick="app.switchView('album')">&#128248; Your Album</button>
+                <button class="nav-tab" onclick="app.switchView('tutorial')">&#128214; How? </button>
             </nav>
         </header>
 
@@ -1123,8 +1383,14 @@
             <div id="stats-view" class="view">
                 <div id="stats-container"></div>
             </div>
-             <!-- tutorial View -->
-              <div id="tutorial-view" class="view">
+
+            <!-- Album View -->
+            <div id="album-view" class="view">
+                <div id="album-container"></div>
+            </div>
+
+            <!-- tutorial View -->
+            <div id="tutorial-view" class="view">
                 <div id="tutorial-container">
                     <h1>NOTE!</h1>
                     <p style="color: var(--text-secondary);">This type of ranker lister is made for fun for anime enjoyer and fans that can view and create their own watch list to create a memories for their journey in anime.</p><br>
@@ -1153,6 +1419,7 @@
                     <h1>Definition and Guides of Rating System</h1>
                     <h3>Storyline</h3>
                     <p style="color: var(--text-secondary);">Evaluate the plot's originality and engagement. Consider how well the story is structured, the pacing, and whether it kept you interested throughout.</p>
+                    
                     <h3>Dialogues</h3>
                  <p style="color: var(--text-secondary);">Assess the quality of the dialogues, including how natural they felt and how well they contributed to character development and plot progression.</p>
                     <h3>Clarity</h3>
@@ -1192,9 +1459,6 @@
 <h3>Contact us for additionally suggestions!</h3> <br>
    <p style="text-align: center;">Powered by Farali</p>
     <a href="contactus.html"><p style="color: gray; text-align: center;">Contact us</p></a>
-
-
-
                 </div>
         </main>
     </div>
@@ -1692,12 +1956,35 @@
             <div class="modal-body" id="details-body"></div>
         </div>
     </div>
+
+    <!-- Album Image Viewer Modal -->
+    <div class="modal-overlay" id="album-viewer-modal">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <div class="modal-title" id="album-viewer-title">Album Photo</div>
+                <button class="modal-close" onclick="app.closeModal('album-viewer-modal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <div class="image-viewer-container">
+                    <img id="album-viewer-img" class="image-viewer-img" src="" alt="Album photo">
+                    <div class="image-viewer-date" id="album-viewer-date"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="app.closeModal('album-viewer-modal')">Close</button>
+                <button class="btn btn-danger" id="album-viewer-delete-btn" onclick="app.deleteAlbumPhotoFromViewer()">Delete</button>
+            </div>
+        </div>
+    </div>
+
     <div class="toast-container" id="toast-container"></div>
 
     <script>
         const App = {
             animeList: [],
             currentlyWatching: [],
+            albumPhotos: [],
+            albumTitle: 'My Album',
             currentRateIndex: null,
             currentRateEpisodes: [],
             currentRateEpisodeIndex: 0,
@@ -1721,6 +2008,8 @@
             lastCropMouseY: 0,
             cropSizeRatio: 0.55,
             pendingCharImageCallback: null,
+            albumDeleteMode: false,
+            currentAlbumPhotoIndex: null,
 
             init() {
                 this.load();
@@ -1736,6 +2025,8 @@
                         const parsed = JSON.parse(data);
                         this.animeList = parsed.animeList || [];
                         this.currentlyWatching = parsed.currentlyWatching || [];
+                        this.albumPhotos = parsed.albumPhotos || [];
+                        this.albumTitle = parsed.albumTitle || 'My Album';
                         // Migrate old data
                         this.animeList.forEach(a => {
                             if (a.studio === undefined) a.studio = '';
@@ -1746,6 +2037,12 @@
                             a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
                             if (a.summary === undefined) a.summary = '';
                             if (a.type === undefined) a.type = 'series';
+                            if (a.episodeScores === undefined) a.episodeScores = [];
+                            // If we have episodesRated but no episodeScores, create approximate ones
+                            if (a.episodeScores.length === 0 && a.episodesRated > 0 && a.totalEpisodeScore > 0) {
+                                const avgScore = a.totalEpisodeScore / a.episodesRated;
+                                a.episodeScores = Array(a.episodesRated).fill(avgScore);
+                            }
                         });
                         this.currentlyWatching.forEach(a => {
                             if (a.coverImage === undefined) a.coverImage = '';
@@ -1762,7 +2059,9 @@
                 localStorage.setItem('animeRank_data', JSON.stringify({
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
-                    version: 4
+                    albumPhotos: this.albumPhotos,
+                    albumTitle: this.albumTitle,
+                    version: 5
                 }));
             },
 
@@ -1779,6 +2078,7 @@
                 this.renderRanking();
                 this.renderWatching();
                 this.renderStats();
+                this.renderAlbum();
             },
 
             renderRanking() {
@@ -1934,7 +2234,7 @@
                     { label: 'Bad (60-69)', count: this.animeList.filter(a => a.rating >= 60 && a.rating < 70).length, color: '#ffa502' },
                     { label: 'Worst (0-59)', count: this.animeList.filter(a => a.rating < 60).length, color: '#747d8c' }
                 ];
-                const maxTier = Math.max(...tiers.map(t => t.count), 1);
+                const totalTierCount = tiers.reduce((sum, t) => sum + t.count, 0);
 
                 const genreMap = {};
                 this.animeList.forEach(a => {
@@ -1992,18 +2292,17 @@
 
                     <div class="chart-container">
                         <div class="chart-title">&#128202; Tier Distribution</div>
-                        <div class="bar-chart">
-                            ${tiers.map(t => `
-                                <div class="bar-item">
-                                    <div class="bar-label">${t.label}</div>
-                                    <div class="bar-track">
-                                        <div class="bar-fill" style="width: ${(t.count / maxTier) * 100}%; background: ${t.color};">
-                                            ${t.count > 0 ? t.count : ''}
-                                        </div>
+                        <div class="pie-chart-container">
+                            <canvas id="tier-pie-chart" class="pie-chart-canvas" width="280" height="280"></canvas>
+                            <div class="pie-legend">
+                                ${tiers.map(t => `
+                                    <div class="pie-legend-item">
+                                        <div class="pie-legend-color" style="background: ${t.color};"></div>
+                                        <span>${t.label}</span>
+                                        <span class="pie-legend-count">${t.count}</span>
                                     </div>
-                                    <div class="bar-value">${t.count}</div>
-                                </div>
-                            `).join('')}
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
 
@@ -2074,6 +2373,369 @@
                         </div>
                     ` : ''}
                 `;
+
+                // Draw pie chart
+                requestAnimationFrame(() => this.drawPieChart(tiers, totalTierCount));
+            },
+
+            drawPieChart(tiers, total) {
+                const canvas = document.getElementById('tier-pie-chart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const w = canvas.width;
+                const h = canvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const radius = Math.min(w, h) / 2 - 10;
+                const innerRadius = radius * 0.45;
+
+                ctx.clearRect(0, 0, w, h);
+
+                if (total === 0) {
+                    ctx.fillStyle = '#8b8b9e';
+                    ctx.font = '14px Segoe UI';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('No data yet', cx, cy);
+                    return;
+                }
+
+                let startAngle = -Math.PI / 2;
+                tiers.forEach(tier => {
+                    if (tier.count === 0) return;
+                    const sliceAngle = (tier.count / total) * Math.PI * 2;
+                    const endAngle = startAngle + sliceAngle;
+
+                    // Draw slice
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, radius, startAngle, endAngle);
+                    ctx.closePath();
+                    ctx.fillStyle = tier.color;
+                    ctx.fill();
+
+                    // Draw border
+                    ctx.strokeStyle = 'var(--bg-card)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    startAngle = endAngle;
+                });
+
+                // Draw inner circle (donut hole)
+                ctx.beginPath();
+                ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
+                ctx.fillStyle = 'var(--bg-card)';
+                ctx.fill();
+
+                // Draw total in center
+                ctx.fillStyle = '#f0f0f5';
+                ctx.font = 'bold 24px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(total, cx, cy - 8);
+                ctx.fillStyle = '#8b8b9e';
+                ctx.font = '12px Segoe UI';
+                ctx.fillText('total', cx, cy + 12);
+            },
+
+            // ===== ALBUM FEATURES =====
+            renderAlbum() {
+                const container = document.getElementById('album-container');
+                const photoCount = this.albumPhotos.length;
+
+                let html = `
+                    <div class="album-header">
+                        <div class="album-title-section">
+                            <div class="album-title-display" id="album-title-display" onclick="app.editAlbumTitle()">${this.escapeHtml(this.albumTitle)}</div>
+                            <div class="album-count">${photoCount} photo${photoCount !== 1 ? 's' : ''}</div>
+                        </div>
+                        <div class="album-actions">
+                            <input type="file" id="album-upload-input" accept=".jpg,.jpeg" style="display:none" multiple onchange="app.handleAlbumUpload(this)">
+                            <button class="btn btn-primary" onclick="document.getElementById('album-upload-input').click()">&#128247; Upload Photos</button>
+                            <button class="btn ${this.albumDeleteMode ? 'btn-danger' : ''}" id="album-delete-toggle" onclick="app.toggleAlbumDeleteMode()">
+                                ${this.albumDeleteMode ? '&#10004; Done' : '&#128465; Delete'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                if (photoCount === 0) {
+                    html += `
+                        <div class="album-upload-area" onclick="document.getElementById('album-upload-input').click()">
+                            <div class="upload-icon">&#128248;</div>
+                            <div class="upload-text">Your Album is Empty</div>
+                            <div class="upload-hint">Click here or use "Upload Photos" to add JPG images<br>Any size is supported &middot; Collage grid layout</div>
+                        </div>
+                    `;
+                } else {
+                    const gridClass = photoCount > 20 ? 'collage-grid dense' : 'collage-grid';
+                    html += `<div class="${gridClass}" id="album-grid">`;
+                    html += this.albumPhotos.map((photo, idx) => `
+                        <div class="collage-item" onclick="${this.albumDeleteMode ? '' : `app.viewAlbumPhoto(${idx})`}">
+                            <img src="${photo.src}" alt="Album photo ${idx + 1}" loading="lazy">
+                            <div class="collage-item-overlay">${this.escapeHtml(photo.date)}</div>
+                            <button class="collage-delete-btn" onclick="event.stopPropagation(); app.deleteAlbumPhoto(${idx})" title="Delete this photo">&times;</button>
+                        </div>
+                    `).join('');
+                    html += `</div>`;
+                }
+
+                container.innerHTML = html;
+            },
+
+            handleAlbumUpload(input) {
+                const files = Array.from(input.files);
+                if (files.length === 0) return;
+
+                let validCount = 0;
+                const maxFiles = 50;
+                const remainingSlots = maxFiles - this.albumPhotos.length;
+
+                if (remainingSlots <= 0) {
+                    this.showToast('Album is full (max 50 photos)', 'error');
+                    input.value = '';
+                    return;
+                }
+
+                const filesToProcess = files.slice(0, remainingSlots);
+
+                filesToProcess.forEach(file => {
+                    if (!file.type.match(/jpeg|jpg/i)) {
+                        this.showToast(`Skipped ${file.name}: Only JPG allowed`, 'error');
+                        return;
+                    }
+                    if (file.size > 10 * 1024 * 1024) {
+                        this.showToast(`Skipped ${file.name}: Max 10MB`, 'error');
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        const dateStr = this.getFormattedDateMMDDYYYY();
+                        this.albumPhotos.push({
+                            src: e.target.result,
+                            date: dateStr,
+                            uploadedAt: Date.now()
+                        });
+                        validCount++;
+                        if (validCount === filesToProcess.length || this.albumPhotos.length >= maxFiles) {
+                            this.save();
+                            this.renderAlbum();
+                            this.showToast(`${validCount} photo${validCount !== 1 ? 's' : ''} added to album`);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+
+                input.value = '';
+            },
+
+            getFormattedDateMMDDYYYY() {
+                const today = new Date();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                const yyyy = today.getFullYear();
+                return `${mm}/${dd}/${yyyy}`;
+            },
+
+            viewAlbumPhoto(index) {
+                if (index < 0 || index >= this.albumPhotos.length) return;
+                this.currentAlbumPhotoIndex = index;
+                const photo = this.albumPhotos[index];
+                document.getElementById('album-viewer-img').src = photo.src;
+                document.getElementById('album-viewer-date').textContent = 'Uploaded: ' + photo.date;
+                document.getElementById('album-viewer-title').textContent = this.albumTitle + ' - Photo ' + (index + 1);
+                this.showModal('album-viewer-modal');
+            },
+
+            deleteAlbumPhoto(index) {
+                if (!confirm('Delete this photo from your album?')) return;
+                this.albumPhotos.splice(index, 1);
+                this.save();
+                this.renderAlbum();
+                this.showToast('Photo deleted');
+            },
+
+            deleteAlbumPhotoFromViewer() {
+                if (this.currentAlbumPhotoIndex === null) return;
+                const idx = this.currentAlbumPhotoIndex;
+                this.closeModal('album-viewer-modal');
+                // Small delay to let modal close
+                setTimeout(() => {
+                    this.deleteAlbumPhoto(idx);
+                }, 300);
+            },
+
+            toggleAlbumDeleteMode() {
+                this.albumDeleteMode = !this.albumDeleteMode;
+                this.renderAlbum();
+            },
+
+            editAlbumTitle() {
+                const display = document.getElementById('album-title-display');
+                const currentTitle = this.albumTitle;
+                display.outerHTML = `
+                    <div class="album-title-edit" id="album-title-edit">
+                        <input type="text" class="form-input" id="album-title-input" value="${this.escapeHtml(currentTitle)}" maxlength="50" placeholder="Album title...">
+                        <button class="btn btn-primary" onclick="app.saveAlbumTitle()">Save</button>
+                        <button class="btn" onclick="app.cancelAlbumTitleEdit()">Cancel</button>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const input = document.getElementById('album-title-input');
+                    if (input) { input.focus(); input.select(); }
+                }, 10);
+            },
+
+            saveAlbumTitle() {
+                const input = document.getElementById('album-title-input');
+                const newTitle = input.value.trim();
+                if (newTitle) {
+                    this.albumTitle = newTitle;
+                    this.save();
+                    this.showToast('Album title updated');
+                }
+                this.renderAlbum();
+            },
+
+            cancelAlbumTitleEdit() {
+                this.renderAlbum();
+            },
+
+            // ===== EPISODE LINE GRAPH =====
+            drawEpisodeGraph(anime) {
+                const canvas = document.getElementById('episode-graph-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                const w = rect.width;
+                const h = 320;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                canvas.style.height = h + 'px';
+                ctx.scale(dpr, dpr);
+
+                const scores = anime.episodeScores || [];
+                const padding = { top: 40, right: 30, bottom: 50, left: 55 };
+                const graphW = w - padding.left - padding.right;
+                const graphH = h - padding.top - padding.bottom;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, w, h);
+
+                if (scores.length === 0) {
+                    ctx.fillStyle = '#888';
+                    ctx.font = '14px Segoe UI, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('No episode data available', w / 2, h / 2);
+                    return;
+                }
+
+                const minScore = 80;
+                const maxScore = 105;
+                const scoreRange = maxScore - minScore;
+
+                // Grid lines
+                ctx.strokeStyle = '#e0e0e0';
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 5; i++) {
+                    const y = padding.top + (graphH / 5) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(padding.left, y);
+                    ctx.lineTo(w - padding.right, y);
+                    ctx.stroke();
+                }
+
+                // Y-axis labels
+                ctx.fillStyle = '#555';
+                ctx.font = '13px Segoe UI, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                for (let i = 0; i <= 5; i++) {
+                    const val = maxScore - (scoreRange / 5) * i;
+                    const y = padding.top + (graphH / 5) * i;
+                    ctx.fillText(Math.round(val), padding.left - 10, y);
+                }
+
+                // Y-axis title
+                ctx.save();
+                ctx.translate(15, h / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#555';
+                ctx.font = '14px Segoe UI, sans-serif';
+                ctx.fillText('Values', 0, 0);
+                ctx.restore();
+
+                // X-axis labels
+                ctx.fillStyle = '#555';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                const maxLabels = Math.min(scores.length, 24);
+                const labelStep = scores.length <= 12 ? 1 : Math.ceil(scores.length / 12);
+                for (let i = 0; i < scores.length; i += labelStep) {
+                    const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
+                    ctx.fillText('EP' + (i + 1), x, h - padding.bottom + 10);
+                }
+
+                // Draw line
+                if (scores.length > 0) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#e91e8c';
+                    ctx.lineWidth = 3;
+                    ctx.lineJoin = 'round';
+                    ctx.lineCap = 'round';
+
+                    scores.forEach((score, i) => {
+                        const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
+                        const y = padding.top + ((maxScore - score) / scoreRange) * graphH;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    });
+                    ctx.stroke();
+
+                    // Draw points
+                    scores.forEach((score, i) => {
+                        const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
+                        const y = padding.top + ((maxScore - score) / scoreRange) * graphH;
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, 8, 0, Math.PI * 2);
+                        ctx.fillStyle = '#e91e8c';
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, 4, 0, Math.PI * 2);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fill();
+                    });
+                }
+
+                // Title
+                ctx.fillStyle = '#222';
+                ctx.font = '18px Segoe UI, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(anime.name, w / 2, 10);
+            },
+
+            downloadGraph(animeIndex) {
+                const anime = this.animeList[animeIndex];
+                const canvas = document.getElementById('episode-graph-canvas');
+                if (!canvas) return;
+
+                const link = document.createElement('a');
+                link.download = `${anime.name.replace(/[^a-zA-Z0-9]/g, '_')}_episode_graph.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                this.showToast('Graph downloaded as image');
             },
 
             showDetailsModal(index) {
@@ -2088,6 +2750,23 @@
                     </div>
                 `).join('');
                 const isMovie = anime.type === 'movie';
+
+                // Build episode graph section for non-movies
+                let graphHtml = '';
+                if (!isMovie && (anime.episodeScores || []).length > 0) {
+                    graphHtml = `
+                        <div class="details-section">
+                            <h4>Episode Ratings Graph</h4>
+                            <div class="graph-container" style="padding: 16px; background: #fff;">
+                                <canvas id="episode-graph-canvas" class="graph-canvas" style="width:100%; height:320px;"></canvas>
+                                <div class="graph-actions">
+                                    <button class="btn btn-primary" onclick="app.downloadGraph(${index})">&#128228; Download Graph as Image</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 document.getElementById('details-body').innerHTML = `
                     ${coverHtml}
                     <div class="details-section">
@@ -2108,6 +2787,7 @@
                         <h4>Summary</h4>
                         <p>${this.escapeHtml(anime.summary || 'No summary provided.')}</p>
                     </div>
+                    ${graphHtml}
                     ${anime.characters && anime.characters.length ? `
                     <div class="details-section">
                         <h4>Characters</h4>
@@ -2116,8 +2796,14 @@
                     ` : ''}
                 `;
                 this.showModal('details-modal');
-            },
 
+                // Draw graph after modal is shown
+                if (graphHtml) {
+                    requestAnimationFrame(() => {
+                        this.drawEpisodeGraph(anime);
+                    });
+                }
+            },
 
             toggleTier(id) {
                 document.getElementById(id).classList.toggle('collapsed');
@@ -2441,7 +3127,6 @@
                 this.closeModal('crop-modal');
             },
 
-
             showImportModal() {
                 document.getElementById('import-file').value = '';
                 this.showModal('import-modal');
@@ -2594,14 +3279,17 @@
                 this.clearRateInputs();
             },
 
+            // BUG FIX: Show the actual episode number being rated, not the batch index
             updateEpisodeStepper() {
                 const anime = this.currentlyWatching[this.currentRateIndex];
                 if (anime.type === 'movie') {
                     document.getElementById('current-ep-num').textContent = 'Rate Movie';
                     document.getElementById('current-ep-title').textContent = 'Single rating for this movie';
                 } else {
-                    document.getElementById('current-ep-num').textContent = this.currentRateEpisodeIndex + 1;
-                    document.getElementById('current-ep-title').textContent = `of ${this.currentRateTotalEpisodes}`;
+                    // Show actual episode number: currentEpisode already watched + current index in batch + 1
+                    const actualEpNum = anime.currentEpisode + this.currentRateEpisodeIndex + 1;
+                    document.getElementById('current-ep-num').textContent = actualEpNum;
+                    document.getElementById('current-ep-title').textContent = `of ${anime.totalEpisodes} total episodes`;
                 }
             },
 
@@ -2714,6 +3402,9 @@
                 if (!avgOpScore && anime._tempOp !== undefined) avgOpScore = anime._tempOp;
                 if (!avgEdScore && anime._tempEd !== undefined) avgEdScore = anime._tempEd;
 
+                // Store individual episode scores
+                const episodeScores = [...this.currentRateEpisodes];
+
                 this.animeList.push({
                     name: anime.name,
                     totalEpisodeScore: anime.totalEpisodeScore,
@@ -2728,7 +3419,8 @@
                     coverImage: anime.coverImage || '',
                     characters: [...this.pendingCharacters],
                     summary: anime.summary || '',
-                    type: anime.type || 'series'
+                    type: anime.type || 'series',
+                    episodeScores: episodeScores
                 });
 
                 this.currentlyWatching.splice(this.currentRateIndex, 1);
@@ -2745,6 +3437,9 @@
                 const edScore = this.getEditEdScore();
                 const old = this.animeList[this.editingIndex];
 
+                // For re-scored anime, store the single score as episode score
+                const episodeScores = [score];
+
                 this.animeList[this.editingIndex] = {
                     name: old.name,
                     totalEpisodeScore: score,
@@ -2757,7 +3452,10 @@
                     opScore: opScore,
                     edScore: edScore,
                     coverImage: old.coverImage || '',
-                    characters: old.characters || []
+                    characters: old.characters || [],
+                    summary: old.summary || '',
+                    type: old.type || 'series',
+                    episodeScores: episodeScores
                 };
 
                 this.save();
@@ -2789,6 +3487,8 @@
                 if (!confirm('This cannot be undone. Really delete everything?')) return;
                 this.animeList = [];
                 this.currentlyWatching = [];
+                this.albumPhotos = [];
+                this.albumTitle = 'My Album';
                 this.save();
                 this.render();
                 this.showToast('All data cleared');
@@ -2799,8 +3499,10 @@
                 const data = {
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
+                    albumPhotos: this.albumPhotos,
+                    albumTitle: this.albumTitle,
                     exportedAt: new Date().toISOString(),
-                    version: 4
+                    version: 5
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -2828,6 +3530,8 @@
                         }
                         this.animeList = data.animeList;
                         this.currentlyWatching = data.currentlyWatching;
+                        this.albumPhotos = data.albumPhotos || [];
+                        this.albumTitle = data.albumTitle || 'My Album';
                         // Migrate imported data
                         this.animeList.forEach(a => {
                             if (a.studio === undefined) a.studio = '';
@@ -2838,6 +3542,11 @@
                             a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
                             if (a.summary === undefined) a.summary = '';
                             if (a.type === undefined) a.type = 'series';
+                            if (a.episodeScores === undefined) a.episodeScores = [];
+                            if (a.episodeScores.length === 0 && a.episodesRated > 0 && a.totalEpisodeScore > 0) {
+                                const avgScore = a.totalEpisodeScore / a.episodesRated;
+                                a.episodeScores = Array(a.episodesRated).fill(avgScore);
+                            }
                         });
                         this.currentlyWatching.forEach(a => {
                             if (a.coverImage === undefined) a.coverImage = '';
@@ -2913,7 +3622,6 @@
                 reader.readAsDataURL(file);
             },
 
-
             getFormattedToday() {
                 const today = new Date();
                 const monthNames = ['Jan', 'Feb', 'march', 'april', 'may', 'jun', 'july', 'Aug', 'sept', 'oct', 'nov', 'dec'];
@@ -2983,6 +3691,13 @@
                     cropCanvas.addEventListener('touchmove', e => { if (this.isDraggingCrop) { e.preventDefault(); this.moveCropDrag(e); } }, { passive: false });
                     cropCanvas.addEventListener('touchend', () => this.endCropDrag());
                 }
+
+                // Album title input enter key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'album-title-input') {
+                        this.saveAlbumTitle();
+                    }
+                });
             },
 
         };
