@@ -1095,11 +1095,26 @@
             padding: 24px;
             margin-bottom: 20px;
             text-align: center;
+            overflow: hidden;
+        }
+        .graph-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+        .graph-scroll-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+        .graph-scroll-wrapper::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-radius: 3px;
+        }
+        .graph-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: 3px;
         }
         .graph-canvas {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
             display: block;
             margin: 0 auto;
         }
@@ -1108,6 +1123,13 @@
             justify-content: center;
             gap: 10px;
             margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+            .graph-container {
+                padding: 12px;
+            }
         }
 
         /* ===== Pie Chart Styles ===== */
@@ -1121,29 +1143,105 @@
         .pie-chart-canvas {
             width: 280px;
             height: 280px;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
         }
         .pie-legend {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            min-width: 200px;
         }
         .pie-legend-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 0.9rem;
             color: var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.02);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .pie-legend-item:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: var(--border);
         }
         .pie-legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
             flex-shrink: 0;
+            box-shadow: 0 0 8px currentColor;
+        }
+        .pie-legend-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .pie-legend-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .pie-legend-percent {
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
         .pie-legend-count {
-            margin-left: auto;
             font-weight: 700;
             color: var(--text-primary);
+            font-size: 1rem;
+            margin-left: 8px;
+        }
+
+        /* ===== Album Photo Title Styles ===== */
+        .photo-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px 12px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.9);
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .photo-title-overlay .photo-title-text {
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .photo-title-overlay .photo-title-date {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 2px;
+        }
+        .collage-item:hover .photo-title-overlay {
+            opacity: 1;
+        }
+        .image-viewer-title-section {
+            margin-top: 12px;
+            text-align: center;
+        }
+        .image-viewer-title-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+        .image-viewer-title-edit {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .image-viewer-title-edit input {
+            max-width: 300px;
         }
 
         /* ===== Album Styles ===== */
@@ -1226,21 +1324,7 @@
         .collage-item:hover img {
             transform: scale(1.05);
         }
-        .collage-item-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 8px 10px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.8);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .collage-item:hover .collage-item-overlay {
-            opacity: 1;
-        }
+
         .collage-delete-btn {
             position: absolute;
             top: 8px;
@@ -1341,6 +1425,7 @@
             opacity: 1;
         }
     </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -1967,10 +2052,14 @@
             <div class="modal-body" style="padding: 0;">
                 <div class="image-viewer-container">
                     <img id="album-viewer-img" class="image-viewer-img" src="" alt="Album photo">
-                    <div class="image-viewer-date" id="album-viewer-date"></div>
+                    <div class="image-viewer-title-section" id="album-viewer-title-section">
+                        <div class="image-viewer-title-text" id="album-viewer-title-text"></div>
+                        <div class="image-viewer-date" id="album-viewer-date"></div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn" onclick="app.editPhotoTitle()">&#9999; Edit Title</button>
                 <button class="btn" onclick="app.closeModal('album-viewer-modal')">Close</button>
                 <button class="btn btn-danger" id="album-viewer-delete-btn" onclick="app.deleteAlbumPhotoFromViewer()">Delete</button>
             </div>
@@ -2027,6 +2116,8 @@
                         this.currentlyWatching = parsed.currentlyWatching || [];
                         this.albumPhotos = parsed.albumPhotos || [];
                         this.albumTitle = parsed.albumTitle || 'My Album';
+                        // Migrate album photos: ensure title field exists
+                        this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
                         // Migrate old data
                         this.animeList.forEach(a => {
                             if (a.studio === undefined) a.studio = '';
@@ -2295,13 +2386,19 @@
                         <div class="pie-chart-container">
                             <canvas id="tier-pie-chart" class="pie-chart-canvas" width="280" height="280"></canvas>
                             <div class="pie-legend">
-                                ${tiers.map(t => `
+                                ${tiers.map(t => {
+                                    const pct = totalTierCount > 0 ? Math.round((t.count / totalTierCount) * 100) : 0;
+                                    return `
                                     <div class="pie-legend-item">
-                                        <div class="pie-legend-color" style="background: ${t.color};"></div>
-                                        <span>${t.label}</span>
+                                        <div class="pie-legend-color" style="background: ${t.color}; color: ${t.color};"></div>
+                                        <div class="pie-legend-text">
+                                            <span class="pie-legend-label">${t.label}</span>
+                                            ${pct > 0 ? `<span class="pie-legend-percent">${pct}%</span>` : ''}
+                                        </div>
                                         <span class="pie-legend-count">${t.count}</span>
                                     </div>
-                                `).join('')}
+                                    `;
+                                }).join('')}
                             </div>
                         </div>
                     </div>
@@ -2382,61 +2479,120 @@
                 const canvas = document.getElementById('tier-pie-chart');
                 if (!canvas) return;
                 const ctx = canvas.getContext('2d');
-                const w = canvas.width;
-                const h = canvas.height;
-                const cx = w / 2;
-                const cy = h / 2;
-                const radius = Math.min(w, h) / 2 - 10;
-                const innerRadius = radius * 0.45;
+                const dpr = window.devicePixelRatio || 1;
+                const size = 280;
+                canvas.width = size * dpr;
+                canvas.height = size * dpr;
+                canvas.style.width = size + 'px';
+                canvas.style.height = size + 'px';
+                ctx.scale(dpr, dpr);
 
-                ctx.clearRect(0, 0, w, h);
+                const cx = size / 2;
+                const cy = size / 2;
+                const radius = size / 2 - 20;
+                const innerRadius = radius * 0.55;
+
+                ctx.clearRect(0, 0, size, size);
 
                 if (total === 0) {
                     ctx.fillStyle = '#8b8b9e';
-                    ctx.font = '14px Segoe UI';
+                    ctx.font = '14px Segoe UI, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillText('No data yet', cx, cy);
                     return;
                 }
 
+                // Create gradients for each tier
+                const gradients = {
+                    '#ffd700': ['#ffd700', '#ffaa00'],
+                    '#ff4757': ['#ff4757', '#ff6b81'],
+                    '#a55eea': ['#a55eea', '#c084fc'],
+                    '#3742fa': ['#3742fa', '#5352ed'],
+                    '#ffa502': ['#ffa502', '#ffb823'],
+                    '#747d8c': ['#747d8c', '#95a5a6']
+                };
+
                 let startAngle = -Math.PI / 2;
+                const segments = [];
+
+                // Calculate segments first
                 tiers.forEach(tier => {
                     if (tier.count === 0) return;
                     const sliceAngle = (tier.count / total) * Math.PI * 2;
                     const endAngle = startAngle + sliceAngle;
-
-                    // Draw slice
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy);
-                    ctx.arc(cx, cy, radius, startAngle, endAngle);
-                    ctx.closePath();
-                    ctx.fillStyle = tier.color;
-                    ctx.fill();
-
-                    // Draw border
-                    ctx.strokeStyle = 'var(--bg-card)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-
+                    segments.push({ tier, startAngle, endAngle, sliceAngle });
                     startAngle = endAngle;
                 });
 
-                // Draw inner circle (donut hole)
+                // Draw segments with glow shadow
+                segments.forEach(seg => {
+                    const gradColors = gradients[seg.tier.color] || [seg.tier.color, seg.tier.color];
+                    const grad = ctx.createLinearGradient(
+                        cx + Math.cos(seg.startAngle) * innerRadius,
+                        cy + Math.sin(seg.startAngle) * innerRadius,
+                        cx + Math.cos(seg.endAngle) * radius,
+                        cy + Math.sin(seg.endAngle) * radius
+                    );
+                    grad.addColorStop(0, gradColors[0]);
+                    grad.addColorStop(1, gradColors[1]);
+
+                    // Glow effect
+                    ctx.save();
+                    ctx.shadowColor = seg.tier.color + '66';
+                    ctx.shadowBlur = 12;
+
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, radius, seg.startAngle, seg.endAngle);
+                    ctx.arc(cx, cy, innerRadius, seg.endAngle, seg.startAngle, true);
+                    ctx.closePath();
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                    ctx.restore();
+
+                    // Segment border
+                    ctx.strokeStyle = '#16161f';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                });
+
+                // Draw inner circle (donut hole) with subtle gradient
+                const innerGrad = ctx.createRadialGradient(cx - 20, cy - 20, 0, cx, cy, innerRadius);
+                innerGrad.addColorStop(0, '#1e1e2e');
+                innerGrad.addColorStop(1, '#16161f');
                 ctx.beginPath();
                 ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
-                ctx.fillStyle = 'var(--bg-card)';
+                ctx.fillStyle = innerGrad;
                 ctx.fill();
 
-                // Draw total in center
+                // Inner ring border
+                ctx.beginPath();
+                ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Center glow
+                ctx.save();
+                ctx.shadowColor = 'rgba(99, 102, 241, 0.3)';
+                ctx.shadowBlur = 20;
+                ctx.beginPath();
+                ctx.arc(cx, cy, innerRadius * 0.6, 0, Math.PI * 2);
+                ctx.fillStyle = 'transparent';
+                ctx.fill();
+                ctx.restore();
+
+                // Draw total in center with gradient text
                 ctx.fillStyle = '#f0f0f5';
-                ctx.font = 'bold 24px Segoe UI';
+                ctx.font = 'bold 28px Segoe UI, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(total, cx, cy - 8);
+                ctx.fillText(total, cx, cy - 10);
+
                 ctx.fillStyle = '#8b8b9e';
-                ctx.font = '12px Segoe UI';
-                ctx.fillText('total', cx, cy + 12);
+                ctx.font = '11px Segoe UI, sans-serif';
+                ctx.letterSpacing = '1px';
+                ctx.fillText('TOTAL', cx, cy + 14);
             },
 
             // ===== ALBUM FEATURES =====
@@ -2473,8 +2629,11 @@
                     html += `<div class="${gridClass}" id="album-grid">`;
                     html += this.albumPhotos.map((photo, idx) => `
                         <div class="collage-item" onclick="${this.albumDeleteMode ? '' : `app.viewAlbumPhoto(${idx})`}">
-                            <img src="${photo.src}" alt="Album photo ${idx + 1}" loading="lazy">
-                            <div class="collage-item-overlay">${this.escapeHtml(photo.date)}</div>
+                            <img src="${photo.src}" alt="${this.escapeHtml(photo.title || 'Album photo ' + (idx + 1))}" loading="lazy">
+                            <div class="photo-title-overlay">
+                                <div class="photo-title-text">${this.escapeHtml(photo.title || 'Photo ' + (idx + 1))}</div>
+                                <div class="photo-title-date">${this.escapeHtml(photo.date)}</div>
+                            </div>
                             <button class="collage-delete-btn" onclick="event.stopPropagation(); app.deleteAlbumPhoto(${idx})" title="Delete this photo">&times;</button>
                         </div>
                     `).join('');
@@ -2516,7 +2675,8 @@
                         this.albumPhotos.push({
                             src: e.target.result,
                             date: dateStr,
-                            uploadedAt: Date.now()
+                            uploadedAt: Date.now(),
+                            title: ''
                         });
                         validCount++;
                         if (validCount === filesToProcess.length || this.albumPhotos.length >= maxFiles) {
@@ -2546,7 +2706,49 @@
                 document.getElementById('album-viewer-img').src = photo.src;
                 document.getElementById('album-viewer-date').textContent = 'Uploaded: ' + photo.date;
                 document.getElementById('album-viewer-title').textContent = this.albumTitle + ' - Photo ' + (index + 1);
+                const titleSection = document.getElementById('album-viewer-title-section');
+                titleSection.innerHTML = `
+                    <div class="image-viewer-title-text" id="album-viewer-title-text">${this.escapeHtml(photo.title || 'Photo ' + (index + 1))}</div>
+                    <div class="image-viewer-date" id="album-viewer-date">Uploaded: ${this.escapeHtml(photo.date)}</div>
+                `;
                 this.showModal('album-viewer-modal');
+            },
+
+            editPhotoTitle() {
+                const index = this.currentAlbumPhotoIndex;
+                if (index === null || index === undefined) return;
+                const photo = this.albumPhotos[index];
+                const titleSection = document.getElementById('album-viewer-title-section');
+                titleSection.innerHTML = `
+                    <div class="image-viewer-title-edit">
+                        <input type="text" class="form-input" id="photo-title-input" value="${this.escapeHtml(photo.title || '')}" maxlength="100" placeholder="Photo title...">
+                        <button class="btn btn-primary" onclick="app.savePhotoTitle()">Save</button>
+                        <button class="btn" onclick="app.cancelPhotoTitleEdit()">Cancel</button>
+                    </div>
+                `;
+                setTimeout(() => {
+                    const input = document.getElementById('photo-title-input');
+                    if (input) { input.focus(); input.select(); }
+                }, 10);
+            },
+
+            savePhotoTitle() {
+                const index = this.currentAlbumPhotoIndex;
+                if (index === null || index === undefined) return;
+                const input = document.getElementById('photo-title-input');
+                const newTitle = input.value.trim();
+                this.albumPhotos[index].title = newTitle;
+                this.save();
+                this.renderAlbum();
+                this.showToast('Photo title updated');
+                // Refresh viewer display
+                this.viewAlbumPhoto(index);
+            },
+
+            cancelPhotoTitleEdit() {
+                const index = this.currentAlbumPhotoIndex;
+                if (index === null || index === undefined) return;
+                this.viewAlbumPhoto(index);
             },
 
             deleteAlbumPhoto(index) {
@@ -2609,16 +2811,29 @@
                 if (!canvas) return;
                 const ctx = canvas.getContext('2d');
                 const dpr = window.devicePixelRatio || 1;
-                const rect = canvas.getBoundingClientRect();
-                const w = rect.width;
-                const h = 320;
+                const scrollWrapper = canvas.closest('.graph-scroll-wrapper');
+                const containerWidth = scrollWrapper ? scrollWrapper.clientWidth : 600;
+                const isMobile = containerWidth < 500;
+                const isVeryNarrow = containerWidth < 360;
+
+                // Responsive sizing: smaller height on mobile, wider canvas for scrolling
+                let h = isVeryNarrow ? 220 : (isMobile ? 260 : 320);
+                // Minimum width per episode point for readability
+                const minWidthPerPoint = isVeryNarrow ? 24 : (isMobile ? 30 : 40);
+                const scores = anime.episodeScores || [];
+                const padding = { top: 40, right: 20, bottom: 45, left: 50 };
+
+                // Calculate canvas width: container width or wider if many episodes
+                let w = Math.max(containerWidth, scores.length * minWidthPerPoint + padding.left + padding.right);
+                // Cap max width for very long series
+                w = Math.min(w, 1600);
+
                 canvas.width = w * dpr;
                 canvas.height = h * dpr;
+                canvas.style.width = w + 'px';
                 canvas.style.height = h + 'px';
                 ctx.scale(dpr, dpr);
 
-                const scores = anime.episodeScores || [];
-                const padding = { top: 40, right: 30, bottom: 50, left: 55 };
                 const graphW = w - padding.left - padding.right;
                 const graphH = h - padding.top - padding.bottom;
 
@@ -2630,7 +2845,7 @@
 
                 if (scores.length === 0) {
                     ctx.fillStyle = '#8b8b9e';
-                    ctx.font = '14px Segoe UI, sans-serif';
+                    ctx.font = (isMobile ? '12px' : '14px') + ' Segoe UI, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.fillText('No episode data available', w / 2, h / 2);
                     return;
@@ -2640,8 +2855,16 @@
                 const maxScore = 105;
                 const scoreRange = maxScore - minScore;
 
+                // Responsive font sizes
+                const yFontSize = isVeryNarrow ? 10 : (isMobile ? 11 : 13);
+                const xFontSize = isVeryNarrow ? 9 : (isMobile ? 10 : 12);
+                const titleFontSize = isVeryNarrow ? 14 : (isMobile ? 15 : 18);
+                const pointRadius = isVeryNarrow ? 5 : (isMobile ? 6 : 8);
+                const innerRadius = isVeryNarrow ? 2.5 : (isMobile ? 3 : 4);
+                const lineWidth = isVeryNarrow ? 2 : (isMobile ? 2.5 : 3);
+
                 // Grid lines
-                ctx.strokeStyle = '#3a3a4f';
+                ctx.strokeStyle = '#2a2a3a';
                 ctx.lineWidth = 1;
                 for (let i = 0; i <= 5; i++) {
                     const y = padding.top + (graphH / 5) * i;
@@ -2653,44 +2876,66 @@
 
                 // Y-axis labels
                 ctx.fillStyle = '#8b8b9e';
-                ctx.font = '13px Segoe UI, sans-serif';
+                ctx.font = yFontSize + 'px Segoe UI, sans-serif';
                 ctx.textAlign = 'right';
                 ctx.textBaseline = 'middle';
                 for (let i = 0; i <= 5; i++) {
                     const val = maxScore - (scoreRange / 5) * i;
                     const y = padding.top + (graphH / 5) * i;
-                    ctx.fillText(Math.round(val), padding.left - 10, y);
+                    ctx.fillText(Math.round(val), padding.left - 8, y);
                 }
 
                 // Y-axis title
                 ctx.save();
-                ctx.translate(15, h / 2);
+                ctx.translate(12, h / 2);
                 ctx.rotate(-Math.PI / 2);
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#555';
-                ctx.font = '14px Segoe UI, sans-serif';
-                ctx.fillText('Values', 0, 0);
+                ctx.font = (isMobile ? 10 : 12) + 'px Segoe UI, sans-serif';
+                ctx.fillText('Score', 0, 0);
                 ctx.restore();
 
-                // X-axis labels
+                // X-axis labels - dynamic step based on available space
                 ctx.fillStyle = '#8b8b9e';
+                ctx.font = xFontSize + 'px Segoe UI, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
-                const maxLabels = Math.min(scores.length, 24);
-                const labelStep = scores.length <= 12 ? 1 : Math.ceil(scores.length / 12);
+                const maxLabelWidth = isVeryNarrow ? 30 : (isMobile ? 40 : 50);
+                const maxLabelsFit = Math.floor(graphW / maxLabelWidth);
+                const labelStep = scores.length <= maxLabelsFit ? 1 : Math.ceil(scores.length / maxLabelsFit);
                 for (let i = 0; i < scores.length; i += labelStep) {
                     const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
-                    ctx.fillText('EP' + (i + 1), x, h - padding.bottom + 10);
+                    ctx.fillText('EP' + (i + 1), x, h - padding.bottom + 8);
                 }
 
-                // Draw line
+                // Draw line with area fill
                 if (scores.length > 0) {
+                    // Area fill (gradient below line)
+                    ctx.beginPath();
+                    scores.forEach((score, i) => {
+                        const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
+                        const y = padding.top + ((maxScore - score) / scoreRange) * graphH;
+                        if (i === 0) {
+                            ctx.moveTo(x, y);
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+                    });
+                    ctx.lineTo(padding.left + graphW, padding.top + graphH);
+                    ctx.lineTo(padding.left, padding.top + graphH);
+                    ctx.closePath();
+                    const gradient = ctx.createLinearGradient(0, padding.top, 0, padding.top + graphH);
+                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.25)');
+                    gradient.addColorStop(1, 'rgba(99, 102, 241, 0.02)');
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+
+                    // Line
                     ctx.beginPath();
                     ctx.strokeStyle = '#6366f1';
-                    ctx.lineWidth = 3;
+                    ctx.lineWidth = lineWidth;
                     ctx.lineJoin = 'round';
                     ctx.lineCap = 'round';
-
                     scores.forEach((score, i) => {
                         const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
                         const y = padding.top + ((maxScore - score) / scoreRange) * graphH;
@@ -2699,26 +2944,36 @@
                     });
                     ctx.stroke();
 
+                    // Shadow/glow on line
+                    ctx.save();
+                    ctx.shadowColor = '#6366f1';
+                    ctx.shadowBlur = 8;
+                    ctx.stroke();
+                    ctx.restore();
+
                     // Draw points
                     scores.forEach((score, i) => {
                         const x = padding.left + (i / (scores.length - 1 || 1)) * graphW;
                         const y = padding.top + ((maxScore - score) / scoreRange) * graphH;
 
                         ctx.beginPath();
-                        ctx.arc(x, y, 8, 0, Math.PI * 2);
+                        ctx.arc(x, y, pointRadius, 0, Math.PI * 2);
                         ctx.fillStyle = '#6366f1';
                         ctx.fill();
+                        ctx.strokeStyle = '#16161f';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
 
                         ctx.beginPath();
-                        ctx.arc(x, y, 4, 0, Math.PI * 2);
-                        ctx.fillStyle = '#16161f';
+                        ctx.arc(x, y, innerRadius, 0, Math.PI * 2);
+                        ctx.fillStyle = '#818cf8';
                         ctx.fill();
                     });
                 }
 
                 // Title
                 ctx.fillStyle = '#f0f0f5';
-                ctx.font = '18px Segoe UI, sans-serif';
+                ctx.font = 'bold ' + titleFontSize + 'px Segoe UI, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'top';
                 ctx.fillText(anime.name, w / 2, 10);
@@ -2758,7 +3013,9 @@
                         <div class="details-section">
                             <h4>Episode Ratings Graph</h4>
                             <div class="graph-container" style="padding: 16px;">
-                                <canvas id="episode-graph-canvas" class="graph-canvas" style="width:100%; height:320px;"></canvas>
+                                <div class="graph-scroll-wrapper">
+                                    <canvas id="episode-graph-canvas" class="graph-canvas"></canvas>
+                                </div>
                                 <div class="graph-actions">
                                     <button class="btn btn-primary" onclick="app.downloadGraph(${index})">&#128228; Download Graph as Image</button>
                                 </div>
@@ -3532,6 +3789,7 @@
                         this.currentlyWatching = data.currentlyWatching;
                         this.albumPhotos = data.albumPhotos || [];
                         this.albumTitle = data.albumTitle || 'My Album';
+                        this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
                         // Migrate imported data
                         this.animeList.forEach(a => {
                             if (a.studio === undefined) a.studio = '';
@@ -3692,10 +3950,14 @@
                     cropCanvas.addEventListener('touchend', () => this.endCropDrag());
                 }
 
-                // Album title input enter key
+                // Album title and photo title input enter key
                 document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' && document.activeElement && document.activeElement.id === 'album-title-input') {
-                        this.saveAlbumTitle();
+                    if (e.key === 'Enter' && document.activeElement) {
+                        if (document.activeElement.id === 'album-title-input') {
+                            this.saveAlbumTitle();
+                        } else if (document.activeElement.id === 'photo-title-input') {
+                            this.savePhotoTitle();
+                        }
                     }
                 });
             },
