@@ -1202,10 +1202,10 @@
             left: 0;
             right: 0;
             padding: 10px 12px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
             font-size: 0.8rem;
-            color: rgba(255,255,255,0.9);
-            opacity: 0;
+            color: rgba(255,255,255,0.95);
+            opacity: 1;
             transition: opacity 0.2s;
             pointer-events: none;
         }
@@ -1217,11 +1217,8 @@
         }
         .photo-title-overlay .photo-title-date {
             font-size: 0.7rem;
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.7);
             margin-top: 2px;
-        }
-        .collage-item:hover .photo-title-overlay {
-            opacity: 1;
         }
         .image-viewer-title-section {
             margin-top: 12px;
@@ -1349,6 +1346,34 @@
         }
         .collage-delete-btn:hover {
             background: rgba(239, 68, 68, 1);
+            transform: scale(1.1);
+        }
+
+        /* Album Edit Button */
+        .collage-edit-btn {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.85);
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.2s;
+            z-index: 3;
+        }
+        .collage-item:hover .collage-edit-btn {
+            opacity: 1;
+        }
+        .collage-edit-btn:hover {
+            background: rgba(99, 102, 241, 1);
             transform: scale(1.1);
         }
 
@@ -2139,6 +2164,7 @@
                             if (a.coverImage === undefined) a.coverImage = '';
                             if (a.summary === undefined) a.summary = '';
                             if (a.type === undefined) a.type = 'series';
+                            if (a.episodeScores === undefined) a.episodeScores = [];
                         });
                     } catch (e) {
                         console.error('Failed to load data', e);
@@ -2634,6 +2660,7 @@
                                 <div class="photo-title-text">${this.escapeHtml(photo.title || 'Photo ' + (idx + 1))}</div>
                                 <div class="photo-title-date">${this.escapeHtml(photo.date)}</div>
                             </div>
+                            <button class="collage-edit-btn" onclick="event.stopPropagation(); app.viewAndEditAlbumPhoto(${idx})" title="Edit title">&#9999;</button>
                             <button class="collage-delete-btn" onclick="event.stopPropagation(); app.deleteAlbumPhoto(${idx})" title="Delete this photo">&times;</button>
                         </div>
                     `).join('');
@@ -2714,6 +2741,11 @@
                 this.showModal('album-viewer-modal');
             },
 
+            viewAndEditAlbumPhoto(index) {
+                this.viewAlbumPhoto(index);
+                setTimeout(() => this.editPhotoTitle(), 100);
+            },
+
             editPhotoTitle() {
                 const index = this.currentAlbumPhotoIndex;
                 if (index === null || index === undefined) return;
@@ -2741,7 +2773,6 @@
                 this.save();
                 this.renderAlbum();
                 this.showToast('Photo title updated');
-                // Refresh viewer display
                 this.viewAlbumPhoto(index);
             },
 
@@ -2763,7 +2794,6 @@
                 if (this.currentAlbumPhotoIndex === null) return;
                 const idx = this.currentAlbumPhotoIndex;
                 this.closeModal('album-viewer-modal');
-                // Small delay to let modal close
                 setTimeout(() => {
                     this.deleteAlbumPhoto(idx);
                 }, 300);
@@ -2816,16 +2846,12 @@
                 const isMobile = containerWidth < 500;
                 const isVeryNarrow = containerWidth < 360;
 
-                // Responsive sizing: smaller height on mobile, wider canvas for scrolling
                 let h = isVeryNarrow ? 220 : (isMobile ? 260 : 320);
-                // Minimum width per episode point for readability
                 const minWidthPerPoint = isVeryNarrow ? 24 : (isMobile ? 30 : 40);
                 const scores = anime.episodeScores || [];
                 const padding = { top: 40, right: 20, bottom: 45, left: 50 };
 
-                // Calculate canvas width: container width or wider if many episodes
                 let w = Math.max(containerWidth, scores.length * minWidthPerPoint + padding.left + padding.right);
-                // Cap max width for very long series
                 w = Math.min(w, 1600);
 
                 canvas.width = w * dpr;
@@ -2839,7 +2865,6 @@
 
                 ctx.clearRect(0, 0, w, h);
 
-                // Background
                 ctx.fillStyle = '#16161f';
                 ctx.fillRect(0, 0, w, h);
 
@@ -2851,11 +2876,10 @@
                     return;
                 }
 
-                const minScore = 80;
-                const maxScore = 105;
+                const minScore = 0;
+                const maxScore = 100;
                 const scoreRange = maxScore - minScore;
 
-                // Responsive font sizes
                 const yFontSize = isVeryNarrow ? 10 : (isMobile ? 11 : 13);
                 const xFontSize = isVeryNarrow ? 9 : (isMobile ? 10 : 12);
                 const titleFontSize = isVeryNarrow ? 14 : (isMobile ? 15 : 18);
@@ -2895,7 +2919,7 @@
                 ctx.fillText('Score', 0, 0);
                 ctx.restore();
 
-                // X-axis labels - dynamic step based on available space
+                // X-axis labels
                 ctx.fillStyle = '#8b8b9e';
                 ctx.font = xFontSize + 'px Segoe UI, sans-serif';
                 ctx.textAlign = 'center';
@@ -3006,7 +3030,6 @@
                 `).join('');
                 const isMovie = anime.type === 'movie';
 
-                // Build episode graph section for non-movies
                 let graphHtml = '';
                 if (!isMovie && (anime.episodeScores || []).length > 0) {
                     graphHtml = `
@@ -3054,7 +3077,6 @@
                 `;
                 this.showModal('details-modal');
 
-                // Draw graph after modal is shown
                 if (graphHtml) {
                     requestAnimationFrame(() => {
                         this.drawEpisodeGraph(anime);
@@ -3101,7 +3123,6 @@
                 this.currentRateEpisodeIndex = 0;
                 this.pendingCharImage = null;
 
-                // Reset char inputs
                 document.getElementById('char-name').value = '';
                 document.getElementById('char-rating').value = 5;
                 document.getElementById('char-rating-val').textContent = '5.0';
@@ -3109,9 +3130,10 @@
                 this.updateCharImagePreview('char-image-preview', 'char-image-plus', null);
 
                 if (anime.type === 'movie' && anime.currentEpisode >= anime.totalEpisodes) {
-                    // Movie already rated, resume finish step
                     this.currentRateTotalEpisodes = 1;
-                    this.currentRateEpisodes = [anime.totalEpisodeScore];
+                    this.currentRateEpisodes = anime.episodeScores && anime.episodeScores.length > 0 
+                        ? [...anime.episodeScores] 
+                        : [anime.totalEpisodeScore];
                     this.currentRateOpScores = anime._tempOp !== undefined ? [anime._tempOp] : [];
                     this.currentRateEdScores = anime._tempEd !== undefined ? [anime._tempEd] : [];
                     this.currentRateEpisodeIndex = 1;
@@ -3165,7 +3187,6 @@
                 this.showModal('edit-choice-modal');
             },
 
-            // Open Edit Info Modal
             openEditInfo() {
                 this.closeModal('edit-choice-modal');
                 const anime = this.animeList[this.editingIndex];
@@ -3211,7 +3232,6 @@
                 this.showModal('edit-modal');
             },
 
-            // Save Edit Info
             saveEditInfo() {
                 const name = document.getElementById('edit-info-name').value.trim();
                 const year = parseInt(document.getElementById('edit-info-year').value);
@@ -3389,7 +3409,6 @@
                 this.showModal('import-modal');
             },
 
-            // Cover Handling
             handleCoverPreview(input, previewId, context) {
                 const file = input.files[0];
                 if (!file) return;
@@ -3433,7 +3452,6 @@
                 }
             },
 
-            // Character Handling
             addPendingCharacter() {
                 const name = document.getElementById('char-name').value.trim();
                 const rating = parseFloat(document.getElementById('char-rating').value);
@@ -3505,7 +3523,8 @@
                     totalEpisodeScore: 0,
                     coverImage: this.tempCoverImage || '',
                     type,
-                    summary
+                    summary,
+                    episodeScores: []
                 });
                 this.tempCoverImage = null;
 
@@ -3536,14 +3555,12 @@
                 this.clearRateInputs();
             },
 
-            // BUG FIX: Show the actual episode number being rated, not the batch index
             updateEpisodeStepper() {
                 const anime = this.currentlyWatching[this.currentRateIndex];
                 if (anime.type === 'movie') {
                     document.getElementById('current-ep-num').textContent = 'Rate Movie';
                     document.getElementById('current-ep-title').textContent = 'Single rating for this movie';
                 } else {
-                    // Show actual episode number: currentEpisode already watched + current index in batch + 1
                     const actualEpNum = anime.currentEpisode + this.currentRateEpisodeIndex + 1;
                     document.getElementById('current-ep-num').textContent = actualEpNum;
                     document.getElementById('current-ep-title').textContent = `of ${anime.totalEpisodes} total episodes`;
@@ -3600,17 +3617,18 @@
                 const score = this.calcEpisodeScore();
                 const opScore = this.getEpisodeOpScore();
                 const edScore = this.getEpisodeEdScore();
+                
+                const anime = this.currentlyWatching[this.currentRateIndex];
+                if (!anime.episodeScores) anime.episodeScores = [];
+                anime.episodeScores.push(score);
+                
                 this.currentRateEpisodes.push(score);
                 this.currentRateOpScores.push(opScore);
                 this.currentRateEdScores.push(edScore);
                 this.currentRateEpisodeIndex++;
 
-                const anime = this.currentlyWatching[this.currentRateIndex];
-
-                // Store temp scores for movies in case modal is closed
                 if (anime.type === 'movie') {
                     anime._tempOp = opScore;
-                    anime._tempEd = edScore;
                 }
 
                 if (this.currentRateEpisodeIndex >= this.currentRateTotalEpisodes) {
@@ -3621,6 +3639,7 @@
                     anime.currentEpisode = newCurrentEpisode;
 
                     if (anime.currentEpisode >= anime.totalEpisodes || anime.type === 'movie') {
+                        this.save();
                         document.getElementById('rate-step-rate').classList.add('hidden');
                         document.getElementById('rate-step-finish').classList.remove('hidden');
                         document.getElementById('rate-next-btn').classList.add('hidden');
@@ -3655,12 +3674,12 @@
                 let avgOpScore = this.currentRateOpScores.length ? this.currentRateOpScores.reduce((a, b) => a + b, 0) / this.currentRateOpScores.length : 0;
                 let avgEdScore = this.currentRateEdScores.length ? this.currentRateEdScores.reduce((a, b) => a + b, 0) / this.currentRateEdScores.length : 0;
 
-                // Fallback to temp scores for movies if arrays are empty (modal was reopened)
                 if (!avgOpScore && anime._tempOp !== undefined) avgOpScore = anime._tempOp;
                 if (!avgEdScore && anime._tempEd !== undefined) avgEdScore = anime._tempEd;
 
-                // Store individual episode scores
-                const episodeScores = [...this.currentRateEpisodes];
+                const episodeScores = anime.episodeScores && anime.episodeScores.length > 0 
+                    ? [...anime.episodeScores] 
+                    : [...this.currentRateEpisodes];
 
                 this.animeList.push({
                     name: anime.name,
@@ -3694,7 +3713,6 @@
                 const edScore = this.getEditEdScore();
                 const old = this.animeList[this.editingIndex];
 
-                // For re-scored anime, store the single score as episode score
                 const episodeScores = [score];
 
                 this.animeList[this.editingIndex] = {
@@ -3751,7 +3769,6 @@
                 this.showToast('All data cleared');
             },
 
-            // Import / Export
             exportData() {
                 const data = {
                     animeList: this.animeList,
@@ -3790,7 +3807,6 @@
                         this.albumPhotos = data.albumPhotos || [];
                         this.albumTitle = data.albumTitle || 'My Album';
                         this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
-                        // Migrate imported data
                         this.animeList.forEach(a => {
                             if (a.studio === undefined) a.studio = '';
                             if (a.opScore === undefined) a.opScore = 0;
@@ -3810,6 +3826,7 @@
                             if (a.coverImage === undefined) a.coverImage = '';
                             if (a.summary === undefined) a.summary = '';
                             if (a.type === undefined) a.type = 'series';
+                            if (a.episodeScores === undefined) a.episodeScores = [];
                         });
                         this.save();
                         this.render();
@@ -3822,7 +3839,6 @@
                 reader.readAsText(file);
             },
 
-            // Utilities
             selectType(type) {
                 document.getElementById('type-series').classList.toggle('selected', type === 'series');
                 document.getElementById('type-movie').classList.toggle('selected', type === 'movie');
@@ -3908,7 +3924,6 @@
             },
 
             setupEventListeners() {
-                // Real-time preview for rating sliders
                 document.querySelectorAll('input[type="range"][id^="rs-"], input[type="range"][id^="ed-"]').forEach(input => {
                     input.addEventListener('input', (e) => {
                         const valId = e.target.id + '-val';
@@ -3924,21 +3939,18 @@
                     });
                 });
 
-                // Close modals on overlay click
                 document.querySelectorAll('.modal-overlay').forEach(overlay => {
                     overlay.addEventListener('click', (e) => {
                         if (e.target === overlay) this.closeModal(overlay.id);
                     });
                 });
 
-                // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         document.querySelectorAll('.modal-overlay.active').forEach(m => this.closeModal(m.id));
                     }
                 });
 
-                // Crop canvas interactions
                 const cropCanvas = document.getElementById('crop-canvas');
                 if (cropCanvas) {
                     cropCanvas.addEventListener('mousedown', e => { e.preventDefault(); this.startCropDrag(e); });
@@ -3950,7 +3962,6 @@
                     cropCanvas.addEventListener('touchend', () => this.endCropDrag());
                 }
 
-                // Album title and photo title input enter key
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && document.activeElement) {
                         if (document.activeElement.id === 'album-title-input') {
