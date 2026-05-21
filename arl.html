@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Rank List</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-primary: #050508;
@@ -1544,7 +1545,380 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* ===== Journey Timeline Styles ===== */
+        .journey-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px 0 40px;
+        }
+
+        .journey-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .journey-year-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-hover) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .keep-watching {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #1e1e2e 0%, #16161f 100%);
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-hover);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2), inset 0 0 20px rgba(99, 102, 241, 0.05);
+            margin: 0 auto 32px;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            user-select: none;
+            animation: kwSlideIn 0.5s ease forwards;
+        }
+
+        .keep-watching::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent-hover), var(--accent), transparent);
+            background-size: 200% 100%;
+            animation: kwLoadingBar 1.5s ease-in-out infinite;
+        }
+
+        .kw-spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(99, 102, 241, 0.15);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: kwSpin 1s linear infinite;
+            flex-shrink: 0;
+        }
+
+        .kw-text {
+            z-index: 1;
+        }
+
+        .kw-dots {
+            display: inline-flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .kw-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: kwDotPulse 1.4s ease-in-out infinite;
+        }
+
+        .kw-dot:nth-child(2) { animation-delay: 0.2s; }
+        .kw-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes kwSlideIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes kwSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes kwLoadingBar {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes kwDotPulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Connection line from keep-watching to timeline */
+        .kw-connector {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            margin: -10px auto 10px;
+            position: relative;
+            opacity: 0.6;
+        }
+
+        .kw-connector::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+            animation: kwConnectorPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes kwConnectorPulse {
+            0%, 100% { box-shadow: 0 0 6px var(--accent); }
+            50% { box-shadow: 0 0 16px var(--accent), 0 0 30px var(--accent-hover); }
+        }
+
+        .journey-download-btn {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .journey-timeline-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 20px 0 60px;
+        }
+
+        .journey-road-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .journey-road-glow {
+            fill: none;
+            stroke: url(#roadGradient);
+            stroke-width: 14;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            opacity: 0.15;
+            filter: blur(4px);
+        }
+
+        .journey-road-path {
+            fill: none;
+            stroke: url(#roadGradient);
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 12 8;
+            animation: flowRoad 1s linear infinite;
+        }
+
+        @keyframes flowRoad {
+            to { stroke-dashoffset: 20; }
+        }
+
+        .journey-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .journey-month-group {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            position: relative;
+        }
+
+        .journey-month-label {
+            align-self: center;
+            padding: 10px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--accent-hover);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .journey-node {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            width: 260px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: nodeEnter 0.5s ease forwards;
+        }
+
+        @keyframes nodeEnter {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .journey-node:hover {
+            transform: translateY(-4px) scale(1.03);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.25);
+        }
+
+        .journey-node.left {
+            align-self: flex-start;
+            margin-left: 10px;
+            flex-direction: row;
+        }
+
+        .journey-node.right {
+            align-self: flex-end;
+            margin-right: 10px;
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        .journey-node-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+            background: var(--bg-primary);
+            transition: all 0.3s ease;
+        }
+
+        .journey-node:hover .journey-node-img {
+            border-color: var(--accent);
+            transform: scale(1.08);
+        }
+
+        .journey-node-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .journey-node-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .journey-node-period {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .journey-node-badge {
+            position: absolute;
+            top: -10px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .journey-node.left .journey-node-badge {
+            left: -10px;
+        }
+
+        .journey-node.right .journey-node-badge {
+            right: -10px;
+        }
+
+        .journey-road-dot {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 4px solid var(--bg-primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
+            z-index: 3;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .journey-empty {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-muted);
+        }
+
+        .journey-empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.4;
+        }
+
+        @media (max-width: 640px) {
+            .journey-year-title {
+                font-size: 1.6rem;
+            }
+            .journey-node {
+                width: 200px;
+                padding: 10px 12px;
+                gap: 10px;
+            }
+            .journey-node-img {
+                width: 44px;
+                height: 44px;
+            }
+            .journey-node-title {
+                font-size: 0.85rem;
+            }
+            .journey-node-period {
+                font-size: 0.72rem;
+            }
+            .journey-content {
+                gap: 36px;
+            }
+            .journey-month-group {
+                gap: 28px;
+            }
+        }
 </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -1565,6 +1939,7 @@
                 <button class="nav-tab" onclick="app.switchView('watching')">&#128250; Currently Watching</button>
                 <button class="nav-tab" onclick="app.switchView('stats')">&#128202; Statistics</button>
                 <button class="nav-tab" onclick="app.switchView('album')">&#128248; Memories</button>
+                <button class="nav-tab" onclick="app.switchView('journey')">&#128506; Journey</button>
                 <button class="nav-tab" onclick="app.switchView('tutorial')">&#128214; How? </button>
             </nav>
         </header>
@@ -1591,6 +1966,11 @@
             <!-- Album View -->
             <div id="album-view" class="view">
                 <div id="album-container"></div>
+            </div>
+
+            <!-- Journey View -->
+            <div id="journey-view" class="view">
+                <div id="journey-container"></div>
             </div>
 
             <!-- tutorial View -->
@@ -2133,7 +2513,7 @@
                     <input type="file" class="form-input" id="import-file" accept=".json" style="padding: 8px;">
                 </div>
                 <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--text-muted);">
-                    <strong>Warning:</strong> Importing will replace all current data. Make sure to export your current data first if you want to keep it.
+                    <strong>Warning:</strong> Importing will replace all current data. Make sure to export your current data first. Using IndexedDB for large storage capacity.
                 </div>
             </div>
             <div class="modal-footer">
@@ -2238,62 +2618,114 @@
             currentAlbumPhotoIndex: null,
 
             init() {
-                this.load();
-                this.render();
-                this.setupEventListeners();
+                this.initDB().then(() => {
+                    this.render();
+                    this.setupEventListeners();
+                    setTimeout(() => {
+                        if (document.getElementById('journey-view').classList.contains('active')) {
+                            this.drawJourneyRoad();
+                        }
+                    }, 150);
+                });
             },
 
-            // Persistence
-            load() {
-                const data = localStorage.getItem('animeRank_data');
-                if (data) {
-                    try {
-                        const parsed = JSON.parse(data);
-                        this.animeList = parsed.animeList || [];
-                        this.currentlyWatching = parsed.currentlyWatching || [];
-                        this.albumPhotos = parsed.albumPhotos || [];
-                        this.albumTitle = parsed.albumTitle || 'My Album';
-                        // Migrate album photos: ensure title field exists
-                        this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
-                        // Migrate old data
-                        this.animeList.forEach(a => {
-                            if (a.studio === undefined) a.studio = '';
-                            if (a.opScore === undefined) a.opScore = 0;
-                            if (a.edScore === undefined) a.edScore = 0;
-                            if (a.coverImage === undefined) a.coverImage = '';
-                            if (a.characters === undefined) a.characters = [];
-                            a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
-                            if (a.summary === undefined) a.summary = '';
-                            if (a.type === undefined) a.type = 'series';
-                            if (a.comment === undefined) a.comment = '';
-                            if (a.episodeScores === undefined) a.episodeScores = [];
-                            // If we have episodesRated but no episodeScores, create approximate ones
-                            if (a.episodeScores.length === 0 && a.episodesRated > 0 && a.totalEpisodeScore > 0) {
-                                const avgScore = a.totalEpisodeScore / a.episodesRated;
-                                a.episodeScores = Array(a.episodesRated).fill(avgScore);
+            // IndexedDB Persistence
+            db: null,
+            dbName: 'AnimeRankDB',
+            dbVersion: 1,
+            storeName: 'appData',
+            isSaving: false,
+            saveQueue: [],
+
+            async initDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.dbVersion);
+                    request.onerror = () => {
+                        console.error('IndexedDB failed to open');
+                        this.showToast('Storage unavailable. Using memory only.', 'error');
+                        resolve();
+                    };
+                    request.onsuccess = (event) => {
+                        this.db = event.target.result;
+                        this.load().then(() => resolve()).catch(() => resolve());
+                    };
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        if (!db.objectStoreNames.contains(this.storeName)) {
+                            db.createObjectStore(this.storeName);
+                        }
+                    };
+                });
+            },
+
+            async load() {
+                if (!this.db) return;
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction([this.storeName], 'readonly');
+                    const store = tx.objectStore(this.storeName);
+                    const req = store.get('animeRank_data');
+                    req.onsuccess = () => {
+                        if (req.result) {
+                            try {
+                                const parsed = req.result;
+                                this.animeList = parsed.animeList || [];
+                                this.currentlyWatching = parsed.currentlyWatching || [];
+                                this.albumPhotos = parsed.albumPhotos || [];
+                                this.albumTitle = parsed.albumTitle || 'My Album';
+                                this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
+                                this.animeList.forEach(a => {
+                                    if (a.studio === undefined) a.studio = '';
+                                    if (a.opScore === undefined) a.opScore = 0;
+                                    if (a.edScore === undefined) a.edScore = 0;
+                                    if (a.coverImage === undefined) a.coverImage = '';
+                                    if (a.characters === undefined) a.characters = [];
+                                    a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
+                                    if (a.summary === undefined) a.summary = '';
+                                    if (a.type === undefined) a.type = 'series';
+                                    if (a.comment === undefined) a.comment = '';
+                                    if (a.episodeScores === undefined) a.episodeScores = [];
+                                    if (a.episodeScores.length === 0 && a.episodesRated > 0 && a.totalEpisodeScore > 0) {
+                                        const avgScore = a.totalEpisodeScore / a.episodesRated;
+                                        a.episodeScores = Array(a.episodesRated).fill(avgScore);
+                                    }
+                                });
+                                this.currentlyWatching.forEach(a => {
+                                    if (a.coverImage === undefined) a.coverImage = '';
+                                    if (a.summary === undefined) a.summary = '';
+                                    if (a.type === undefined) a.type = 'series';
+                                    if (a.comment === undefined) a.comment = '';
+                                    if (a.episodeScores === undefined) a.episodeScores = [];
+                                });
+                            } catch (e) {
+                                console.error('Failed to load data', e);
                             }
-                        });
-                        this.currentlyWatching.forEach(a => {
-                            if (a.coverImage === undefined) a.coverImage = '';
-                            if (a.summary === undefined) a.summary = '';
-                            if (a.type === undefined) a.type = 'series';
-                            if (a.comment === undefined) a.comment = '';
-                            if (a.episodeScores === undefined) a.episodeScores = [];
-                        });
-                    } catch (e) {
-                        console.error('Failed to load data', e);
-                    }
-                }
+                        }
+                        resolve();
+                    };
+                    req.onerror = () => resolve();
+                });
             },
 
             save() {
-                localStorage.setItem('animeRank_data', JSON.stringify({
-                    animeList: this.animeList,
-                    currentlyWatching: this.currentlyWatching,
-                    albumPhotos: this.albumPhotos,
-                    albumTitle: this.albumTitle,
-                    version: 5
-                }));
+                if (!this.db) {
+                    this.showToast('Storage not available', 'error');
+                    return false;
+                }
+                try {
+                    const tx = this.db.transaction([this.storeName], 'readwrite');
+                    const store = tx.objectStore(this.storeName);
+                    store.put({
+                        animeList: this.animeList,
+                        currentlyWatching: this.currentlyWatching,
+                        albumPhotos: this.albumPhotos,
+                        albumTitle: this.albumTitle,
+                        version: 5
+                    }, 'animeRank_data');
+                    return true;
+                } catch (e) {
+                    this.showToast('Failed to save data: ' + e.message, 'error');
+                    return false;
+                }
             },
 
             switchView(viewName) {
@@ -2302,6 +2734,9 @@
                 document.getElementById(viewName + '-view').classList.add('active');
                 event.target.classList.add('active');
                 this.render();
+                if (viewName === 'journey') {
+                    requestAnimationFrame(() => this.drawJourneyRoad());
+                }
             },
 
             // Rendering
@@ -2310,6 +2745,7 @@
                 this.renderWatching();
                 this.renderStats();
                 this.renderAlbum();
+                this.renderJourney();
             },
 
             renderRanking() {
@@ -2789,11 +3225,11 @@
                 if (files.length === 0) return;
 
                 let validCount = 0;
-                const maxFiles = 50;
+                const maxFiles = 1000;
                 const remainingSlots = maxFiles - this.albumPhotos.length;
 
                 if (remainingSlots <= 0) {
-                    this.showToast('Album is full (max 50 photos)', 'error');
+                    this.showToast('Album is full (max 1000 photos). Remove some photos to add more.', 'error');
                     input.value = '';
                     return;
                 }
@@ -2803,10 +3239,6 @@
                 filesToProcess.forEach(file => {
                     if (!file.type.match(/jpeg|jpg/i)) {
                         this.showToast(`Skipped ${file.name}: Only JPG allowed`, 'error');
-                        return;
-                    }
-                    if (file.size > 10 * 1024 * 1024) {
-                        this.showToast(`Skipped ${file.name}: Max 10MB`, 'error');
                         return;
                     }
 
@@ -3539,11 +3971,6 @@
                     input.value = '';
                     return;
                 }
-                if (file.size > 5 * 1024 * 1024) {
-                    this.showToast('File must be under 5MB', 'error');
-                    input.value = '';
-                    return;
-                }
                 const reader = new FileReader();
                 reader.onload = e => {
                     const base64 = e.target.result;
@@ -3914,55 +4341,56 @@
                 this.showToast('Data exported successfully');
             },
 
-            importData() {
+            async importData() {
                 const fileInput = document.getElementById('import-file');
                 const file = fileInput.files[0];
                 if (!file) { this.showToast('Please select a file', 'error'); return; }
 
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const data = JSON.parse(e.target.result);
-                        if (!data.animeList || !Array.isArray(data.currentlyWatching)) {
-                            throw new Error('Invalid file format');
-                        }
-                        this.animeList = data.animeList;
-                        this.currentlyWatching = data.currentlyWatching;
-                        this.albumPhotos = data.albumPhotos || [];
-                        this.albumTitle = data.albumTitle || 'My Album';
-                        this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
-                        this.animeList.forEach(a => {
-                            if (a.studio === undefined) a.studio = '';
-                            if (a.opScore === undefined) a.opScore = 0;
-                            if (a.edScore === undefined) a.edScore = 0;
-                            if (a.coverImage === undefined) a.coverImage = '';
-                            if (a.characters === undefined) a.characters = [];
-                            a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
-                            if (a.summary === undefined) a.summary = '';
-                            if (a.type === undefined) a.type = 'series';
-                            if (a.comment === undefined) a.comment = '';
-                            if (a.episodeScores === undefined) a.episodeScores = [];
-                            if (a.episodeScores.length === 0 && a.episodesRated > 0 && a.totalEpisodeScore > 0) {
-                                const avgScore = a.totalEpisodeScore / a.episodesRated;
-                                a.episodeScores = Array(a.episodesRated).fill(avgScore);
-                            }
-                        });
-                        this.currentlyWatching.forEach(a => {
-                            if (a.coverImage === undefined) a.coverImage = '';
-                            if (a.summary === undefined) a.summary = '';
-                            if (a.type === undefined) a.type = 'series';
-                            if (a.comment === undefined) a.comment = '';
-                            if (a.episodeScores === undefined) a.episodeScores = [];
-                        });
-                        this.save();
-                        this.render();
-                        this.closeModal('import-modal');
-                        this.showToast('Data imported successfully');
-                    } catch (err) {
-                        this.showToast('Failed to import: ' + err.message, 'error');
+                this.showToast('Reading file...');
+                const text = await file.text();
+
+                try {
+                    const data = JSON.parse(text);
+                    if (!data.animeList || !Array.isArray(data.currentlyWatching)) {
+                        throw new Error('Invalid file format');
                     }
-                };
-                reader.readAsText(file);
+                    this.animeList = data.animeList;
+                    this.currentlyWatching = data.currentlyWatching;
+                    this.albumPhotos = data.albumPhotos || [];
+                    this.albumTitle = data.albumTitle || 'My Album';
+                    this.albumPhotos.forEach(p => { if (p.title === undefined) p.title = ''; });
+                    this.animeList.forEach(a => {
+                        if (a.studio === undefined) a.studio = '';
+                        if (a.opScore === undefined) a.opScore = 0;
+                        if (a.edScore === undefined) a.edScore = 0;
+                        if (a.coverImage === undefined) a.coverImage = '';
+                        if (a.characters === undefined) a.characters = [];
+                        a.characters.forEach(c => { if (c.image === undefined) c.image = ''; });
+                        if (a.summary === undefined) a.summary = '';
+                        if (a.type === undefined) a.type = 'series';
+                        if (a.comment === undefined) a.comment = '';
+                        if (a.episodeScores === undefined) a.episodeScores = [];
+                        if (a.episodeScores.length === 0 && a.episodesRated > 0 && a.totalEpisodeScore > 0) {
+                            const avgScore = a.totalEpisodeScore / a.episodesRated;
+                            a.episodeScores = Array(a.episodesRated).fill(avgScore);
+                        }
+                    });
+                    this.currentlyWatching.forEach(a => {
+                        if (a.coverImage === undefined) a.coverImage = '';
+                        if (a.summary === undefined) a.summary = '';
+                        if (a.type === undefined) a.type = 'series';
+                        if (a.comment === undefined) a.comment = '';
+                        if (a.episodeScores === undefined) a.episodeScores = [];
+                    });
+                    if (!this.save()) {
+                        throw new Error('Storage quota exceeded. Remove some data and try again.');
+                    }
+                    this.render();
+                    this.closeModal('import-modal');
+                    this.showToast('Data imported successfully');
+                } catch (err) {
+                    this.showToast('Failed to import: ' + err.message, 'error');
+                }
             },
 
             selectType(type) {
@@ -4004,11 +4432,6 @@
                 if (!file) return;
                 if (!file.type.match(/jpeg|jpg|png/i)) {
                     this.showToast('Only JPG/PNG files allowed', 'error');
-                    input.value = '';
-                    return;
-                }
-                if (file.size > 3 * 1024 * 1024) {
-                    this.showToast('File must be under 3MB', 'error');
                     input.value = '';
                     return;
                 }
@@ -4120,7 +4543,269 @@
                     counter.classList.remove('warning', 'error');
                 }
             },
-setupEventListeners() {
+
+            // ===== JOURNEY FEATURE METHODS =====
+            parseFinishDate(watchPeriod) {
+                if (!watchPeriod || typeof watchPeriod !== 'string') return null;
+                const parts = watchPeriod.split(' - ');
+                if (parts.length < 2) return null;
+                const finishPart = parts[parts.length - 1].trim();
+                const match = finishPart.match(/^([A-Za-z]+)\s+(\d{1,2})/);
+                if (!match) return null;
+
+                const monthAbbr = match[1].toLowerCase();
+                const day = parseInt(match[2], 10);
+
+                const monthMap = {
+                    'jan': 0, 'feb': 1, 'march': 2, 'april': 3, 'may': 4, 'jun': 5,
+                    'july': 6, 'aug': 7, 'sept': 8, 'oct': 9, 'nov': 10, 'dec': 11
+                };
+
+                const month = monthMap[monthAbbr];
+                if (month === undefined) return null;
+
+                const year = new Date().getFullYear();
+                return new Date(year, month, day);
+            },
+
+            getMonthName(monthIndex) {
+                const names = ['January', 'February', 'March', 'April', 'May', 'June',
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+                return names[monthIndex] || 'Unknown';
+            },
+
+            renderJourney() {
+                const container = document.getElementById('journey-container');
+                if (this.animeList.length === 0) {
+                    container.innerHTML = `
+                        <div class="journey-empty">
+                            <div class="journey-empty-icon">&#128506;</div>
+                            <h3>Your journey is empty</h3>
+                            <p>Complete some anime to see your watch-history timeline</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Parse and sort by finish date (newest first)
+                const parsed = this.animeList.map((anime, idx) => {
+                    const finishDate = this.parseFinishDate(anime.watchPeriod);
+                    return { ...anime, originalIndex: idx, finishDate };
+                }).filter(a => a.finishDate).sort((a, b) => b.finishDate - a.finishDate);
+
+                if (parsed.length === 0) {
+                    container.innerHTML = `
+                        <div class="journey-empty">
+                            <div class="journey-empty-icon">&#128506;</div>
+                            <h3>No timeline data</h3>
+                            <p>Watch period information is missing for your completed anime</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Group by month
+                const grouped = {};
+                parsed.forEach(anime => {
+                    const key = `${anime.finishDate.getFullYear()}-${anime.finishDate.getMonth()}`;
+                    if (!grouped[key]) {
+                        grouped[key] = {
+                            month: anime.finishDate.getMonth(),
+                            year: anime.finishDate.getFullYear(),
+                            anime: []
+                        };
+                    }
+                    grouped[key].anime.push(anime);
+                });
+
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                const currentMonth = now.getMonth();
+
+                // Filter future months and sort descending
+                const sortedMonths = Object.values(grouped)
+                    .filter(g => !(g.year > currentYear || (g.year === currentYear && g.month > currentMonth)))
+                    .sort((a, b) => b.year - a.year || b.month - a.month);
+
+                if (sortedMonths.length === 0) {
+                    container.innerHTML = `
+                        <div class="journey-empty">
+                            <div class="journey-empty-icon">&#128506;</div>
+                            <h3>No timeline data</h3>
+                            <p>Future months are hidden until anime are completed</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const journeyYear = currentYear;
+                const isMay = sortedMonths.some(g => g.month === 4 && g.year === currentYear);
+
+                let html = `
+                    <div class="journey-header">
+                        <div class="journey-year-title">Your Journey in ${journeyYear}</div>
+                    </div>
+                    <div class="journey-download-btn">
+                        <button class="btn btn-primary" onclick="app.downloadJourney()">&#128228; Download Journey as Image</button>
+                    </div>
+                    <div class="journey-timeline-wrapper" id="journey-timeline-wrapper">
+                        <svg class="journey-road-svg" id="journey-road-svg" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path class="journey-road-glow" id="journey-road-glow" fill="none" stroke="url(#roadGradient)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+                            <path class="journey-road-path" id="journey-road-path" fill="none" stroke="url(#roadGradient)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6" />
+                        </svg>
+                        <div class="journey-content" id="journey-content">
+                `;
+
+                let nodeIndex = 0;
+                sortedMonths.forEach(group => {
+                    const monthName = this.getMonthName(group.month);
+                    html += `<div class="journey-month-group">`;
+                    html += `<div class="journey-month-label">${monthName}</div>`;
+
+                    // Insert redesigned Keep Watching badge at top of May
+                    if (group.month === 4 && group.year === currentYear) {
+                        html += `
+                            <div class="keep-watching" style="animation-delay: 0s">
+                                <div class="kw-spinner"></div>
+                                <span class="kw-text">Keep Watching</span>
+                                <div class="kw-dots">
+                                    <span class="kw-dot"></span>
+                                    <span class="kw-dot"></span>
+                                    <span class="kw-dot"></span>
+                                </div>
+                            </div>
+                            <div class="kw-connector"></div>
+                        `;
+                    }
+
+                    group.anime.forEach(anime => {
+                        const side = nodeIndex % 2 === 0 ? 'left' : 'right';
+                        const imgHtml = anime.coverImage
+                            ? `<img src="${anime.coverImage}" class="journey-node-img" alt="">`
+                            : `<div class="journey-node-img" style="display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:0.7rem;">No Img</div>`;
+
+                        html += `
+                            <div class="journey-node ${side}" style="animation-delay: ${nodeIndex * 0.08}s" onclick="app.showDetailsModal(${anime.originalIndex})">
+                                ${imgHtml}
+                                <div class="journey-node-content">
+                                    <div class="journey-node-title">${this.escapeHtml(anime.name)}</div>
+                                    <div class="journey-node-period">${this.escapeHtml(anime.watchPeriod)}</div>
+                                </div>
+                                <div class="journey-node-badge">${anime.rating.toFixed(0)}</div>
+                            </div>
+                        `;
+                        nodeIndex++;
+                    });
+
+                    html += `</div>`;
+                });
+
+                html += `</div></div>`;
+                container.innerHTML = html;
+
+                if (document.getElementById('journey-view').classList.contains('active')) {
+                    requestAnimationFrame(() => this.drawJourneyRoad());
+                }
+            },
+
+            drawJourneyRoad() {
+                const wrapper = document.getElementById('journey-timeline-wrapper');
+                const svg = document.getElementById('journey-road-svg');
+                const path = document.getElementById('journey-road-path');
+                const glow = document.getElementById('journey-road-glow');
+                if (!wrapper || !svg || !path) return;
+
+                const nodes = wrapper.querySelectorAll('.journey-node');
+                const kwBadge = wrapper.querySelector('.keep-watching');
+                if (nodes.length === 0 && !kwBadge) return;
+
+                const wrapperRect = wrapper.getBoundingClientRect();
+                const points = [];
+
+                // Start from keep-watching badge if it exists
+                if (kwBadge) {
+                    const kwRect = kwBadge.getBoundingClientRect();
+                    points.push({
+                        x: kwRect.left + kwRect.width / 2 - wrapperRect.left,
+                        y: kwRect.bottom - wrapperRect.top + 20
+                    });
+                }
+
+                nodes.forEach(node => {
+                    const rect = node.getBoundingClientRect();
+                    points.push({
+                        x: rect.left + rect.width / 2 - wrapperRect.left,
+                        y: rect.top + rect.height / 2 - wrapperRect.top
+                    });
+                });
+
+                if (points.length === 0) return;
+
+                // Set SVG dimensions to match wrapper exactly
+                svg.style.width = wrapper.clientWidth + 'px';
+                svg.style.height = wrapper.scrollHeight + 'px';
+
+                // Build zigzag path through center between nodes
+                let d = `M ${points[0].x} ${points[0].y}`;
+                for (let i = 1; i < points.length; i++) {
+                    const prev = points[i - 1];
+                    const curr = points[i];
+                    const midY = (prev.y + curr.y) / 2;
+                    const centerX = wrapperRect.width / 2;
+
+                    // Two quadratic curves creating an S-shape through center
+                    d += ` Q ${prev.x} ${midY}, ${centerX} ${midY}`;
+                    d += ` Q ${curr.x} ${midY}, ${curr.x} ${curr.y}`;
+                }
+
+                path.setAttribute('d', d);
+                if (glow) glow.setAttribute('d', d);
+            },
+
+            downloadJourney() {
+                const element = document.getElementById('journey-container');
+                if (!element) return;
+
+                if (typeof html2canvas === 'undefined') {
+                    this.showToast('Loading image library... please try again shortly', 'error');
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                    script.onload = () => this.downloadJourney();
+                    script.onerror = () => this.showToast('Failed to load image library', 'error');
+                    document.head.appendChild(script);
+                    return;
+                }
+
+                this.showToast('Generating journey image...');
+                html2canvas(element, {
+                    backgroundColor: '#050508',
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `Your_Journey_${new Date().getFullYear()}_${new Date().toISOString().split('T')[0]}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    this.showToast('Journey image downloaded!');
+                }).catch(err => {
+                    console.error(err);
+                    this.showToast('Failed to generate image', 'error');
+                });
+            },
+
+            setupEventListeners() {
                 document.querySelectorAll('input[type="range"][id^="rs-"], input[type="range"][id^="ed-"]').forEach(input => {
                     input.addEventListener('input', (e) => {
                         const valId = e.target.id + '-val';
@@ -4166,6 +4851,12 @@ setupEventListeners() {
                         } else if (document.activeElement.id === 'photo-title-input') {
                             this.savePhotoTitle();
                         }
+                    }
+                });
+
+                window.addEventListener('resize', () => {
+                    if (document.getElementById('journey-view').classList.contains('active')) {
+                        this.drawJourneyRoad();
                     }
                 });
             },
