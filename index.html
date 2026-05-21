@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
     <title>Farali Workspace</title>
     <style>
-        /* --- GLOBAL CONFIGURATION --- */
+        /* --- GLOBAL SETUP --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,325 +17,422 @@
             touch-action: manipulation;
             -ms-touch-action: manipulation;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #030712;
-            color: #f9fafb;
+            background-color: #050508;
+            color: #e2e8f0;
             min-height: 100vh;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* --- IMMERSIVE BACKDROP BLOB ENGINE --- */
-        .bg-canvas {
+        /* --- IMMERSIVE COSMIC BACKDROP --- */
+        .bg-space {
             position: fixed;
             inset: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #090d16 0%, #030712 100%);
+            background: radial-gradient(circle at 50% 40%, #0c0d19 0%, #030306 70%);
             z-index: -2;
         }
 
-        .ambient-aurora {
+        /* Ambient Cosmic Grid Particles */
+        .cosmic-mesh {
             position: fixed;
-            width: 800px;
-            height: 400px;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.04) 50%, transparent 80%);
-            filter: blur(80px);
+            inset: 0;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(rgba(255,255,255,0.4) 1px, transparent 20px);
+            background-size: 550px 550px, 350px 350px;
+            background-position: 0 0, 40px 60px;
+            opacity: 0.08;
             z-index: -1;
-            pointer-events: none;
+            mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 80%);
         }
 
-        /* --- FLOATING MODERN NAVIGATION BAR --- */
-        .glass-navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 32px;
-            margin: 20px auto 0 auto;
-            width: calc(100% - 40px);
-            max-width: 1100px;
-            background: rgba(17, 24, 39, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .nav-logo {
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            background: linear-gradient(to right, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .version-pill {
-            color: #9ca3af;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            font-family: monospace;
-        }
-
-        /* --- HERO WIDESCREEN WINDOWPANEL LAYOUT --- */
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .dashboard-panel {
-            background: linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.15) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 28px;
+        /* --- SCREEN CONTAINER GRID --- */
+        .app-wrapper {
             width: 100%;
-            max-width: 900px;
-            padding: 60px 40px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            text-align: center;
+            max-width: 1200px;
+            padding: 40px 24px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Subtext Label */
-        .panel-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #64748b;
-            font-weight: 600;
-        }
-
-        /* Gigantic Clean Typography */
-        .dashboard-panel h1 {
-            font-size: 5.5rem;
-            font-weight: 800;
-            letter-spacing: -3px;
-            line-height: 1;
-            color: #ffffff;
-            margin-bottom: 5px;
-        }
-
-        .dashboard-panel h2 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: #cbd5e1;
-            letter-spacing: -0.5px;
-        }
-
-        /* Balanced Description Box Block */
-        .dashboard-panel p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #94a3b8;
-            max-width: 640px;
-            margin: 10px 0 20px 0;
-        }
-
-        /* --- LIQUID GLASS & INTERACTIVE BUTTON ROW --- */
-        .action-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .liquid-glass-btn {
+            gap: 40px;
             position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 40px;
-            font-size: 1.05rem;
+        }
+
+        /* Header App Title Brand */
+        header h4 {
+            font-size: 1.3rem;
             font-weight: 600;
-            color: #ffffff;
-            text-decoration: none;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 14px;
-            cursor: pointer;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-                        inset 0 2px 4px rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             letter-spacing: 0.5px;
+            background: linear-gradient(to right, #a5b4fc, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 1s ease forwards;
         }
 
-        /* Dynamic Internal Liquid Gloss Layer */
-        .liquid-glass-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 100%);
-            border-radius: 14px 14px 0 0;
-            pointer-events: none;
+        /* --- MASTER BLOCK OVERVIEW --- */
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+            align-items: center;
         }
 
-        /* Background core illumination fluid */
-        .liquid-glass-btn::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, #1d4ed8, #6d28d9, #1d4ed8);
-            background-size: 200% auto;
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.4s ease;
+        /* --- LEFT COLUMN: VALUE LOG FEEDS --- */
+        .feature-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 5;
         }
 
-        .liquid-glass-btn:hover {
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.35);
-            box-shadow: 0 12px 24px rgba(109, 40, 217, 0.2),
-                        inset 0 2px 2px rgba(255, 255, 255, 0.25);
-        }
-
-        .liquid-glass-btn:hover::after {
-            opacity: 1;
-            animation: dynamicSheen 2s linear infinite;
-        }
-
-        /* Secondary Subtle Button to offset the core CTA */
-        .secondary-btn {
-            padding: 16px 28px;
-            font-size: 1.05rem;
-            font-weight: 500;
-            color: #94a3b8;
-            text-decoration: none;
-            border-radius: 14px;
-            border: 1px solid transparent;
+        .feature-item {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 16px;
+            align-items: start;
+            padding: 14px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             transition: all 0.3s ease;
         }
 
-        .secondary-btn:hover {
-            color: #ffffff;
+        .feature-item:hover {
             background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
         }
 
-        /* --- LOADER --- */
+        .icon-shield {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a5b4fc;
+        }
+
+        .feature-text p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #94a3b8;
+        }
+        
+        .feature-text strong {
+            display: block;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        /* --- CENTER CORE BLOCK: GIGANTIC GLASS DISPLAY SLAB --- */
+        .glass-monolith {
+            position: relative;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.4) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 100px 40px 140px 40px;
+            text-align: center;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            overflow: visible;
+        }
+
+        /* Geometric Ring Vector behind Text */
+        .glass-monolith::before {
+            content: '';
+            position: absolute;
+            inset: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: scaleX(1.8);
+            opacity: 0.5;
+        }
+
+        .glass-monolith h1 {
+            font-size: 7.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            line-height: 1;
+            background: linear-gradient(135deg, #6366f1 10%, #3b82f6 40%, #ef4444 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.3));
+        }
+
+        .beta-stamp {
+            display: block;
+            font-size: 0.85rem;
+            font-family: monospace;
+            color: #64748b;
+            letter-spacing: 1px;
+            margin: 10px 0 20px 0;
+        }
+
+        .tagline-sub {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* --- THE ULTRALUXURY LIQUID GLASS ORB ACTION BUTTON --- */
+        .orb-button-anchor {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-decoration: none;
+        }
+
+        .liquid-glass-orb {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.6),
+                inset 0 10px 20px rgba(255, 255, 255, 0.25),
+                inset 0 -15px 30px rgba(0, 0, 0, 0.6),
+                inset 5px 0 15px rgba(99, 102, 241, 0.2),
+                inset -5px 0 15px rgba(239, 68, 68, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        /* internal fluid highlight swirl overlay */
+        .liquid-glass-orb::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            height: 45%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 50% 50% 40% 40% / 60% 60% 30% 30%;
+        }
+
+        /* Backing expanding luminous neon plasma core */
+        .liquid-glass-orb::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #4f46e5 0%, #dc2626 70%, transparent 100%);
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        .orb-text {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            transition: transform 0.4s ease;
+        }
+
+        /* Interactive Animation States */
+        .liquid-glass-orb:hover {
+            transform: scale(1.06);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 30px 60px rgba(79, 70, 229, 0.3),
+                inset 0 15px 25px rgba(255, 255, 255, 0.4),
+                inset 0 -15px 35px rgba(0, 0, 0, 0.7);
+        }
+
+        .liquid-glass-orb:hover::after {
+            opacity: 0.8;
+            transform: scale(1.1);
+            filter: blur(16px);
+        }
+
+        .liquid-glass-orb:hover .orb-text {
+            transform: scale(1.05);
+        }
+
+        .liquid-glass-orb:active {
+            transform: scale(0.98);
+        }
+
+        /* --- BOTTOM FOOTER PARAGRAPH BLOCKS --- */
+        .bottom-description {
+            width: 100%;
+            max-width: 800px;
+            margin: 80px auto 0 auto;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #64748b;
+        }
+
+        .bottom-description strong {
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        /* --- SYSTEM SCREEN INTERFACE LOADER --- */
         #loader {
             position: fixed;
             inset: 0;
+            background: #040406;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            background: #030712;
+            justify-content: center;
             z-index: 9999;
         }
 
-        .orbiting-spinner {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            border-top-color: #3b82f6;
-            border-right-color: #8b5cf6;
+        .loading-lens {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            animation: spinning 0.75s infinite linear;
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.05);
+            border-left-color: #ef4444;
+            border-right-color: #6366f1;
+            animation: rotationalSpin 1s infinite cubic-bezier(0.5, 0, 0.5, 1);
         }
 
-        /* --- RESPONSIVE OPTIMIZATIONS --- */
-        @media(max-width: 768px) {
-            .glass-navbar {
-                padding: 12px 20px;
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 968px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
-            .dashboard-panel {
-                padding: 40px 24px;
+            .feature-stack {
+                order: 2;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
             }
-            .dashboard-panel h1 {
-                font-size: 3.5rem;
-                letter-spacing: -1px;
+            .glass-monolith {
+                order: 1;
+                padding: 60px 20px 110px 20px;
             }
-            .dashboard-panel h2 {
-                font-size: 1.4rem;
+            .glass-monolith h1 {
+                font-size: 4.5rem;
             }
-            .action-row {
-                flex-direction: column;
-                width: 100%;
-            }
-            .liquid-glass-btn {
-                width: 100%;
+            .tagline-sub {
+                font-size: 1.6rem;
             }
         }
 
-        /* --- ANIMATIONS --- */
-        @keyframes spinning {
+        @media (max-width: 640px) {
+            .feature-stack {
+                grid-template-columns: 1fr;
+            }
+            .glass-monolith h1 {
+                font-size: 3.2rem;
+            }
+        }
+
+        /* --- ANIMATIONS CORE --- */
+        @keyframes rotationalSpin {
             to { transform: rotate(360deg); }
         }
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes dynamicSheen {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Stage Loading Shield -->
+    <!-- Loading Stage Guard Overlay -->
     <div id="loader">
-        <div class="orbiting-spinner"></div>
+        <div class="loading-lens"></div>
     </div>
 
-    <!-- Background Aurora Canvas -->
-    <div class="bg-canvas">
-        <div class="ambient-aurora"></div>
+    <!-- Space Background Node Matrix -->
+    <div class="bg-space">
+        <div class="cosmic-mesh"></div>
     </div>
 
-    <!-- Floating Structural Top Navigation -->
-    <nav class="glass-navbar">
-        <div class="nav-logo">FavRankerLister</div>
-        <div class="version-pill">BETA v3.7.4</div>
-    </nav>
+    <!-- Layout Base Container -->
+    <div id="content" class="app-wrapper" style="display:none;">
+        
+        <header>
+            <h4>FavRankerLister</h4>
+        </header>
 
-    <!-- Center Hero Panel Frame -->
-    <main id="content" style="display:none;">
-        <div class="dashboard-panel">
-            <span class="panel-label">Welcome To Farali Workspace</span>
-            <h1>Farali</h1>
-            <h2>Rank and Post!</h2>
+        <!-- Main Feature Layout Grid split -->
+        <main class="layout-grid">
             
-            <p>
-                Share your own custom content streams like pictures, videos, artwork, musical guitar covers, personal logs, stories, or live announcements. Connect smoothly with friends, play native web-games, and curate complex tier rank indexes of your absolute favorite anime lists.
-            </p>
+            <!-- Left Grid Pane: Interactive feature summary stack -->
+            <section class="feature-stack">
+                <div class="feature-item">
+                    <div class="icon-shield">▢</div>
+                    <div class="feature-text">
+                        <strong>Share Your Content</strong>
+                        <p>Pictures, Videos, Artwork, Rants</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-shield">☍</div>
+                    <div class="feature-text">
+                        <strong>Community</strong>
+                        <p>Communication & Networking</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-shield">🎮</div>
+                    <div class="feature-text">
+                        <strong>Play Games</strong>
+                        <p>Curated Built-in modules</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="icon-shield">★</div>
+                    <div class="feature-text">
+                        <strong>Rank Your Favorites</strong>
+                        <p>Custom tailored Anime Lists</p>
+                    </div>
+                </div>
+            </section>
 
-            <div class="action-row">
-                <a href="main.html" class="liquid-glass-btn">Let's Start!</a>
-                <a href="#" class="secondary-btn">Read Docs</a>
-            </div>
-        </div>
-    </main>
+            <!-- Center Core Panel Frame -->
+            <section class="glass-monolith">
+                <h1>FARALI</h1>
+                <span class="beta-stamp">BETA v3.7.4</span>
+                <h2 class="tagline-sub">Rank and Post!</h2>
+
+                <!-- Centered Liquid Drop Glass Orb Target CTA -->
+                <a href="main.html" class="orb-button-anchor">
+                    <div class="liquid-glass-orb">
+                        <span class="orb-text">Let's Start!</span>
+                    </div>
+                </a>
+            </section>
+
+        </main>
+
+        <!-- Dynamic Descriptive Bottom Block -->
+        <footer class="bottom-description">
+            Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. And communicate with someone! You can also <strong>play our games!</strong> You can now also rank and list your favorites anime series instantly.
+        </footer>
+
+    </div>
 
     <script src="script.js"></script>
     <script>
@@ -344,7 +441,7 @@
                 const loader = document.getElementById('loader');
                 const content = document.getElementById('content');
                 
-                loader.style.transition = "opacity .3s ease, visibility .3s";
+                loader.style.transition = "opacity .4s ease, visibility .4s";
                 loader.style.opacity = "0";
                 loader.style.visibility = "hidden";
                 
