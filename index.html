@@ -1,127 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
+    <meta charset="UTF-a">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1,
+    maximum-scale=1, user-scalable=no">
+     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
     <title>Farali</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+    href="style.css">
 </head>
 <body>
-
-    <!-- Loader -->
     <div id="loader">
-        <div class="loader-content">
-            <p class="loader-text">Going in...</p>
-            <div class="spinner">
-                <div class="spinner-inner"></div>
-            </div>
-        </div>
+         <div class="center">
+        <p class="text">Going in...</p>
+       
+    <div class="spinner">
+          <div class="spinner1"></div>
+    </div></div>  </div>
+<div id="content" style="display:none;">
+  <!-- page content dito -->
+
+</div>
+
+     <script src="script.js"></script>
+        <element class="abstract-bg">
+            <element class="abstract-bg" ::before></element>
+                <element class="abstract-bg" ::after></element>
+                    <element class="lines"></element>
+                    <element class="corner-light"></element>
+                     <h4>FavRankerLister </h4>
+                     
+                     
+    <div class="center">
+    
+    <p>Welcome to</p>
+     <div class="box">
+    <h1>Farali</h1>
+    <p style="color: grey; font-size: small;">BETA v3.7.4</p>
+   
+    
     </div>
+    <h2> Rank and Post!</h2>
+    <a href = "main.html"
+    class="btn">Lets Start!</a>
 
-    <!-- Main Content -->
-    <div id="content" style="display:none;">
-        
-        <!-- Animated Mesh Background -->
-        <div class="mesh-bg">
-            <div class="mesh-blob blob-1"></div>
-            <div class="mesh-blob blob-2"></div>
-            <div class="mesh-blob blob-3"></div>
-            <div class="mesh-blob blob-4"></div>
-            <div class="noise-overlay"></div>
-        </div>
+    <h6>share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. And communitate to someone! you can also play our games! You can now also rank and list your favorites anime.</h6>
+    
 
-        <!-- Glass Grid Container -->
-        <div class="glass-container">
-            
-            <!-- Header / Logo -->
-            <div class="glass-header" data-delay="1">
-                <span class="logo-icon">◆</span>
-                <span class="logo-text">FavRankerLister</span>
-            </div>
+</div>
 
-            <!-- Bento Grid -->
-            <div class="bento-grid">
-                
-                <!-- Main Title Card -->
-                <div class="bento-card card-hero" data-delay="2">
-                    <div class="card-shine"></div>
-                    <p class="eyebrow">Welcome to</p>
-                    <h1 class="hero-title">Farali</h1>
-                    <span class="version-badge">BETA v3.7.4</span>
-                </div>
+<script>
+window.onload=()=>setTimeout(()=>{
+  loader.style.animation="fadeOut .6s forwards";
+  content.style.display="block";
+},1000);
+</script>
 
-                <!-- Feature: Rank -->
-                <div class="bento-card card-feature" data-delay="3">
-                    <div class="card-icon">🏆</div>
-                    <h3>Rank</h3>
-                    <p>List and rank your favorite anime, movies, and more.</p>
-                </div>
 
-                <!-- Feature: Post -->
-                <div class="bento-card card-feature" data-delay="4">
-                    <div class="card-icon">✦</div>
-                    <h3>Post</h3>
-                    <p>Share pictures, videos, artwork, and stories.</p>
-                </div>
 
-                <!-- Feature: Play -->
-                <div class="bento-card card-feature" data-delay="5">
-                    <div class="card-icon">▶</div>
-                    <h3>Play</h3>
-                    <p>Enjoy community games and interactive content.</p>
-                </div>
 
-                <!-- Description Card -->
-                <div class="bento-card card-wide" data-delay="6">
-                    <p class="desc-text">
-                        Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or personal announcements. 
-                        Communicate with the community and rank your favorites.
-                    </p>
-                </div>
 
-                <!-- CTA Card -->
-                <div class="bento-card card-cta" data-delay="7">
-                    <a href="main.html" class="liquid-btn">
-                        <span class="btn-text">Let's Start</span>
-                        <span class="btn-shine"></span>
-                        <span class="btn-gloss"></span>
-                    </a>
-                </div>
-
-            </div>
-
-            <!-- Footer -->
-            <div class="glass-footer" data-delay="8">
-                <p>© 2026 Farali Community</p>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const loader = document.getElementById('loader');
-                const content = document.getElementById('content');
-                
-                loader.style.animation = 'fadeOut 0.6s ease forwards';
-                
-                setTimeout(() => {
-                    content.style.display = 'block';
-                    triggerEntrance();
-                }, 300);
-            }, 1000);
-        });
-
-        function triggerEntrance() {
-            const elements = document.querySelectorAll('[data-delay]');
-            elements.forEach(el => {
-                const delay = parseInt(el.getAttribute('data-delay')) * 0.15;
-                el.style.animation = `cardEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s forwards`;
-            });
-        }
-    </script>
 
 </body>
 </html>
