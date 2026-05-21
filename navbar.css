@@ -42,45 +42,49 @@
 
 @media (max-width:768px){
 
-.nav-links{
+    .nav-links{
 
-    position:fixed; /* CHANGED */
+        position:absolute;
+        top:100%;
+        left:0;
 
-    top:60px; /* ilalim ng navbar */
-    left:0;
+        width:100%;
 
-    width:100%;
+        list-style:none;
 
-    display:none;
+        display:none;
+        flex-direction:column;
+        align-items:center;
+        gap:20px;
 
-    flex-direction:column;
-    align-items:center;
-    gap:20px;
+        padding:20px 0;
 
-    padding:25px;
+        /* GLASS */
+        background: rgba(255,255,255,0.08);
 
-    z-index:10000;
+        /* IMPORTANT */
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
 
-    /* GLASS */
+        /* FIX */
+        transform: translateZ(0);
+        will-change: backdrop-filter;
 
-    background:rgba(255,255,255,.12);
+        border-bottom:
+        1px solid rgba(255,255,255,.08);
 
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+        box-shadow:
+        0 10px 30px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.05);
 
-    border-bottom:
-    1px solid rgba(255,255,255,.08);
+        z-index:10000;
+    }
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.25);
-}
+    .nav-links.active{
+        display:flex;
+    }
 
-.nav-links.active{
-    display:flex;
-}
-
-.hamburger{
-    display:flex;
-}
-
+    .hamburger{
+        display:flex;
+    }
 }
