@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
-    <title>Farali — Rank & Post</title>
+    <title>Farali Workspace</title>
     <style>
-        /* --- GLOBAL RESET & VARIABLES --- */
+        /* --- GLOBAL CONFIGURATION --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,168 +17,172 @@
             touch-action: manipulation;
             -ms-touch-action: manipulation;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #060709;
-            color: #f3f4f6;
+            background-color: #030712;
+            color: #f9fafb;
             min-height: 100vh;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- DYNAMIC SPLIT BACKGROUND --- */
+        /* --- IMMERSIVE BACKDROP BLOB ENGINE --- */
         .bg-canvas {
             position: fixed;
             inset: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 10% 20%, #161233 0%, #070a12 60%, #020408 100%);
-            z-index: -1;
-            overflow: hidden;
+            background: linear-gradient(180deg, #090d16 0%, #030712 100%);
+            z-index: -2;
         }
 
-        .bg-glow-orb {
-            position: absolute;
-            top: 30%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 100%);
-            filter: blur(60px);
+        .ambient-aurora {
+            position: fixed;
+            width: 800px;
+            height: 400px;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.04) 50%, transparent 80%);
+            filter: blur(80px);
+            z-index: -1;
             pointer-events: none;
         }
 
-        .grid-mesh {
-            position: absolute;
-            inset: 0;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: radial-gradient(circle at 70% 50%, black, transparent 70%);
-            -webkit-mask-image: radial-gradient(circle at 70% 50%, black, transparent 70%);
-        }
-
-        /* --- ASYMMETRICAL SPLIT SCREEN INTERFACE --- */
-        .app-container {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px;
-            align-items: center;
-            gap: 60px;
-        }
-
-        /* LEFT SIDE: Content & Branding */
-        .brand-section {
+        /* --- FLOATING MODERN NAVIGATION BAR --- */
+        .glass-navbar {
             display: flex;
-            flex-direction: column;
-            gap: 24px;
-            animation: slideRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+            margin: 20px auto 0 auto;
+            width: calc(100% - 40px);
+            max-width: 1100px;
+            background: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .header-meta {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #3b82f6;
+        .nav-logo {
+            font-size: 0.95rem;
             font-weight: 700;
-        }
-
-        .brand-section h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            letter-spacing: -2px;
-            line-height: 0.95;
-            background: linear-gradient(to right, #ffffff, #94a3b8);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .brand-section h2 {
-            font-size: 2.2rem;
+        .version-pill {
+            color: #9ca3af;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: monospace;
+        }
+
+        /* --- HERO WIDESCREEN WINDOWPANEL LAYOUT --- */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .dashboard-panel {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.15) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 900px;
+            padding: 60px 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Subtext Label */
+        .panel-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        /* Gigantic Clean Typography */
+        .dashboard-panel h1 {
+            font-size: 5.5rem;
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-panel h2 {
+            font-size: 1.8rem;
             font-weight: 400;
             color: #cbd5e1;
             letter-spacing: -0.5px;
         }
 
-        .brand-section p {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: #64748b;
-            max-width: 580px;
-        }
-
-        /* RIGHT SIDE: Action Glass Capsule */
-        .action-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: slideLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .glass-capsule {
-            background: linear-gradient(135deg, rgba(20, 27, 43, 0.4) 0%, rgba(10, 13, 22, 0.6) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 32px;
-            padding: 50px 40px;
-            width: 100%;
-            max-width: 400px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
-                        inset 0 1px 0px rgba(255, 255, 255, 0.1);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .capsule-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        /* Balanced Description Box Block */
+        .dashboard-panel p {
+            font-size: 1rem;
+            line-height: 1.6;
             color: #94a3b8;
+            max-width: 640px;
+            margin: 10px 0 20px 0;
         }
 
-        .version-badge {
-            display: inline-block;
-            color: #a855f7;
-            background: rgba(168, 85, 247, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.25);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
+        /* --- LIQUID GLASS & INTERACTIVE BUTTON ROW --- */
+        .action-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            justify-content: center;
         }
 
-        /* --- PREMIUM LIQUID GLASS BUTTON --- */
         .liquid-glass-btn {
             position: relative;
-            display: flex;
-            width: 100%;
-            padding: 20px;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            padding: 16px 40px;
+            font-size: 1.05rem;
             font-weight: 600;
             color: #ffffff;
             text-decoration: none;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            border-radius: 14px;
             cursor: pointer;
             overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3),
-                        inset 0 2px 4px rgba(255, 255, 255, 0.2),
-                        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            letter-spacing: 1px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.5px;
         }
 
-        /* Fluid glass simulated surface highlight */
+        /* Dynamic Internal Liquid Gloss Layer */
         .liquid-glass-btn::before {
             content: '';
             position: absolute;
@@ -186,42 +190,54 @@
             left: 0;
             width: 100%;
             height: 50%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
-            border-radius: 20px 20px 0 0;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 14px 14px 0 0;
             pointer-events: none;
-            transition: all 0.4s ease;
         }
 
-        /* Colorful liquid core expansion */
+        /* Background core illumination fluid */
         .liquid-glass-btn::after {
             content: '';
             position: absolute;
-            inset: -20px;
-            background: linear-gradient(45deg, #2563eb, #7c3aed, #db2777);
-            background-size: 300% 300%;
+            inset: 0;
+            background: linear-gradient(90deg, #1d4ed8, #6d28d9, #1d4ed8);
+            background-size: 200% auto;
             opacity: 0;
             z-index: -1;
-            transition: opacity 0.5s ease, filter 0.5s ease;
-            filter: blur(5px);
+            transition: opacity 0.4s ease;
         }
 
         .liquid-glass-btn:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.25),
-                        inset 0 2px 2px rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 12px 24px rgba(109, 40, 217, 0.2),
+                        inset 0 2px 2px rgba(255, 255, 255, 0.25);
         }
 
         .liquid-glass-btn:hover::after {
             opacity: 1;
-            animation: liquidMovement 4s ease infinite;
+            animation: dynamicSheen 2s linear infinite;
         }
 
-        .liquid-glass-btn:active {
-            transform: translateY(-1px) scale(0.99);
+        /* Secondary Subtle Button to offset the core CTA */
+        .secondary-btn {
+            padding: 16px 28px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 14px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
         }
 
-        /* --- LOADING STAGE OVERLAY --- */
+        .secondary-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- LOADER --- */
         #loader {
             position: fixed;
             inset: 0;
@@ -229,123 +245,97 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #050608;
+            background: #030712;
             z-index: 9999;
-            gap: 24px;
         }
 
-        .loader-txt {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            letter-spacing: 4px;
-            font-weight: 500;
-            text-transform: uppercase;
+        .orbiting-spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-top-color: #3b82f6;
+            border-right-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spinning 0.75s infinite linear;
         }
 
-        .linear-progress-track {
-            width: 140px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .linear-progress-bar {
-            position: absolute;
-            height: 100%;
-            width: 40%;
-            background: linear-gradient(90deg, #3b82f6, #a855f7);
-            left: -40%;
-            animation: indeterminateLoad 1.2s infinite ease-in-out;
-        }
-
-        /* --- RESPONSIVE ADJUSTMENTS --- */
-        @media(max-width: 968px) {
-            .app-container {
-                grid-template-columns: 1fr;
-                padding: 30px;
-                gap: 40px;
-                text-align: center;
-                justify-content: center;
+        /* --- RESPONSIVE OPTIMIZATIONS --- */
+        @media(max-width: 768px) {
+            .glass-navbar {
+                padding: 12px 20px;
             }
-            .brand-section {
-                align-items: center;
+            .dashboard-panel {
+                padding: 40px 24px;
             }
-            .brand-section h1 {
+            .dashboard-panel h1 {
                 font-size: 3.5rem;
+                letter-spacing: -1px;
             }
-            .brand-section h2 {
-                font-size: 1.8rem;
+            .dashboard-panel h2 {
+                font-size: 1.4rem;
             }
-            .action-section {
+            .action-row {
+                flex-direction: column;
                 width: 100%;
             }
-            .glass-capsule {
-                max-width: 100%;
+            .liquid-glass-btn {
+                width: 100%;
             }
         }
 
-        /* --- ANIMATION SEQUENCES --- */
-        @keyframes indeterminateLoad {
-            0% { left: -40%; width: 30%; }
-            50% { width: 60%; }
-            100% { left: 110%; width: 30%; }
+        /* --- ANIMATIONS --- */
+        @keyframes spinning {
+            to { transform: rotate(360deg); }
         }
-        @keyframes slideRight {
-            from { opacity: 0; transform: translateX(-40px); }
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideLeft {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
         }
-        @keyframes liquidMovement {
+        @keyframes dynamicSheen {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Loading Stage -->
+    <!-- Stage Loading Shield -->
     <div id="loader">
-        <p class="loader-txt">Going in</p>
-        <div class="linear-progress-track">
-            <div class="linear-progress-bar"></div>
-        </div>
+        <div class="orbiting-spinner"></div>
     </div>
 
-    <!-- Generative Backdrop Stack -->
+    <!-- Background Aurora Canvas -->
     <div class="bg-canvas">
-        <div class="bg-glow-orb"></div>
-        <div class="grid-mesh"></div>
+        <div class="ambient-aurora"></div>
     </div>
 
-    <!-- Layout Container -->
-    <div id="content" class="app-container" style="display:none;">
-        
-        <!-- Left Column: Presentation Grid -->
-        <section class="brand-section">
-            <span class="header-meta">FavRankerLister</span>
+    <!-- Floating Structural Top Navigation -->
+    <nav class="glass-navbar">
+        <div class="nav-logo">FavRankerLister</div>
+        <div class="version-pill">BETA v3.7.4</div>
+    </nav>
+
+    <!-- Center Hero Panel Frame -->
+    <main id="content" style="display:none;">
+        <div class="dashboard-panel">
+            <span class="panel-label">Welcome To Farali Workspace</span>
             <h1>Farali</h1>
             <h2>Rank and Post!</h2>
+            
             <p>
-                Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. Communicate with anyone, play curated games, and custom rank your favorite anime series collections.
+                Share your own custom content streams like pictures, videos, artwork, musical guitar covers, personal logs, stories, or live announcements. Connect smoothly with friends, play native web-games, and curate complex tier rank indexes of your absolute favorite anime lists.
             </p>
-        </section>
 
-        <!-- Right Column: Glass Core Container -->
-        <section class="action-section">
-            <div class="glass-capsule">
-                <span class="capsule-title">Platform Access</span>
-                <span class="version-badge">BETA v3.7.4</span>
+            <div class="action-row">
                 <a href="main.html" class="liquid-glass-btn">Let's Start!</a>
+                <a href="#" class="secondary-btn">Read Docs</a>
             </div>
-        </section>
-
-    </div>
+        </div>
+    </main>
 
     <script src="script.js"></script>
     <script>
@@ -354,11 +344,11 @@
                 const loader = document.getElementById('loader');
                 const content = document.getElementById('content');
                 
-                loader.style.transition = "opacity .4s ease, visibility .4s";
+                loader.style.transition = "opacity .3s ease, visibility .3s";
                 loader.style.opacity = "0";
                 loader.style.visibility = "hidden";
                 
-                content.style.display = "grid";
+                content.style.display = "flex";
             }, 1000);
         };
     </script>
