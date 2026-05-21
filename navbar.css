@@ -135,7 +135,7 @@
     box-sizing: border-box;
 
     /* Matching theme layout with high visibility adjustments */
-    background: rgba(15, 23, 42, 0.45); /* Tinted slate base to retain high readability over textures */
+    background: rgba(104, 104, 104, 0.658); /* Tinted slate base to retain high readability over textures */
     backdrop-filter: blur(25px); /* Strong frosting layer to separate from page text below */
     -webkit-backdrop-filter: blur(25px);
     
