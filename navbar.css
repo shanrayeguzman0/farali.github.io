@@ -1,6 +1,4 @@
-/* =========================
-   NAVBAR
-========================= */
+/* NAVBAR */
 
 .navbar {
     display:flex;
@@ -9,13 +7,6 @@
 
     padding:8px 15px;
 
-    position:fixed;
-    top:0;
-    left:0;
-
-    width:100%;
-    z-index:9999;
-
     background:rgba(255,255,255,.08);
 
     backdrop-filter:blur(18px);
@@ -23,14 +14,25 @@
 
     border-bottom:1px solid rgba(255,255,255,.08);
 
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.2),
+    inset 0 -1px 0 rgba(255,255,255,.05);
+
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+
+    z-index:9999;
+
     color:white;
 
-    /* IMPORTANT */
     overflow:visible;
 }
 
 
-/* desktop */
+/* LINKS DESKTOP */
+
 .nav-links{
     list-style:none;
     display:flex;
@@ -38,53 +40,71 @@
 }
 
 
-/* mobile */
+/* MOBILE */
 
 @media (max-width:768px){
 
-    .nav-links{
+.nav-links{
 
-        position:absolute;
-        top:100%;
-        left:0;
+    position:absolute;
 
-        width:100%;
+    top:100%;
+    left:0;
 
-        list-style:none;
+    width:100%;
 
-        display:none;
-        flex-direction:column;
-        align-items:center;
-        gap:20px;
+    display:none;
 
-        padding:20px 0;
+    flex-direction:column;
+    align-items:center;
 
-        /* GLASS */
-        background: rgba(255,255,255,0.08);
+    gap:20px;
 
-        /* IMPORTANT */
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+    padding:20px 0;
 
-        /* FIX */
-        transform: translateZ(0);
-        will-change: backdrop-filter;
+    z-index:10000;
 
-        border-bottom:
-        1px solid rgba(255,255,255,.08);
+    /* REMOVE BACKDROP HERE */
+    background:rgba(255,255,255,.06);
 
-        box-shadow:
-        0 10px 30px rgba(0,0,0,.25),
-        inset 0 1px 0 rgba(255,255,255,.05);
+    border-bottom:
+    1px solid rgba(255,255,255,.08);
 
-        z-index:10000;
-    }
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
 
-    .nav-links.active{
-        display:flex;
-    }
+    overflow:hidden;
 
-    .hamburger{
-        display:flex;
-    }
+    position:absolute;
+}
+
+
+/* BLUR LAYER */
+.nav-links::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    background:
+    rgba(255,255,255,.03);
+
+    z-index:-1;
+}
+
+
+
+.nav-links.active{
+    display:flex;
+}
+
+.hamburger{
+    display:flex;
+}
+
 }
