@@ -1,225 +1,86 @@
 /* =========================
-   NAVBAR BASE
+   NAVBAR
 ========================= */
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
-    padding: 8px 15px;
+    padding:8px 15px;
 
-    position: fixed;
-    top: 0;
-    left: 0;
+    position:fixed;
+    top:0;
+    left:0;
 
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+    width:100%;
+    z-index:9999;
 
-    z-index: 9999;
-
-    /* FIXED GLASS DESIGN */
-    background: rgba(255,255,255,0.08);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.2),
-        inset 0 -1px 0 rgba(255,255,255,.05);
-
-    color: white;
-
-    /* prevents blur conflict */
-    isolation: isolate;
-}
-
-
-/* =========================
-   LOGO
-========================= */
-
-.logo {
-    font-size: 1.4rem;
-    font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
-
-    text-shadow:
-        5px 0px 10px red,
-        -5px 0px 10px blue,
-        5px -2px 10px cyan;
-}
-
-.nodecore {
-    text-decoration: none !important;
-    color: inherit;
-}
-
-
-/* =========================
-   DESKTOP LINKS
-========================= */
-
-.nav-links {
-    list-style: none;
-
-    display: flex;
-    gap: 25px;
-}
-
-.nav-links li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1rem;
-
-    transition: .3s;
-}
-
-.nav-links li a:hover{
-    opacity:.7;
-}
-
-
-/* =========================
-   HAMBURGER
-========================= */
-
-.hamburger {
-
-    display: none;
-
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    width: 40px;
-    height: 40px;
-
-    cursor: pointer;
-
-    padding: 6px;
-
-    border-radius: 10px;
-
-    transition:
-    background .3s,
-    transform .15s ease;
-}
-
-
-.hamburger:hover{
     background:rgba(255,255,255,.08);
-}
 
-.hamburger:active{
-    transform:scale(.9);
-}
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
 
+    border-bottom:1px solid rgba(255,255,255,.08);
 
-.hamburger span{
+    color:white;
 
-    display:block;
-
-    width:26px;
-    height:3px;
-
-    background:white;
-
-    margin:4px 0;
-
-    border-radius:10px;
-
-    transform-origin:center;
-
-    transition:
-    transform .35s ease,
-    opacity .2s ease;
+    /* IMPORTANT */
+    overflow:visible;
 }
 
 
-/* X animation */
-
-.hamburger.active span:nth-child(1){
-
-    transform:
-    translateY(7px)
-    rotate(45deg);
-
-}
-
-.hamburger.active span:nth-child(2){
-
-    opacity:0;
-
-}
-
-.hamburger.active span:nth-child(3){
-
-    transform:
-    translateY(-7px)
-    rotate(-45deg);
-
+/* desktop */
+.nav-links{
+    list-style:none;
+    display:flex;
+    gap:25px;
 }
 
 
-
-/* =========================
-   MOBILE
-========================= */
+/* mobile */
 
 @media (max-width:768px){
 
-    .nav-links{
+.nav-links{
 
-        position:absolute;
+    position:fixed; /* CHANGED */
 
-        top:100%;
-        left:0;
+    top:60px; /* ilalim ng navbar */
+    left:0;
 
-        width:100%;
+    width:100%;
 
-        /* SAME GLASS EFFECT */
+    display:none;
 
-        background:
-        rgba(255,255,255,.08);
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
 
-        backdrop-filter:
-        blur(18px);
+    padding:25px;
 
-        -webkit-backdrop-filter:
-        blur(18px);
+    z-index:10000;
 
-        border-bottom:
-        1px solid rgba(255,255,255,.08);
+    /* GLASS */
 
-        box-shadow:
-        0 10px 30px rgba(0,0,0,.25),
-        inset 0 1px 0 rgba(255,255,255,.05);
+    background:rgba(255,255,255,.12);
 
-        z-index:10000;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
 
-        flex-direction:column;
+    border-bottom:
+    1px solid rgba(255,255,255,.08);
 
-        align-items:center;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
+}
 
-        display:none;
+.nav-links.active{
+    display:flex;
+}
 
-        padding:20px 0;
-
-        gap:20px;
-    }
-
-
-    .nav-links.active{
-        display:flex;
-    }
-
-
-    .hamburger{
-        display:flex;
-    }
+.hamburger{
+    display:flex;
+}
 
 }
