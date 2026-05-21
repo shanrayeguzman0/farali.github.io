@@ -11,7 +11,7 @@
 
     <!-- Loader -->
     <div id="loader">
-        <div class="loader-center">
+        <div class="loader-content">
             <p class="loader-text">Going in...</p>
             <div class="spinner">
                 <div class="spinner-inner"></div>
@@ -22,57 +22,80 @@
     <!-- Main Content -->
     <div id="content" style="display:none;">
         
-        <!-- Abstract Background Layers -->
-        <div class="abstract-bg">
-            <div class="bg-layer bg-shine"></div>
-            <div class="bg-layer bg-shadow"></div>
-            <div class="lines"></div>
-            <div class="corner-light"></div>
-            
-            <!-- Floating Orbs for Glass Refraction -->
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
+        <!-- Animated Mesh Background -->
+        <div class="mesh-bg">
+            <div class="mesh-blob blob-1"></div>
+            <div class="mesh-blob blob-2"></div>
+            <div class="mesh-blob blob-3"></div>
+            <div class="mesh-blob blob-4"></div>
+            <div class="noise-overlay"></div>
+        </div>
 
-            <!-- Content -->
-            <div class="page-wrapper">
+        <!-- Glass Grid Container -->
+        <div class="glass-container">
+            
+            <!-- Header / Logo -->
+            <div class="glass-header" data-delay="1">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">FavRankerLister</span>
+            </div>
+
+            <!-- Bento Grid -->
+            <div class="bento-grid">
                 
-                <!-- Top Logo -->
-                <div class="logo-badge">
-                    <h4>FavRankerLister</h4>
+                <!-- Main Title Card -->
+                <div class="bento-card card-hero" data-delay="2">
+                    <div class="card-shine"></div>
+                    <p class="eyebrow">Welcome to</p>
+                    <h1 class="hero-title">Farali</h1>
+                    <span class="version-badge">BETA v3.7.4</span>
                 </div>
 
-                <!-- Center Stage -->
-                <div class="center-stage">
-                    
-                    <p class="welcome-text">Welcome to</p>
-                    
-                    <!-- Liquid Glass Main Card -->
-                    <div class="glass-box">
-                        <div class="glass-reflection"></div>
-                        <h1>Farali</h1>
-                        <span class="beta-tag">BETA v3.7.4</span>
-                    </div>
+                <!-- Feature: Rank -->
+                <div class="bento-card card-feature" data-delay="3">
+                    <div class="card-icon">🏆</div>
+                    <h3>Rank</h3>
+                    <p>List and rank your favorite anime, movies, and more.</p>
+                </div>
 
-                    <h2 class="tagline">Rank and Post!</h2>
+                <!-- Feature: Post -->
+                <div class="bento-card card-feature" data-delay="4">
+                    <div class="card-icon">✦</div>
+                    <h3>Post</h3>
+                    <p>Share pictures, videos, artwork, and stories.</p>
+                </div>
 
-                    <!-- Liquid Glass CTA Button -->
+                <!-- Feature: Play -->
+                <div class="bento-card card-feature" data-delay="5">
+                    <div class="card-icon">▶</div>
+                    <h3>Play</h3>
+                    <p>Enjoy community games and interactive content.</p>
+                </div>
+
+                <!-- Description Card -->
+                <div class="bento-card card-wide" data-delay="6">
+                    <p class="desc-text">
+                        Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or personal announcements. 
+                        Communicate with the community and rank your favorites.
+                    </p>
+                </div>
+
+                <!-- CTA Card -->
+                <div class="bento-card card-cta" data-delay="7">
                     <a href="main.html" class="liquid-btn">
-                        <span class="btn-text">Let's Start!</span>
+                        <span class="btn-text">Let's Start</span>
                         <span class="btn-shine"></span>
                         <span class="btn-gloss"></span>
                     </a>
-
-                    <!-- Description -->
-                    <div class="glass-info">
-                        <h6>
-                            Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. 
-                            Communicate with someone! You can also play our games! Rank and list your favorite anime.
-                        </h6>
-                    </div>
-
                 </div>
+
             </div>
+
+            <!-- Footer -->
+            <div class="glass-footer" data-delay="8">
+                <p>© 2026 Farali Community</p>
+            </div>
+
         </div>
     </div>
 
@@ -82,14 +105,22 @@
                 const loader = document.getElementById('loader');
                 const content = document.getElementById('content');
                 
-                loader.style.animation = 'fadeOut 0.8s ease forwards';
+                loader.style.animation = 'fadeOut 0.6s ease forwards';
                 
                 setTimeout(() => {
                     content.style.display = 'block';
-                    content.style.animation = 'fadeIn 1s ease forwards';
-                }, 400);
-            }, 1200);
+                    triggerEntrance();
+                }, 300);
+            }, 1000);
         });
+
+        function triggerEntrance() {
+            const elements = document.querySelectorAll('[data-delay]');
+            elements.forEach(el => {
+                const delay = parseInt(el.getAttribute('data-delay')) * 0.15;
+                el.style.animation = `cardEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s forwards`;
+            });
+        }
     </script>
 
 </body>
