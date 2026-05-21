@@ -8,22 +8,112 @@ window.onload = () => {
     }, 1000);
 };
 
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
+document.addEventListener('DOMContentLoaded', () => {
+    const navbar = document.querySelector('.liquid-navbar');
+    const hamburger = document.querySelector('.hamburger');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('active');
-});
+    // Toggle Mobile Menu
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('open');
+        const isOpen = mobileMenu.classList.contains('open');
+        hamburger.setAttribute('aria-expanded', isOpen);
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
 
-// Optional: Dynamic Light Tracking for navbar background layer
-window.addEventListener("scroll", () => {
-  const navbar = document.querySelector(".navbar");
-  const scrollY = window.scrollY;
-  
-  // Slowly deepens opacity as you slide downward over content
-  const targetOpacity = Math.min(0.02 + (scrollY * 0.0005), 0.08);
-  navbar.style.background = `rgba(255, 255, 255, ${targetOpacity})`;
+    // Close mobile menu when clicking a link
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        });
+    });
+
+    // Active Link Handler (Scroll Spy)
+    const sections = document.querySelectorAll('section[id]');
+    
+    function setActiveLink() {
+        let current = '';
+        
+        // If you have sections with IDs matching the hrefs
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= sectionTop - 100) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        // Update desktop links
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+
+        // Update mobile links
+        mobileNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Scroll Effects
+    let lastScroll = 0;
+    
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        // Add scrolled class for denser glass effect
+        if (currentScroll > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        
+        // Optional: Hide/show navbar on scroll direction
+        // Uncomment below to enable hide-on-scroll-down
+        /*
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            navbar.style.transform = 'translateY(0)';
+        }
+        lastScroll = currentScroll;
+        */
+        
+        setActiveLink();
+    });
+
+    // Close mobile menu on window resize (if crossing breakpoint)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && mobileMenu.classList.contains('open')) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Click outside to close mobile menu
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target) && mobileMenu.classList.contains('open')) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    });
 });
 // === IMPROVED LIKE SYSTEM (Always reads HTML first) ===
 const allPosts = document.querySelectorAll('.fb-post');

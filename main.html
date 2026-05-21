@@ -12,18 +12,7 @@
 </head>
 
 <style>
-    li {
-background: rgb(53, 52, 52);
- transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  font-family: Arial, Helvetica, sans-serif;
-    }
-    li:hover {
-         background: white;
-  color: #4e54c8;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-    } 
+  
 </style>
 <body>
     <div id="loader">
@@ -36,25 +25,43 @@ background: rgb(53, 52, 52);
 <div id="content" style="display:none;">
    </div>
                    
-   <link rel="stylesheet"
-   href="navbar.css">
-     <nav class="navbar">
-    <div class="logo">Farali</div>
+    <nav class="liquid-navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">◈</span>
+                <span class="logo-text">GlassUI</span>
+            </a>
 
-    <ul class="nav-links" id="navLinks">
-         <li><a href="chat.html">Chat Area</a></li>
-        <li><a href="create.html">Create</a></li>
-        <li><a href="games.html">Games</a></li>
-        <li><a href="post.html">Post</a></li>
-        <li><a href="about.html">About me</a></li>
-    </ul>
+            <!-- Desktop Menu -->
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
 
-    <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-</nav>
+            <!-- Hamburger Button -->
+            <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu">
+            <ul class="mobile-nav-menu">
+                <li><a href="#home" class="mobile-nav-link active">Home</a></li>
+                <li><a href="#about" class="mobile-nav-link">About</a></li>
+                <li><a href="#services" class="mobile-nav-link">Services</a></li>
+                <li><a href="#portfolio" class="mobile-nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
 
 <div class="boxx"> 
  <div><div>  <h1></h1> </div> <div></div>
