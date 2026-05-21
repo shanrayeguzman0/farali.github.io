@@ -1,66 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-a">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1,
-    maximum-scale=1, user-scalable=no">
-     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
     <title>Farali</title>
-    <link rel="stylesheet"
-    href="style.css">
+    <style>
+        /* --- GLOBAL & CORE RESET --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html, body {
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0d0f12;
+            color: #f3f4f6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND CANVAS --- */
+        .abstract-bg {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 20%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .abstract-bg::before, .abstract-bg::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .abstract-bg::before {
+            top: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        .abstract-bg::after {
+            bottom: -10%;
+            left: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: linear-gradient(135deg, #ec4899, #3b82f6);
+        }
+
+        .lines {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+        }
+
+        /* --- HEADER --- */
+        header {
+            width: 100%;
+            padding: 20px 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        header h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #f3f4f6, #9ca3af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- CONTENT WRAPPER --- */
+        #content {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        .center-container {
+            width: 100%;
+            max-width: 580px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .welcome-text {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- GLASSMORPHISM BOX --- */
+        .glass-box {
+            background: rgba(15, 23, 42, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 30px 40px;
+            width: 100%;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .glass-box h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+        }
+
+        .version-tag {
+            display: inline-block;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .sub-tagline {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #f1f5f9;
+        }
+
+        /* --- LIQUID GLASS BUTTON --- */
+        .liquid-glass-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                        inset 0 4px 4px rgba(255, 255, 255, 0.2),
+                        inset 0 -4px 6px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        /* Liquid internal highlight reflection */
+        .liquid-glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 50px 50px 0 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+
+        /* Hover glowing background blob */
+        .liquid-glass-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            background-size: 200% 200%;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: scale(0.95);
+        }
+
+        .liquid-glass-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.3),
+                        inset 0 2px 2px rgba(255, 255, 255, 0.4);
+        }
+
+        .liquid-glass-btn:hover::after {
+            opacity: 1;
+            transform: scale(1);
+            animation: gradientMove 3s ease infinite;
+        }
+
+        .liquid-glass-btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- FOOTER DESCRIPTION --- */
+        .description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #64748b;
+            font-weight: 400;
+            max-width: 500px;
+        }
+
+        /* --- LOADER STYLE --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #090b0e;
+            z-index: 9999;
+            gap: 20px;
+        }
+
+        .loader-text {
+            color: #f3f4f6;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            font-weight: 300;
+            text-transform: uppercase;
+            animation: pulseText 1.5s ease-in-out infinite;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .spinner-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 30%, #3b82f6, #8b5cf6, #ec4899);
+            animation: spin 1s linear infinite;
+            mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black calc(100% - 5px));
+            -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), black calc(100% - 5px));
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Dynamic Loader Background Stack -->
     <div id="loader">
-         <div class="center">
-        <p class="text">Going in...</p>
-       
-    <div class="spinner">
-          <div class="spinner1"></div>
-    </div></div>  </div>
-<div id="content" style="display:none;">
-  <!-- page content dito -->
-
-</div>
-
-     <script src="script.js"></script>
-        <element class="abstract-bg">
-            <element class="abstract-bg" ::before></element>
-                <element class="abstract-bg" ::after></element>
-                    <element class="lines"></element>
-                    <element class="corner-light"></element>
-                     <h4>FavRankerLister </h4>
-                     
-                     
-    <div class="center">
-    
-    <p>Welcome to</p>
-     <div class="box">
-    <h1>Farali</h1>
-    <p style="color: grey; font-size: small;">BETA v3.7.4</p>
-   
-    
+        <p class="loader-text">Going in...</p>
+        <div class="spinner-container">
+            <div class="spinner-ring"></div>
+        </div>
     </div>
-    <h2> Rank and Post!</h2>
-    <a href = "main.html"
-    class="btn">Lets Start!</a>
 
-    <h6>share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. And communitate to someone! you can also play our games! You can now also rank and list your favorites anime.</h6>
-    
+    <!-- Background Art Canvas Elements -->
+    <div class="abstract-bg">
+        <div class="lines"></div>
+    </div>
 
-</div>
+    <!-- Header Content Info -->
+    <header>
+        <h4>FavRankerLister</h4>
+    </header>
 
-<script>
-window.onload=()=>setTimeout(()=>{
-  loader.style.animation="fadeOut .6s forwards";
-  content.style.display="block";
-},1000);
-</script>
+    <!-- Main Front Page Grid Layout -->
+    <div id="content" style="display:none;">
+        <div class="center-container">
+            
+            <p class="welcome-text">Welcome to</p>
+            
+            <div class="glass-box">
+                <h1>Farali</h1>
+                <span class="version-tag">BETA v3.7.4</span>
+            </div>
+            
+            <h2 class="sub-tagline">Rank and Post!</h2>
+            
+            <a href="main.html" class="liquid-glass-btn">Let's Start!</a>
+            
+            <p class="description">
+                Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. Communicate with peers, play built-in games, and meticulously rank or list your ultimate favorite anime selections.
+            </p>
+            
+        </div>
+    </div>
 
-
-
-
-
-
+    <!-- Logic Hooks & Transition Controls -->
+    <script src="script.js"></script>
+    <script>
+        window.onload = () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                const content = document.getElementById('content');
+                
+                loader.style.transition = "opacity .5s ease, visibility .5s";
+                loader.style.opacity = "0";
+                loader.style.visibility = "hidden";
+                
+                content.style.display = "flex";
+            }, 1000);
+        };
+    </script>
 </body>
 </html>
