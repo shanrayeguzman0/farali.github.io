@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1wWi2qJiHFbPqmit-PCG_McQZhP8GONh6">
-    <title>Farali Workspace</title>
+    <title>Farali — Rank & Post</title>
     <style>
-        /* --- GLOBAL SETUP --- */
+        /* --- GLOBAL RESET & VARIABLES --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,420 +17,333 @@
             touch-action: manipulation;
             -ms-touch-action: manipulation;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #050508;
-            color: #e2e8f0;
+            background-color: #060709;
+            color: #f3f4f6;
             min-height: 100vh;
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
-        /* --- IMMERSIVE COSMIC BACKDROP --- */
-        .bg-space {
+        /* --- DYNAMIC SPLIT BACKGROUND --- */
+        .bg-canvas {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 50% 40%, #0c0d19 0%, #030306 70%);
-            z-index: -2;
-        }
-
-        /* Ambient Cosmic Grid Particles */
-        .cosmic-mesh {
-            position: fixed;
-            inset: 0;
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-                radial-gradient(rgba(255,255,255,0.4) 1px, transparent 20px);
-            background-size: 550px 550px, 350px 350px;
-            background-position: 0 0, 40px 60px;
-            opacity: 0.08;
-            z-index: -1;
-            mask-image: radial-gradient(ellipse at center, black, transparent 80%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 80%);
-        }
-
-        /* --- SCREEN CONTAINER GRID --- */
-        .app-wrapper {
             width: 100%;
-            max-width: 1200px;
-            padding: 40px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-            position: relative;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, #161233 0%, #070a12 60%, #020408 100%);
+            z-index: -1;
+            overflow: hidden;
         }
 
-        /* Header App Title Brand */
-        header h4 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            background: linear-gradient(to right, #a5b4fc, #f87171);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: fadeIn 1s ease forwards;
+        .bg-glow-orb {
+            position: absolute;
+            top: 30%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 100%);
+            filter: blur(60px);
+            pointer-events: none;
         }
 
-        /* --- MASTER BLOCK OVERVIEW --- */
-        .layout-grid {
+        .grid-mesh {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at 70% 50%, black, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at 70% 50%, black, transparent 70%);
+        }
+
+        /* --- ASYMMETRICAL SPLIT SCREEN INTERFACE --- */
+        .app-container {
+            min-height: 100vh;
             display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 40px;
+            grid-template-columns: 1.2fr 0.8fr;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
             align-items: center;
+            gap: 60px;
         }
 
-        /* --- LEFT COLUMN: VALUE LOG FEEDS --- */
-        .feature-stack {
+        /* LEFT SIDE: Content & Branding */
+        .brand-section {
             display: flex;
             flex-direction: column;
             gap: 24px;
-            z-index: 5;
+            animation: slideRight 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .feature-item {
-            display: grid;
-            grid-template-columns: 44px 1fr;
-            gap: 16px;
-            align-items: start;
-            padding: 14px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-
-        .icon-shield {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #a5b4fc;
-        }
-
-        .feature-text p {
-            font-size: 0.85rem;
-            line-height: 1.4;
-            color: #94a3b8;
-        }
-        
-        .feature-text strong {
-            display: block;
+        .header-meta {
             font-size: 0.9rem;
-            color: #f1f5f9;
-            margin-bottom: 2px;
-            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #3b82f6;
+            font-weight: 700;
         }
 
-        /* --- CENTER CORE BLOCK: GIGANTIC GLASS DISPLAY SLAB --- */
-        .glass-monolith {
-            position: relative;
-            background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.4) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 100px 40px 140px 40px;
-            text-align: center;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8),
-                        inset 0 1px 2px rgba(255, 255, 255, 0.1);
-            overflow: visible;
-        }
-
-        /* Geometric Ring Vector behind Text */
-        .glass-monolith::before {
-            content: '';
-            position: absolute;
-            inset: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: scaleX(1.8);
-            opacity: 0.5;
-        }
-
-        .glass-monolith h1 {
-            font-size: 7.5rem;
+        .brand-section h1 {
+            font-size: 5rem;
             font-weight: 900;
-            letter-spacing: 4px;
-            line-height: 1;
-            background: linear-gradient(135deg, #6366f1 10%, #3b82f6 40%, #ef4444 90%);
+            letter-spacing: -2px;
+            line-height: 0.95;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.3));
         }
 
-        .beta-stamp {
-            display: block;
-            font-size: 0.85rem;
-            font-family: monospace;
-            color: #64748b;
-            letter-spacing: 1px;
-            margin: 10px 0 20px 0;
-        }
-
-        .tagline-sub {
+        .brand-section h2 {
             font-size: 2.2rem;
-            font-weight: 300;
-            color: #ffffff;
-            letter-spacing: 1px;
+            font-weight: 400;
+            color: #cbd5e1;
+            letter-spacing: -0.5px;
         }
 
-        /* --- THE ULTRALUXURY LIQUID GLASS ORB ACTION BUTTON --- */
-        .orb-button-anchor {
-            position: absolute;
-            bottom: -80px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            text-decoration: none;
-        }
-
-        .liquid-glass-orb {
-            position: relative;
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.6),
-                inset 0 10px 20px rgba(255, 255, 255, 0.25),
-                inset 0 -15px 30px rgba(0, 0, 0, 0.6),
-                inset 5px 0 15px rgba(99, 102, 241, 0.2),
-                inset -5px 0 15px rgba(239, 68, 68, 0.2);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-        }
-
-        /* internal fluid highlight swirl overlay */
-        .liquid-glass-orb::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            right: 20px;
-            height: 45%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-            border-radius: 50% 50% 40% 40% / 60% 60% 30% 30%;
-        }
-
-        /* Backing expanding luminous neon plasma core */
-        .liquid-glass-orb::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #4f46e5 0%, #dc2626 70%, transparent 100%);
-            z-index: -1;
-            opacity: 0.3;
-            filter: blur(10px);
-            transition: all 0.5s ease;
-        }
-
-        .orb-text {
-            color: #ffffff;
-            font-size: 1.15rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 2;
-            transition: transform 0.4s ease;
-        }
-
-        /* Interactive Animation States */
-        .liquid-glass-orb:hover {
-            transform: scale(1.06);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 
-                0 30px 60px rgba(79, 70, 229, 0.3),
-                inset 0 15px 25px rgba(255, 255, 255, 0.4),
-                inset 0 -15px 35px rgba(0, 0, 0, 0.7);
-        }
-
-        .liquid-glass-orb:hover::after {
-            opacity: 0.8;
-            transform: scale(1.1);
-            filter: blur(16px);
-        }
-
-        .liquid-glass-orb:hover .orb-text {
-            transform: scale(1.05);
-        }
-
-        .liquid-glass-orb:active {
-            transform: scale(0.98);
-        }
-
-        /* --- BOTTOM FOOTER PARAGRAPH BLOCKS --- */
-        .bottom-description {
-            width: 100%;
-            max-width: 800px;
-            margin: 80px auto 0 auto;
-            text-align: center;
-            font-size: 0.95rem;
+        .brand-section p {
+            font-size: 1.05rem;
             line-height: 1.7;
             color: #64748b;
+            max-width: 580px;
         }
 
-        .bottom-description strong {
-            color: #cbd5e1;
+        /* RIGHT SIDE: Action Glass Capsule */
+        .action-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideLeft 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .glass-capsule {
+            background: linear-gradient(135deg, rgba(20, 27, 43, 0.4) 0%, rgba(10, 13, 22, 0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 32px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .capsule-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #94a3b8;
+        }
+
+        .version-badge {
+            display: inline-block;
+            color: #a855f7;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
             font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        /* --- SYSTEM SCREEN INTERFACE LOADER --- */
+        /* --- PREMIUM LIQUID GLASS BUTTON --- */
+        .liquid-glass-btn {
+            position: relative;
+            display: flex;
+            width: 100%;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+                        inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 1px;
+        }
+
+        /* Fluid glass simulated surface highlight */
+        .liquid-glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: 20px 20px 0 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+        }
+
+        /* Colorful liquid core expansion */
+        .liquid-glass-btn::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: linear-gradient(45deg, #2563eb, #7c3aed, #db2777);
+            background-size: 300% 300%;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.5s ease, filter 0.5s ease;
+            filter: blur(5px);
+        }
+
+        .liquid-glass-btn:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.25),
+                        inset 0 2px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .liquid-glass-btn:hover::after {
+            opacity: 1;
+            animation: liquidMovement 4s ease infinite;
+        }
+
+        .liquid-glass-btn:active {
+            transform: translateY(-1px) scale(0.99);
+        }
+
+        /* --- LOADING STAGE OVERLAY --- */
         #loader {
             position: fixed;
             inset: 0;
-            background: #040406;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            background: #050608;
             z-index: 9999;
+            gap: 24px;
         }
 
-        .loading-lens {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: transparent;
-            border: 2px solid rgba(255,255,255,0.05);
-            border-left-color: #ef4444;
-            border-right-color: #6366f1;
-            animation: rotationalSpin 1s infinite cubic-bezier(0.5, 0, 0.5, 1);
+        .loader-txt {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            font-weight: 500;
+            text-transform: uppercase;
         }
 
-        /* --- RESPONSIVE MEDIA QUERIES --- */
-        @media (max-width: 968px) {
-            .layout-grid {
+        .linear-progress-track {
+            width: 140px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .linear-progress-bar {
+            position: absolute;
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, #3b82f6, #a855f7);
+            left: -40%;
+            animation: indeterminateLoad 1.2s infinite ease-in-out;
+        }
+
+        /* --- RESPONSIVE ADJUSTMENTS --- */
+        @media(max-width: 968px) {
+            .app-container {
                 grid-template-columns: 1fr;
+                padding: 30px;
                 gap: 40px;
+                text-align: center;
+                justify-content: center;
             }
-            .feature-stack {
-                order: 2;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 16px;
+            .brand-section {
+                align-items: center;
             }
-            .glass-monolith {
-                order: 1;
-                padding: 60px 20px 110px 20px;
+            .brand-section h1 {
+                font-size: 3.5rem;
             }
-            .glass-monolith h1 {
-                font-size: 4.5rem;
+            .brand-section h2 {
+                font-size: 1.8rem;
             }
-            .tagline-sub {
-                font-size: 1.6rem;
+            .action-section {
+                width: 100%;
             }
-        }
-
-        @media (max-width: 640px) {
-            .feature-stack {
-                grid-template-columns: 1fr;
-            }
-            .glass-monolith h1 {
-                font-size: 3.2rem;
+            .glass-capsule {
+                max-width: 100%;
             }
         }
 
-        /* --- ANIMATIONS CORE --- */
-        @keyframes rotationalSpin {
-            to { transform: rotate(360deg); }
+        /* --- ANIMATION SEQUENCES --- */
+        @keyframes indeterminateLoad {
+            0% { left: -40%; width: 30%; }
+            50% { width: 60%; }
+            100% { left: 110%; width: 30%; }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; } to { opacity: 1; }
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes liquidMovement {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Loading Stage Guard Overlay -->
+    <!-- Loading Stage -->
     <div id="loader">
-        <div class="loading-lens"></div>
+        <p class="loader-txt">Going in</p>
+        <div class="linear-progress-track">
+            <div class="linear-progress-bar"></div>
+        </div>
     </div>
 
-    <!-- Space Background Node Matrix -->
-    <div class="bg-space">
-        <div class="cosmic-mesh"></div>
+    <!-- Generative Backdrop Stack -->
+    <div class="bg-canvas">
+        <div class="bg-glow-orb"></div>
+        <div class="grid-mesh"></div>
     </div>
 
-    <!-- Layout Base Container -->
-    <div id="content" class="app-wrapper" style="display:none;">
+    <!-- Layout Container -->
+    <div id="content" class="app-container" style="display:none;">
         
-        <header>
-            <h4>FavRankerLister</h4>
-        </header>
+        <!-- Left Column: Presentation Grid -->
+        <section class="brand-section">
+            <span class="header-meta">FavRankerLister</span>
+            <h1>Farali</h1>
+            <h2>Rank and Post!</h2>
+            <p>
+                Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. Communicate with anyone, play curated games, and custom rank your favorite anime series collections.
+            </p>
+        </section>
 
-        <!-- Main Feature Layout Grid split -->
-        <main class="layout-grid">
-            
-            <!-- Left Grid Pane: Interactive feature summary stack -->
-            <section class="feature-stack">
-                <div class="feature-item">
-                    <div class="icon-shield">▢</div>
-                    <div class="feature-text">
-                        <strong>Share Your Content</strong>
-                        <p>Pictures, Videos, Artwork, Rants</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="icon-shield">☍</div>
-                    <div class="feature-text">
-                        <strong>Community</strong>
-                        <p>Communication & Networking</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="icon-shield">🎮</div>
-                    <div class="feature-text">
-                        <strong>Play Games</strong>
-                        <p>Curated Built-in modules</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="icon-shield">★</div>
-                    <div class="feature-text">
-                        <strong>Rank Your Favorites</strong>
-                        <p>Custom tailored Anime Lists</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Center Core Panel Frame -->
-            <section class="glass-monolith">
-                <h1>FARALI</h1>
-                <span class="beta-stamp">BETA v3.7.4</span>
-                <h2 class="tagline-sub">Rank and Post!</h2>
-
-                <!-- Centered Liquid Drop Glass Orb Target CTA -->
-                <a href="main.html" class="orb-button-anchor">
-                    <div class="liquid-glass-orb">
-                        <span class="orb-text">Let's Start!</span>
-                    </div>
-                </a>
-            </section>
-
-        </main>
-
-        <!-- Dynamic Descriptive Bottom Block -->
-        <footer class="bottom-description">
-            Share your own content like pictures, videos, artwork, guitar covers, rants, stories, or even personal announcements. And communicate with someone! You can also <strong>play our games!</strong> You can now also rank and list your favorites anime series instantly.
-        </footer>
+        <!-- Right Column: Glass Core Container -->
+        <section class="action-section">
+            <div class="glass-capsule">
+                <span class="capsule-title">Platform Access</span>
+                <span class="version-badge">BETA v3.7.4</span>
+                <a href="main.html" class="liquid-glass-btn">Let's Start!</a>
+            </div>
+        </section>
 
     </div>
 
@@ -445,7 +358,7 @@
                 loader.style.opacity = "0";
                 loader.style.visibility = "hidden";
                 
-                content.style.display = "flex";
+                content.style.display = "grid";
             }, 1000);
         };
     </script>
