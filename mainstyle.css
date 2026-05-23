@@ -340,58 +340,68 @@ color: white;
 @keyframes popUp {to {transform:scale(1)}}
 @keyframes fadeOut { to {opacity:0;visibility:hidden;} }
 
-.share-post-container {
-  background-color: #07070e;
-  border: 1px solid #000000; /* Soft border */
-  border-radius: 12px;
-  padding: 20px;
+   body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+            margin: 0;
+        }
 
-  /* Width handling for desktop vs mobile */
-  width: 100%;
-  max-width: 2000px; /* Caps the size on large screens */
-  
-  /* Centers the container on the screen */
-  margin: 20px auto; 
-  
-  /* Modern clean shadow */
-  box-shadow: 0 4px 12px rgba(177, 177, 177, 0.05);
-  box-sizing: border-box;
-}
+        .share-post-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
 
-.share-post-title {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-top: 0;
-  margin-bottom: 16px; /* Spacing between text and button */
-}
+        .share-post-title {
+            margin-bottom: 15px;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
 
-.btn-pahaba {
-  display: block; 
-  width: 100%; /* Fills the whole width of the container */
-  padding: 12px 20px; 
-  background-color:  #151524; /* Primary blue */
-  color: #ffffff; 
-  text-align: center;
-  text-decoration: none; 
-  font-size: 15px;
-  font-weight: bold;
-  border-radius: 8px; 
-  box-sizing: border-box;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
+        /* The Liquid Glass Button Theme */
+        .btn-pahaba {
+            display: inline-block;
+            padding: 12px 40px;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            
+            /* Glassmorphism core properties */
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+            backdrop-filter: blur(10px);          /* The "frosted" effect */
+            -webkit-backdrop-filter: blur(10px);  /* Safari support */
+            
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+            border-radius: 50px;                  /* Rounded "liquid" shape */
+            
+            /* Shadow for depth */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
-/* Hover & Active States */
-.btn-pahaba:hover {
-  background-color: #ffffff;
-  color: #000;
-}
+        .btn-pahaba:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+        }
 
-.btn-pahaba:active {
-  transform: scale(0.98); /* Slight click shrink effect */
-}
+        .btn-pahaba:active {
+            transform: translateY(0) scale(0.98);
+        }
 
+        /* Changed from ID to Class for valid HTML */
+        .message {
+            min-height: 10px;
+        }
 :root {
             --gma-red: #ff3b3b;
             --bg-dark: #080808;
@@ -478,65 +488,3 @@ color: white;
             .headline { font-size: 1.3rem; }
             .summary { font-size: 0.9rem; -webkit-line-clamp: 3; }
         }
-
-
-
-     /* Container */
-.search-container {
-    width: 100%;
-    padding: 15px;
-    background: none;
-    display: flex;
-    justify-content: center;
-}
-
-/* Search box */
-.search-box {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    border: 2px solid #141125;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-/* Input */
-.search-box input {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    outline: none;
-    font-size: 16px;
-    color: white;
-    background:  #0a0a13;
-}
-.search-box input::placeholder {
-    color: #bbb;
-}
-
-/* Button */
-.search-box button {
-    padding: 12px 20px;
-    border: none;
-    background: #0c0d1f;
-    color: white;
-    cursor: pointer;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .search-box input {
-        font-size: 14px;
-        padding: 10px;
-    }
-    .search-box button {
-        padding: 10px;
-    }
-}
-
-/* Message */
-#message {
-    text-align: center;
-    margin-top: 10px;
-    color: red;
-}
