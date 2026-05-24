@@ -162,12 +162,7 @@
 
         /* Mobile Menu Toggle */
         .menu-toggle { display: none; }
-        .menu-icon {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: #ffffff;
-        }
+    
 
         /* --- Hero Section --- */
         main {
@@ -238,27 +233,53 @@
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16), 0 22px 45px rgba(0, 0, 0, 0.25);
         }
 
-        /* --- Cookie Banner --- */
-        .cookie-banner {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            padding: 1.5rem;
-            border-radius: 20px;
-            max-width: 350px;
-            z-index: 50;
-        }
+        .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-        .cookie-banner h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
+    width: 40px;
+    height: 40px;
 
-        .cookie-banner p {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.5;
-        }
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+    transition: background 0.3s, transform 0.15s ease;
+}
+
+.hamburger:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+.hamburger:active {
+    transform: scale(0.9);
+}
+.hamburger span {
+    display: block;                /* VERY IMPORTANT */
+    width: 26px;
+    height: 3px;
+    background: white;
+    margin: 4px 0;
+
+    transform-origin: center;      /* VERY IMPORTANT */
+    transition: transform 0.35s ease, opacity 0.2s ease;
+}
+
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 
         /* --- Mobile Responsiveness --- */
         @media (max-width: 900px) {
@@ -375,7 +396,7 @@
         </div>
         
         <input type="checkbox" id="menu-toggle" class="menu-toggle">
-        <label for="menu-toggle" class="menu-icon">☰</label>
+        <label for="menu-toggle" class="hamburger">☰</label>
 
         <div class="nav-container glass">
             <ul class="nav-links">
