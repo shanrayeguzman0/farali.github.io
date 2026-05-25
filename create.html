@@ -13,18 +13,34 @@
 
 <style>
     li {
-background: rgb(53, 52, 52);
-border: solid rgba(0, 0, 0, 0.479);
- transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  font-family: Arial, Helvetica, sans-serif;
-    }
+--nav-liquid: #00d2ff; 
+  
+  position: relative;
+  font-family: sans-serif;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Glass frame boundary */
+  border: 1px solid rgba(255, 255, 255, 0);
+  background: transparent;
+}
+
+li a {
+     text-shadow: 5px 0px 10px rgb(255, 0, 0), -5px 0px 10px blue, 5px -2px 10px cyan;
+}
+
     li:hover {
          background: white;
   color: #4e54c8;
   transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-    } 
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
 </style>
 <body>
     <div id="loader">
