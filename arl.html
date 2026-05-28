@@ -716,8 +716,26 @@
         }
 
         .rank-logo .rank-icon {
-            font-size: 2rem;
+            display: block;
+            width: 58%;
+            height: 58%;
+            object-fit: contain;
             z-index: 2;
+        }
+
+        .profile-badge .rank-icon,
+        .profile-download-rank .rank-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .profile-download-rank .rank-icon {
+            width: 18px;
+            height: 18px;
         }
 
         /* Unranked */
@@ -869,6 +887,34 @@
             50% { transform: translate(-5px, -25px) scale(0.8); opacity: 0.6; }
             75% { transform: translate(-15px, -10px) scale(1.1); opacity: 0.9; }
         }
+
+
+        .profile-rank-section { cursor: pointer; }
+        .profile-badge.level-badge { cursor: pointer; }
+
+        /* Ranks Modal */
+        .ranks-list { display: flex; flex-direction: column; gap: 10px; }
+        .rank-item { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); transition: all 0.2s; position: relative; overflow: visible; }
+        .rank-item:hover { border-color: var(--border-hover); transform: translateX(4px); }
+        .rank-item.current { border-color: var(--golden); background: rgba(255,215,0,0.05); }
+        .rank-item .rank-logo { width: 48px; height: 48px; font-size: 1.2rem; flex-shrink: 0; }
+        .rank-item-info { flex: 1; min-width: 0; }
+        .rank-item-name { font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        .rank-item-desc { font-size: 0.8rem; color: var(--text-secondary); }
+        .rank-item-status { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; background: rgba(99,102,241,0.1); color: var(--accent-hover); white-space: nowrap; }
+        .rank-item.current .rank-item-status { background: rgba(255,215,0,0.15); color: var(--golden); }
+
+        /* Levels Modal */
+        .levels-list { display: flex; flex-direction: column; gap: 10px; }
+        .level-item { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); transition: all 0.2s; }
+        .level-item:hover { border-color: var(--border-hover); transform: translateX(4px); }
+        .level-item.current { border-color: var(--success); background: rgba(34,197,94,0.05); }
+        .level-badge-sm { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800; color: white; background: linear-gradient(135deg, var(--success), #16a34a); flex-shrink: 0; }
+        .level-item-info { flex: 1; min-width: 0; }
+        .level-item-name { font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        .level-item-xp { font-size: 0.8rem; color: var(--text-secondary); }
+        .level-item-status { font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 12px; background: rgba(99,102,241,0.1); color: var(--accent-hover); white-space: nowrap; }
+        .level-item.current .level-item-status { background: rgba(34,197,94,0.15); color: var(--success); }
 
         /* Achievements */
         .achievements-grid {
@@ -2613,6 +2659,7 @@
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <div class="app-container">
@@ -3366,7 +3413,7 @@
                 <div class="rankup-content">
                     <div class="rankup-logo-wrapper" id="rankup-logo-wrapper">
                         <div class="rank-logo rank-rookie" id="rankup-logo">
-                            <span class="rank-icon">&#127942;</span>
+                            <img class="rank-icon" src="https://lh3.googleusercontent.com/d/1JFawhzpGm5RkgqjgJu4ZFeqotb7c-8eL" alt="Rookie icon">
                         </div>
                     </div>
                     <div class="rankup-title" id="rankup-title">ROOKIE</div>
@@ -3408,6 +3455,29 @@
                 <button class="btn" onclick="app.closeModal('profile-edit-modal')">Cancel</button>
                 <button class="btn btn-primary" onclick="app.saveProfileEdit()">Save Profile</button>
             </div>
+        </div>
+    </div>
+
+
+    <!-- Ranks Modal -->
+    <div class="modal-overlay" id="ranks-modal">
+        <div class="modal" style="max-width: 520px;">
+            <div class="modal-header">
+                <div class="modal-title">&#127942; All Ranks</div>
+                <button class="modal-close" onclick="app.closeModal('ranks-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="ranks-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Levels Modal -->
+    <div class="modal-overlay" id="levels-modal">
+        <div class="modal" style="max-width: 520px;">
+            <div class="modal-header">
+                <div class="modal-title">&#11088; All Levels</div>
+                <button class="modal-close" onclick="app.closeModal('levels-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="levels-modal-body"></div>
         </div>
     </div>
 
@@ -3456,18 +3526,101 @@
             welcomeAvatarTemp: null,
 
             RANKS: [
-                { name: 'Unranked', min: 0, max: 49, class: 'unranked', icon: '&#128100;', desc: 'Just getting started' },
-                { name: 'Rookie', min: 50, max: 99, class: 'rookie', icon: '&#127942;', desc: '50 Episodes watched' },
-                { name: 'Explorer', min: 100, max: 199, class: 'explorer', icon: '&#128506;', desc: '100 Episodes watched' },
-                { name: 'Traveler', min: 200, max: 299, class: 'traveler', icon: '&#9992;', desc: '200 Episodes watched' },
-                { name: 'Adventurer', min: 300, max: 399, class: 'adventurer', icon: '&#127993;', desc: '300 Episodes watched' },
-                { name: 'Binger', min: 400, max: 499, class: 'binger', icon: '&#127871;', desc: '400 Episodes watched' },
-                { name: 'Grinder', min: 500, max: 599, class: 'grinder', icon: '&#9889;', desc: '500 Episodes watched' },
-                { name: 'Master', min: 600, max: 699, class: 'master', icon: '&#127775;', desc: '600 Episodes watched' },
-                { name: 'Grandmaster', min: 700, max: 799, class: 'grandmaster', icon: '&#127941;', desc: '700 Episodes watched' },
-                { name: 'Expert', min: 800, max: 999, class: 'expert', icon: '&#128302;', desc: '800 Episodes watched' },
-                { name: 'Transcendent', min: 1000, max: Infinity, class: 'transcendent', icon: '&#128081;', desc: '1000+ Episodes watched' }
+                { name: 'Unranked', min: 0, max: 49, class: 'unranked', icon: '', desc: 'Just getting started' },
+                { name: 'Rookie', min: 50, max: 99, class: 'rookie', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1JFawhzpGm5RkgqjgJu4ZFeqotb7c-8eL" alt="Rookie icon">', desc: '50 Episodes watched' },
+                { name: 'Explorer', min: 100, max: 199, class: 'explorer', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1ERh_-qNEqFIctS_owTWwy64wT0xUtvcy" alt="Explorer icon">', desc: '100 Episodes watched' },
+                { name: 'Traveler', min: 200, max: 299, class: 'traveler', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1Q5_xpBeKeepxcrGjpa-NVBPvdYvppzV6" alt="Traveler icon">', desc: '200 Episodes watched' },
+                { name: 'Adventurer', min: 300, max: 399, class: 'adventurer', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1RtlHSVRHY5RdH6O_LqloxQnsMhKenQWt" alt="Adventurer icon">', desc: '300 Episodes watched' },
+                { name: 'Binger', min: 400, max: 499, class: 'binger', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/16nh3bmqp8YcAFl_rcNMP-9U3ILj2h9Oj" alt="Binger icon">', desc: '400 Episodes watched' },
+                { name: 'Grinder', min: 500, max: 599, class: 'grinder', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/18l0VQj15ybbr9yaTVd5fZz_C5IoUsa3P" alt="Grinder icon">', desc: '500 Episodes watched' },
+                { name: 'Master', min: 600, max: 699, class: 'master', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/16ECblBWCQUOXJZYeczv-lZnXuTmhYWkF" alt="Master icon">', desc: '600 Episodes watched' },
+                { name: 'Grandmaster', min: 700, max: 799, class: 'grandmaster', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1yX6E4_4xbETGgLGJsbN03oTdTDJ-piHm" alt="Grandmaster icon">', desc: '700 Episodes watched' },
+                { name: 'Expert', min: 800, max: 999, class: 'expert', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1e5NNOxmPWjHomOMIPmUs8vN6fmrYS34A" alt="Expert icon">', desc: '800 Episodes watched' },
+                { name: 'Transcendent', min: 1000, max: Infinity, class: 'transcendent', icon: '<img class="rank-icon" src="https://lh3.googleusercontent.com/d/1X_DixP98CQJXLnfv0L3-dgSVq7SRxIPB" alt="Transcendent icon">', desc: '1000+ Episodes watched' }
             ],
+
+
+            showRanksModal() {
+                const totalEpisodes = this.getTotalEpisodes();
+                const currentRank = this.getRankByEpisodes(totalEpisodes);
+                const currentRankIndex = this.RANKS.findIndex(r => r.name === currentRank.name);
+
+                let html = `<div class="ranks-list">`;
+                this.RANKS.forEach((rank, idx) => {
+                    const isCurrent = idx === currentRankIndex;
+                    const isPast = idx < currentRankIndex;
+
+                    let statusText = '';
+                    if (isCurrent) statusText = 'Current';
+                    else if (isPast) statusText = 'Unlocked';
+                    else statusText = 'Locked';
+
+                    let particlesHtml = '';
+                    if (rank.class === 'transcendent') {
+                        particlesHtml = `<div class="transcendent-particles" style="inset:-15px;"><div class="transcendent-particle" style="top:20%;left:20%;animation-delay:0s"></div><div class="transcendent-particle" style="top:60%;left:80%;animation-delay:0.5s"></div></div>`;
+                    }
+
+                    html += `
+                        <div class="rank-item ${isCurrent ? 'current' : ''}">
+                            <div class="rank-logo rank-${rank.class}">
+                                ${rank.icon}
+                                ${particlesHtml}
+                            </div>
+                            <div class="rank-item-info">
+                                <div class="rank-item-name">${rank.name}</div>
+                                <div class="rank-item-desc">${rank.desc}</div>
+                            </div>
+                            <div class="rank-item-status">${statusText}</div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+
+                document.getElementById('ranks-modal-body').innerHTML = html;
+                this.showModal('ranks-modal');
+            },
+
+            showLevelsModal() {
+                const totalXP = this.calculateTotalXP();
+                const currentLevel = this.getLevelByXP(totalXP);
+
+                let html = `<div class="levels-list">`;
+                for (let L = 1; L <= 10; L++) {
+                    const isCurrent = L === currentLevel;
+                    const isPast = L < currentLevel;
+                    const threshold = 100 * L * (L - 1) / 2;
+                    const nextThreshold = 100 * (L + 1) * L / 2;
+
+                    let statusText = '';
+                    let xpText = '';
+                    if (isCurrent) {
+                        statusText = 'Current';
+                        const prog = this.getXPProgress(totalXP, L);
+                        xpText = `${Math.floor(prog.current)} / ${prog.needed} XP`;
+                    } else if (isPast) {
+                        statusText = 'Completed';
+                        xpText = `${threshold} XP reached`;
+                    } else {
+                        statusText = 'Locked';
+                        xpText = `Requires ${threshold} total XP`;
+                    }
+
+                    html += `
+                        <div class="level-item ${isCurrent ? 'current' : ''}">
+                            <div class="level-badge-sm">${L}</div>
+                            <div class="level-item-info">
+                                <div class="level-item-name">Level ${L}</div>
+                                <div class="level-item-xp">${xpText}</div>
+                            </div>
+                            <div class="level-item-status">${statusText}</div>
+                        </div>
+                    `;
+                }
+                html += `</div>`;
+
+                document.getElementById('levels-modal-body').innerHTML = html;
+                this.showModal('levels-modal');
+            },
 
             init() {
                 this.initDB().then(() => {
@@ -3874,13 +4027,13 @@
                                 <div class="profile-join-date">Joined: ${this.userProfile.joinDate || 'Today'}</div>
                                 <div class="profile-badges">
                                     <span class="profile-badge rank-badge">${currentRank.icon} ${currentRank.name}</span>
-                                    <span class="profile-badge level-badge">Lv. ${currentLevel}</span>
+                                    <span class="profile-badge level-badge" onclick="app.showLevelsModal()" title="View all levels">Lv. ${currentLevel}</span>
                                 </div>
                             </div>
-                            <div class="profile-rank-section">
+                            <div class="profile-rank-section" onclick="app.showRanksModal()" title="View all ranks">
                                 <div class="profile-rank-label">Current Rank</div>
                                 <div class="rank-logo rank-${currentRank.class}" id="profile-rank-logo">
-                                    <span class="rank-icon">${currentRank.icon}</span>
+                                    ${currentRank.icon}
                                     ${currentRank.class === 'transcendent' ? `
                                         <div class="transcendent-particles">
                                             <div class="transcendent-particle" style="top:20%;left:20%;animation-delay:0s"></div>
@@ -4420,7 +4573,7 @@
             showRankUpModal(oldRankName, newRank) {
                 const logo = document.getElementById('rankup-logo');
                 logo.className = `rank-logo rank-${newRank.class}`;
-                logo.innerHTML = `<span class="rank-icon">${newRank.icon}</span>`;
+                logo.innerHTML = newRank.icon || '';
                 
                 if (newRank.class === 'transcendent') {
                     logo.innerHTML += `
