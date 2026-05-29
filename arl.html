@@ -700,6 +700,190 @@
             100% { transform: translateX(100%); }
         }
 
+
+        /* ===== LEVEL BADGE STYLES ===== */
+        .level-badge-sm {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: visible;
+        }
+
+        /* Level 1-3: Starter Green */
+        .level-1, .level-2, .level-3 {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+        }
+        .level-1:hover, .level-2:hover, .level-3:hover { transform: scale(1.1); }
+
+        /* Level 4-6: Blue glow */
+        .level-4, .level-5, .level-6 {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            animation: levelGlowBlue 3s ease-in-out infinite;
+        }
+        @keyframes levelGlowBlue {
+            0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.2); }
+        }
+
+        /* Level 7-9: Purple pulse */
+        .level-7, .level-8, .level-9 {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            box-shadow: 0 0 18px rgba(168, 85, 247, 0.4);
+            animation: levelPulsePurple 2s ease-in-out infinite;
+        }
+        @keyframes levelPulsePurple {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(168, 85, 247, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 28px rgba(168, 85, 247, 0.6), 0 0 50px rgba(168, 85, 247, 0.2); }
+        }
+
+        /* Level 10-12: Gold energy */
+        .level-10, .level-11, .level-12 {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            position: relative;
+            overflow: visible;
+        }
+        .level-10::after, .level-11::after, .level-12::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 2px solid rgba(245, 158, 11, 0.5);
+            animation: levelEnergyWave 2s ease-out infinite;
+        }
+        @keyframes levelEnergyWave {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.25); opacity: 0; }
+        }
+
+        /* Level 13-15: Crimson fire */
+        .level-13, .level-14, .level-15 {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            animation: levelFire 1.5s ease-in-out infinite;
+        }
+        @keyframes levelFire {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(239, 68, 68, 0.7), 0 0 60px rgba(239, 68, 68, 0.3); transform: scale(1.03); }
+        }
+
+        /* Level 16-18: Rainbow neon */
+        .level-16, .level-17, .level-18 {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            background-size: 200% 200%;
+            animation: levelRainbow 3s ease infinite, levelFloat 3s ease-in-out infinite;
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
+        }
+        @keyframes levelRainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes levelFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        /* Level 19-20: Legendary Transcendent */
+        .level-19, .level-20 {
+            background: linear-gradient(135deg, #ffd700, #ff4757, #a855f7);
+            background-size: 300% 300%;
+            animation: levelLegendary 3s ease infinite, levelLegendaryFloat 4s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 71, 87, 0.3);
+            position: relative;
+            overflow: visible;
+        }
+        .level-19::before, .level-20::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #ffd700;
+            border-bottom-color: #ff4757;
+            animation: levelLegendaryRotate 4s linear infinite;
+        }
+        .level-19::after, .level-20::after {
+            content: '';
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+            animation: levelLegendaryPulse 3s ease-in-out infinite;
+            z-index: -1;
+        }
+        @keyframes levelLegendary {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes levelLegendaryFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        @keyframes levelLegendaryRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes levelLegendaryPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Large level badge in modal */
+        .level-badge-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            animation: levelPop 0.6s ease;
+        }
+        .level-badge-large.level-1, .level-badge-large.level-2, .level-badge-large.level-3 {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+        .level-badge-large.level-4, .level-badge-large.level-5, .level-badge-large.level-6 {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 0 35px rgba(59, 130, 246, 0.5);
+        }
+        .level-badge-large.level-7, .level-badge-large.level-8, .level-badge-large.level-9 {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+        }
+        .level-badge-large.level-10, .level-badge-large.level-11, .level-badge-large.level-12 {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 0 45px rgba(245, 158, 11, 0.5);
+        }
+        .level-badge-large.level-13, .level-badge-large.level-14, .level-badge-large.level-15 {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 0 50px rgba(239, 68, 68, 0.5);
+        }
+        .level-badge-large.level-16, .level-badge-large.level-17, .level-badge-large.level-18 {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            box-shadow: 0 0 55px rgba(99, 102, 241, 0.5);
+        }
+        .level-badge-large.level-19, .level-badge-large.level-20 {
+            background: linear-gradient(135deg, #ffd700, #ff4757, #a855f7);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6), 0 0 100px rgba(255, 71, 87, 0.3);
+        }
+
         /* Rank Logos */
         .rank-logo {
             width: 110px;
@@ -1036,6 +1220,55 @@
             font-weight: 700;
             margin-bottom: 16px;
         }
+        .profile-download-rank .level-text {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .profile-download-rank .level-text.level-1,
+        .profile-download-rank .level-text.level-2,
+        .profile-download-rank .level-text.level-3 {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+        }
+        .profile-download-rank .level-text.level-4,
+        .profile-download-rank .level-text.level-5,
+        .profile-download-rank .level-text.level-6 {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        .profile-download-rank .level-text.level-7,
+        .profile-download-rank .level-text.level-8,
+        .profile-download-rank .level-text.level-9 {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+        }
+        .profile-download-rank .level-text.level-10,
+        .profile-download-rank .level-text.level-11,
+        .profile-download-rank .level-text.level-12 {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        .profile-download-rank .level-text.level-13,
+        .profile-download-rank .level-text.level-14,
+        .profile-download-rank .level-text.level-15 {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .profile-download-rank .level-text.level-16,
+        .profile-download-rank .level-text.level-17,
+        .profile-download-rank .level-text.level-18 {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            color: white;
+        }
+        .profile-download-rank .level-text.level-19,
+        .profile-download-rank .level-text.level-20 {
+            background: linear-gradient(135deg, #ffd700, #ff4757, #a855f7);
+            color: white;
+        }
 
         .profile-download-stats {
             display: grid;
@@ -1125,21 +1358,7 @@
             padding: 20px;
         }
 
-        .level-badge-large {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--success), #16a34a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: white;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
-            animation: levelPop 0.6s ease;
-        }
+
 
         @keyframes levelPop {
             0% { transform: scale(0); }
@@ -2660,6 +2879,7 @@
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <div class="app-container">
@@ -3585,11 +3805,10 @@
                 const currentLevel = this.getLevelByXP(totalXP);
 
                 let html = `<div class="levels-list">`;
-                for (let L = 1; L <= 10; L++) {
+                for (let L = 1; L <= 20; L++) {
                     const isCurrent = L === currentLevel;
                     const isPast = L < currentLevel;
-                    const threshold = 100 * L * (L - 1) / 2;
-                    const nextThreshold = 100 * (L + 1) * L / 2;
+                    const threshold = L === 1 ? 0 : 500 * (L - 1) * (L + 2);
 
                     let statusText = '';
                     let xpText = '';
@@ -3599,7 +3818,7 @@
                         xpText = `${Math.floor(prog.current)} / ${prog.needed} XP`;
                     } else if (isPast) {
                         statusText = 'Completed';
-                        xpText = `${threshold} XP reached`;
+                        xpText = `${threshold} total XP reached`;
                     } else {
                         statusText = 'Locked';
                         xpText = `Requires ${threshold} total XP`;
@@ -3607,7 +3826,7 @@
 
                     html += `
                         <div class="level-item ${isCurrent ? 'current' : ''}">
-                            <div class="level-badge-sm">${L}</div>
+                            <div class="level-badge-sm level-${L}">${L}</div>
                             <div class="level-item-info">
                                 <div class="level-item-name">Level ${L}</div>
                                 <div class="level-item-xp">${xpText}</div>
@@ -3656,8 +3875,8 @@
             calculateTotalXP() {
                 let xp = 0;
                 this.animeList.forEach(a => {
-                    if (a.type === 'movie') xp += 50;
-                    else xp += 100;
+                    if (a.type === 'movie') xp += 500;
+                    else xp += 100 * (a.episodesRated || 1);
                 });
                 return xp;
             },
@@ -3670,18 +3889,31 @@
             },
 
             getLevelByXP(xp) {
-                for (let L = 10; L >= 1; L--) {
-                    if (xp >= 100 * L * (L - 1) / 2) return L;
+                // Level 1: 0-1999, Level 2: 2000-4999 (needs 3000), Level 3: 5000-8999 (needs 4000), etc.
+                // Level 1 threshold = 0, Level 2 = 2000, Level 3 = 2000+3000=5000, Level 4 = 5000+4000=9000
+                // cumulative threshold for level L (1-based): sum of 2000 + 3000 + ... + (1000+L*1000) for L>=2
+                // Actually: L1=0, L2=2000, L3=5000, L4=9000, L5=14000...
+                // Formula: threshold for level n = 1000 * n * (n + 1) / 2 - 1000 = 1000 * (n^2 + n - 2) / 2 = 500 * (n-1) * (n+2)
+                // For n=1: 0, n=2: 500*1*4=2000, n=3: 500*2*5=5000, n=4: 500*3*6=9000 ✓
+                for (let L = 20; L >= 1; L--) {
+                    const threshold = L === 1 ? 0 : 500 * (L - 1) * (L + 2);
+                    if (xp >= threshold) return L;
                 }
                 return 1;
             },
 
             getXPProgress(xp, level) {
-                const threshold = 100 * level * (level - 1) / 2;
-                const nextThreshold = 100 * (level + 1) * level / 2;
+                const threshold = level === 1 ? 0 : 500 * (level - 1) * (level + 2);
+                let needed, nextThreshold;
+                if (level >= 20) {
+                    needed = 0;
+                    nextThreshold = threshold;
+                } else {
+                    nextThreshold = 500 * level * (level + 3);
+                    needed = nextThreshold - threshold;
+                }
                 const currentLevelXP = xp - threshold;
-                const needed = nextThreshold - threshold;
-                const percent = level >= 10 ? 100 : Math.min(100, (currentLevelXP / needed) * 100);
+                const percent = level >= 20 ? 100 : Math.min(100, needed > 0 ? (currentLevelXP / needed) * 100 : 0);
                 return { current: currentLevelXP, needed, percent, total: xp };
             },
 
@@ -3690,6 +3922,7 @@
                 const totalEpisodes = this.getTotalEpisodes();
                 const totalMovies = this.getTotalMovies();
                 const totalAnime = this.animeList.length;
+                const totalXP = this.calculateTotalXP();
 
                 if (totalAnime > 0) achievements.push({ icon: '🏆', title: 'First Completion', desc: 'Completed your first anime' });
                 if (this.animeList.some(a => a.type === 'movie')) achievements.push({ icon: '🎬', title: 'Movie Buff', desc: 'Completed a movie' });
@@ -3702,6 +3935,16 @@
                 if (this.animeList.some(a => a.rating >= 90)) achievements.push({ icon: '💎', title: 'Golden Taste', desc: 'Rated an anime 90+' });
                 if (totalMovies >= 5) achievements.push({ icon: '🍿', title: 'Cinema Lover', desc: 'Watched 5 movies' });
                 if (this.animeList.length >= 10) achievements.push({ icon: '📚', title: 'Veteran', desc: 'Completed 10 anime' });
+                if (totalXP >= 2000) achievements.push({ icon: '⭐', title: 'Level 2', desc: 'Reached Level 2' });
+                if (totalXP >= 5000) achievements.push({ icon: '⭐⭐', title: 'Level 3', desc: 'Reached Level 3' });
+                if (totalXP >= 9000) achievements.push({ icon: '⭐⭐⭐', title: 'Level 4', desc: 'Reached Level 4' });
+                if (totalXP >= 14000) achievements.push({ icon: '🔥', title: 'Level 5', desc: 'Reached Level 5' });
+                if (totalXP >= 20000) achievements.push({ icon: '🔥🔥', title: 'Level 6', desc: 'Reached Level 6' });
+                if (totalXP >= 27000) achievements.push({ icon: '💠', title: 'Level 7', desc: 'Reached Level 7' });
+                if (totalXP >= 35000) achievements.push({ icon: '💠💠', title: 'Level 8', desc: 'Reached Level 8' });
+                if (totalXP >= 44000) achievements.push({ icon: '👑', title: 'Level 10', desc: 'Reached Level 10' });
+                if (totalXP >= 95000) achievements.push({ icon: '🌟', title: 'Level 15', desc: 'Reached Level 15' });
+                if (totalXP >= 190000) achievements.push({ icon: '💫', title: 'Level 20', desc: 'Reached Max Level' });
 
                 return achievements;
             },
@@ -4027,7 +4270,7 @@
                                 <div class="profile-join-date">Joined: ${this.userProfile.joinDate || 'Today'}</div>
                                 <div class="profile-badges">
                                     <span class="profile-badge rank-badge">${currentRank.icon} ${currentRank.name}</span>
-                                    <span class="profile-badge level-badge" onclick="app.showLevelsModal()" title="View all levels">Lv. ${currentLevel}</span>
+                                    <span class="profile-badge level-badge level-${currentLevel}" onclick="app.showLevelsModal()" title="View all levels">Lv. ${currentLevel}</span>
                                 </div>
                             </div>
                             <div class="profile-rank-section" onclick="app.showRanksModal()" title="View all ranks">
@@ -4264,7 +4507,7 @@
                         <div style="position: relative; z-index: 1;">
                             ${this.userProfile.avatar ? `<img src="${this.userProfile.avatar}" class="profile-download-avatar" alt="">` : `<div style="width:120px;height:120px;border-radius:50%;border:4px solid var(--accent);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:3rem;background:var(--bg-primary);">&#128100;</div>`}
                             <div class="profile-download-name">${this.escapeHtml(this.userProfile.name || 'Guest')}</div>
-                            <div class="profile-download-rank">${currentRank.icon} ${currentRank.name} &middot; Level ${currentLevel}</div>
+                            <div class="profile-download-rank">${currentRank.icon} ${currentRank.name} &middot; <span class="level-text level-${currentLevel}">Level ${currentLevel}</span></div>
                             <div class="profile-download-stats">
                                 <div class="profile-download-stat">
                                     <div class="profile-download-stat-value">${totalCompleted}</div>
@@ -4548,7 +4791,9 @@
             // ===== LEVEL UP MODAL =====
             showLevelUpModal(oldLevel, newLevel, totalXP) {
                 const xpProgress = this.getXPProgress(totalXP, newLevel);
-                document.getElementById('levelup-badge').textContent = newLevel;
+                const badge = document.getElementById('levelup-badge');
+                badge.textContent = newLevel;
+                badge.className = `level-badge-large level-${newLevel}`;
                 document.getElementById('levelup-level').textContent = newLevel;
                 document.getElementById('levelup-xp').textContent = totalXP;
                 document.getElementById('levelup-xp-bar').style.width = xpProgress.percent + '%';
