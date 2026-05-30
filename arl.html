@@ -3874,9 +3874,20 @@
 
             calculateTotalXP() {
                 let xp = 0;
+                // XP from completed anime
                 this.animeList.forEach(a => {
                     if (a.type === 'movie') xp += 500;
                     else xp += 100 * (a.episodesRated || 1);
+                });
+                // XP from currently watching (rated episodes)
+                this.currentlyWatching.forEach(a => {
+                    if (a.type === 'movie') {
+                        if (a.currentEpisode >= a.totalEpisodes) xp += 500;
+                    } else {
+                        // 100 XP per rated episode
+                        const ratedCount = a.episodeScores ? a.episodeScores.length : 0;
+                        xp += 100 * ratedCount;
+                    }
                 });
                 return xp;
             },
