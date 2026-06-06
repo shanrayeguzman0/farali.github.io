@@ -2905,6 +2905,7 @@
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <div class="app-container">
@@ -6284,7 +6285,8 @@
                 }
 
                 const journeyYear = currentYear;
-                const isMay = sortedMonths.some(g => g.month === 4 && g.year === currentYear);
+                // The current (most recent) month group
+                const currentMonthGroup = sortedMonths[0];
 
                 let html = `
                     <div class="journey-header">
@@ -6309,15 +6311,16 @@
                 `;
 
                 let nodeIndex = 0;
-                sortedMonths.forEach(group => {
+                sortedMonths.forEach((group, groupIdx) => {
                     const monthName = this.getMonthName(group.month);
+                    const isCurrentMonth = groupIdx === 0; // First group is the most recent (current) month
                     html += `<div class="journey-month-group">`;
                     html += `<div class="journey-month-label">${monthName}</div>`;
 
-                    // Insert redesigned Keep Watching badge at top of May
-                    if (group.month === 4 && group.year === currentYear) {
+                    // Insert Keep Watching badge BELOW the current month label (always at top of current month)
+                    if (isCurrentMonth) {
                         html += `
-                            <div class="keep-watching" style="animation-delay: 0s">
+                            <div class="keep-watching" id="keep-watching-badge" style="animation-delay: 0s">
                                 <div class="kw-spinner"></div>
                                 <span class="kw-text">Keep Watching</span>
                                 <div class="kw-dots">
@@ -6326,7 +6329,7 @@
                                     <span class="kw-dot"></span>
                                 </div>
                             </div>
-                            <div class="kw-connector"></div>
+                            <div class="kw-connector" id="kw-connector"></div>
                         `;
                     }
 
@@ -6368,18 +6371,19 @@
                 if (!wrapper || !svg || !path) return;
 
                 const nodes = wrapper.querySelectorAll('.journey-node');
-                const kwBadge = wrapper.querySelector('.keep-watching');
+                const kwBadge = wrapper.querySelector('#keep-watching-badge');
                 if (nodes.length === 0 && !kwBadge) return;
 
                 const wrapperRect = wrapper.getBoundingClientRect();
                 const points = [];
 
-                // Start from keep-watching badge if it exists
+                // Start from keep-watching badge if it exists (it's always at the top of current month)
                 if (kwBadge) {
                     const kwRect = kwBadge.getBoundingClientRect();
+                    // Center of the badge, vertically positioned to connect from below
                     points.push({
                         x: kwRect.left + kwRect.width / 2 - wrapperRect.left,
-                        y: kwRect.bottom - wrapperRect.top + 20
+                        y: kwRect.top + kwRect.height / 2 - wrapperRect.top
                     });
                 }
 
