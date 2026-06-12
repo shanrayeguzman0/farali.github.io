@@ -2906,6 +2906,7 @@
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <div class="app-container">
@@ -2921,6 +2922,7 @@
             </div>
             <nav class="nav-tabs">
                 <button class="nav-tab active" onclick="app.switchView('ranking')">&#127942; Ranking List</button>
+                <button class="nav-tab" onclick="app.switchView('watchlater')">&#128204; Watch Later</button>
                 <button class="nav-tab" onclick="app.switchView('watching')">&#128250; Currently Watching</button>
                 <button class="nav-tab" onclick="app.switchView('profile')">&#128100; Profile</button>
                 <button class="nav-tab" onclick="app.switchView('album')">&#128248; Memories</button>
@@ -2935,12 +2937,17 @@
                 <div id="ranking-container"></div>
             </div>
 
+            <!-- Watch Later View -->
+            <div id="watchlater-view" class="view">
+                <div class="watching-grid" id="watchlater-container"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="app.showAddModal()">+ Add Anime to Watch Later</button>
+                </div>
+            </div>
+
             <!-- Currently Watching View -->
             <div id="watching-view" class="view">
                 <div class="watching-grid" id="watching-container"></div>
-                <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="app.showAddModal()">+ Add Anime to Watch</button>
-                </div>
             </div>
 
             <!-- Profile View -->
@@ -3026,7 +3033,7 @@
     <div class="modal-overlay" id="add-modal">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title">Add Anime to Watch</div>
+                <div class="modal-title">Add Anime to Watch Later</div>
                 <button class="modal-close" onclick="app.closeModal('add-modal')">&times;</button>
             </div>
             <div class="modal-body">
@@ -3067,7 +3074,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn" onclick="app.closeModal('add-modal')">Cancel</button>
-                <button class="btn btn-primary" onclick="app.addWatching()">Add to List</button>
+                <button class="btn btn-primary" onclick="app.addToWatchLater()">Add to Watch Later</button>
             </div>
         </div>
     </div>
@@ -3626,6 +3633,7 @@
         const App = {
             animeList: [],
             currentlyWatching: [],
+            watchLater: [],
             albumPhotos: [],
             albumTitle: 'My Album',
             userProfile: {
@@ -3948,6 +3956,7 @@
                                 const parsed = req.result;
                                 this.animeList = parsed.animeList || [];
                                 this.currentlyWatching = parsed.currentlyWatching || [];
+                                this.watchLater = parsed.watchLater || [];
                                 this.albumPhotos = parsed.albumPhotos || [];
                                 this.albumTitle = parsed.albumTitle || 'My Album';
                                 this.userProfile = parsed.userProfile || { name: '', avatar: '', joinDate: '', favoriteAnime: '' };
@@ -3977,6 +3986,13 @@
                                     if (a.comment === undefined) a.comment = '';
                                     if (a.episodeScores === undefined) a.episodeScores = [];
                                 });
+                                this.watchLater.forEach(a => {
+                                    if (a.coverImage === undefined) a.coverImage = '';
+                                    if (a.summary === undefined) a.summary = '';
+                                    if (a.type === undefined) a.type = 'series';
+                                    if (a.comment === undefined) a.comment = '';
+                                    if (a.episodeScores === undefined) a.episodeScores = [];
+                                });
                             } catch (e) {
                                 console.error('Failed to load data', e);
                             }
@@ -3998,6 +4014,7 @@
                     store.put({
                         animeList: this.animeList,
                         currentlyWatching: this.currentlyWatching,
+                        watchLater: this.watchLater,
                         albumPhotos: this.albumPhotos,
                         albumTitle: this.albumTitle,
                         userProfile: this.userProfile,
@@ -4025,6 +4042,7 @@
             // Rendering
             render() {
                 this.renderRanking();
+                this.renderWatchLater();
                 this.renderWatching();
                 this.renderProfile();
                 this.renderAlbum();
@@ -4114,6 +4132,79 @@
                 });
 
                 container.innerHTML = html;
+            },
+
+            renderWatchLater() {
+                const container = document.getElementById('watchlater-container');
+                if (this.watchLater.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-state-icon">&#128204;</div>
+                            <h3>Nothing in Watch Later</h3>
+                            <p>Add anime you want to watch in the future</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.watchLater.map((anime, idx) => {
+                    const coverHtml = anime.coverImage ? 
+                        `<img src="${anime.coverImage}" class="cover-preview" alt="cover">` : '';
+                    const summaryShort = anime.summary ? this.truncateWords(anime.summary, 20) : '';
+                    const isMovie = anime.type === 'movie';
+                    return `
+                        <div class="watching-card ${anime.coverImage ? 'card-with-cover' : ''}">
+                            ${coverHtml}
+                            <div class="card-content">
+                                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap;">
+                                    <div class="watching-title">${this.escapeHtml(anime.name)}</div>
+                                    ${isMovie ? '<span class="type-badge">Movie</span>' : ''}
+                                </div>
+                                <div class="watching-date">Added: ${anime.startDate}</div>
+                                ${summaryShort ? `<div class="anime-summary">${this.escapeHtml(summaryShort)}</div>` : ''}
+                                ${isMovie ? `
+                                    <div class="watching-meta"><span>Movie</span></div>
+                                ` : `
+                                    <div class="watching-meta">
+                                        <span>${anime.totalEpisodes} Episodes</span>
+                                    </div>
+                                `}
+                                <div class="card-actions">
+                                    <button class="btn btn-primary" onclick="app.startWatching(${idx})">&#9654; Watch Now</button>
+                                    <button class="btn" onclick="app.deleteWatchLater(${idx})">&#128465; Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            },
+
+            startWatching(index) {
+                const anime = this.watchLater[index];
+                this.currentlyWatching.push({
+                    name: anime.name,
+                    startDate: this.getFormattedToday(),
+                    totalEpisodes: anime.totalEpisodes,
+                    currentEpisode: 0,
+                    totalEpisodeScore: 0,
+                    coverImage: anime.coverImage || '',
+                    type: anime.type || 'series',
+                    summary: anime.summary || '',
+                    episodeScores: []
+                });
+                this.watchLater.splice(index, 1);
+                this.save();
+                this.render();
+                this.showToast('Moved to Currently Watching!');
+            },
+
+            deleteWatchLater(index) {
+                if (!confirm('Remove this anime from Watch Later?')) return;
+                const name = this.watchLater[index].name;
+                this.watchLater.splice(index, 1);
+                this.save();
+                this.render();
+                this.showToast(`Removed: ${name}`);
             },
 
             renderWatching() {
@@ -5677,7 +5768,7 @@
                 `).join('');
             },
 
-            addWatching() {
+            addToWatchLater() {
                 const name = document.getElementById('add-name').value.trim();
                 const episodes = parseInt(document.getElementById('add-episodes').value);
                 const date = document.getElementById('add-date').value;
@@ -5687,7 +5778,7 @@
                 if (!name) { this.showToast('Please enter anime name', 'error'); return; }
                 if (type === 'series' && (!episodes || episodes < 1)) { this.showToast('Invalid episode count', 'error'); return; }
 
-                this.currentlyWatching.push({
+                this.watchLater.push({
                     name,
                     startDate: date,
                     totalEpisodes: type === 'movie' ? 1 : episodes,
@@ -5703,7 +5794,7 @@
                 this.save();
                 this.render();
                 this.closeModal('add-modal');
-                this.showToast('Added to Currently Watching');
+                this.showToast('Added to Watch Later');
             },
 
             startEpisodeRating() {
@@ -5946,6 +6037,7 @@
                 if (!confirm('This cannot be undone. Really delete everything?')) return;
                 this.animeList = [];
                 this.currentlyWatching = [];
+                this.watchLater = [];
                 this.albumPhotos = [];
                 this.albumTitle = 'My Album';
                 this.userProfile = { name: '', avatar: '', joinDate: '', favoriteAnime: '' };
@@ -5960,6 +6052,7 @@
                 const data = {
                     animeList: this.animeList,
                     currentlyWatching: this.currentlyWatching,
+                    watchLater: this.watchLater,
                     albumPhotos: this.albumPhotos,
                     albumTitle: this.albumTitle,
                     userProfile: this.userProfile,
@@ -5994,6 +6087,7 @@
                     }
                     this.animeList = data.animeList;
                     this.currentlyWatching = data.currentlyWatching;
+                    this.watchLater = data.watchLater || [];
                     this.albumPhotos = data.albumPhotos || [];
                     this.albumTitle = data.albumTitle || 'My Album';
                     this.userProfile = data.userProfile || { name: '', avatar: '', joinDate: '', favoriteAnime: '' };
@@ -6017,6 +6111,13 @@
                         }
                     });
                     this.currentlyWatching.forEach(a => {
+                        if (a.coverImage === undefined) a.coverImage = '';
+                        if (a.summary === undefined) a.summary = '';
+                        if (a.type === undefined) a.type = 'series';
+                        if (a.comment === undefined) a.comment = '';
+                        if (a.episodeScores === undefined) a.episodeScores = [];
+                    });
+                    this.watchLater.forEach(a => {
                         if (a.coverImage === undefined) a.coverImage = '';
                         if (a.summary === undefined) a.summary = '';
                         if (a.type === undefined) a.type = 'series';
