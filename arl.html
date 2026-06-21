@@ -3056,52 +3056,6 @@
             opacity: 1;
         }
 
-        /* Tier Sections Liquid Glass */
-        .tier-section {
-            overflow: hidden;
-        }
-
-        .tier-golden .tier-header {
-            background: linear-gradient(90deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.02));
-            border-left: 3px solid var(--golden);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .tier-peak .tier-header {
-            background: linear-gradient(90deg, rgba(255, 71, 87, 0.08), rgba(255, 71, 87, 0.02));
-            border-left: 3px solid var(--peak);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .tier-remarkable .tier-header {
-            background: linear-gradient(90deg, rgba(165, 94, 234, 0.08), rgba(165, 94, 234, 0.02));
-            border-left: 3px solid var(--remarkable);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .tier-good .tier-header {
-            background: linear-gradient(90deg, rgba(55, 66, 250, 0.08), rgba(55, 66, 250, 0.02));
-            border-left: 3px solid var(--good);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .tier-bad .tier-header {
-            background: linear-gradient(90deg, rgba(255, 165, 2, 0.08), rgba(255, 165, 2, 0.02));
-            border-left: 3px solid var(--bad);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .tier-worst .tier-header {
-            background: linear-gradient(90deg, rgba(116, 125, 140, 0.08), rgba(116, 125, 140, 0.02));
-            border-left: 3px solid var(--worst);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .tier-header:hover {
-            background: rgba(255, 255, 255, 0.04);
-        }
-
         /* Profile Hero Liquid Glass */
         .profile-hero {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.03));
@@ -3176,22 +3130,6 @@
             box-shadow: 0 0 8px var(--accent);
         }
 
-  /* Form Inputs Liquid Glass */
-        .form-input, .form-select {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus, .form-select:focus {
-            background: rgba(0, 0, 0, 0.35);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
         /* Progress Bar Liquid Glass */
         .progress-bar-bg {
             background: rgba(0, 0, 0, 0.3);
@@ -3225,94 +3163,6 @@
             border-color: rgba(99, 102, 241, 0.35);
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-        }
-
-        /* Profile Badges Liquid Glass */
-        .profile-badge {
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
-        }
-
-          .profile-badge.rank-badge {
-            background: rgba(255, 215, 0, 0.08);
-            border-color: rgba(255, 215, 0, 0.25);
-            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.1);
-        }
-
-        .profile-badge.level-badge {
-            background: rgba(34, 197, 94, 0.08);
-            border-color: rgba(34, 197, 94, 0.25);
-            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.1);
-        }
-
-        /* Level Badge Liquid Glass */
-        .level-badge-sm {
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .level-badge-large {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        /* Rank Logo Liquid Glass */
-        .rank-logo {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .rank-unranked {
-            background: linear-gradient(135deg, rgba(42, 42, 58, 0.6), rgba(30, 30, 46, 0.6));
-            border-color: rgba(58, 58, 79, 0.5);
-        }
-
-        /* Collage Items Liquid Glass */
-        .collage-item {
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow-sm);
-            overflow: hidden;
-        }
-
-        .collage-item:hover {
-            border-color: var(--glass-border-hover);
-            box-shadow: var(--glass-shadow), 0 0 20px rgba(99, 102, 241, 0.15);
-        }
-
-        .collage-item img {
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .collage-item:hover img {
-            transform: scale(1.08);
-        }
-
-        .collage-delete-btn, .collage-edit-btn {
-            backdrop-filter: blur(12px) saturate(140%);
-            -webkit-backdrop-filter: blur(12px) saturate(140%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .collage-delete-btn:hover, .collage-edit-btn:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Photo Title Overlay Liquid Glass */
-        .photo-title-overlay {
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
         }
 
         /* Journey Timeline Liquid Glass */
@@ -3361,73 +3211,6 @@
             -webkit-backdrop-filter: blur(16px) saturate(140%);
             border: 2px solid rgba(99, 102, 241, 0.4);
             box-shadow: 0 0 30px rgba(99, 102, 241, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-    
-        /* Type Options Liquid Glass */
-        .type-option {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--glass-border);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .type-option:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: var(--glass-border-hover);
-            box-shadow: var(--glass-shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        .type-option.selected {
-            background: rgba(99, 102, 241, 0.12);
-            border-color: rgba(99, 102, 241, 0.4);
-            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        /* Cover Upload Liquid Glass */
-        .cover-upload {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .cover-upload:hover {
-            background: rgba(99, 102, 241, 0.08);
-        }
-
-        /* Album Upload Area Liquid Glass */
-        .album-upload-area {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .album-upload-area:hover {
-            background: var(--glass-bg-hover);
-            border-color: var(--accent);
-            box-shadow: var(--glass-shadow), 0 0 30px rgba(99, 102, 241, 0.1);
-        }
-
-    
-        /* Crop Canvas Container Liquid Glass */
-        .crop-canvas-container {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-
-        /* Empty State Liquid Glass */
-        .empty-state {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 60px 20px;
-            margin: 20px 0;
         }
 
         /* Scrollbar Liquid Glass */
