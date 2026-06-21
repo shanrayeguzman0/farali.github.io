@@ -3047,43 +3047,6 @@
             box-shadow: var(--glass-shadow), var(--glass-highlight);
             transform: translateY(-2px);
         }
-
-        .anime-card::before {
-            background: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
-        }
-
-        .anime-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Profile Hero Liquid Glass */
-        .profile-hero {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.03));
-            border: 1px solid var(--glass-border-strong);
-            box-shadow: var(--glass-shadow-lg), var(--glass-highlight), var(--glass-inner-glow);
-        }
-
-        .profile-hero::before {
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.08), transparent 70%);
-        }
-
-        .profile-avatar {
-            border: 3px solid rgba(99, 102, 241, 0.5);
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.2), 0 0 60px rgba(99, 102, 241, 0.1);
-            backdrop-filter: blur(4px);
-        }
-
-        .profile-avatar-placeholder {
-            border: 3px dashed var(--glass-border-hover);
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(8px);
-        }
-
-        .profile-avatar-placeholder:hover {
-            border-color: var(--accent);
-            background: rgba(99, 102, 241, 0.08);
-        }
-
         /* XP Section Liquid Glass */
         .xp-section {
             background: rgba(255, 255, 255, 0.04);
@@ -3148,21 +3111,6 @@
             -webkit-backdrop-filter: blur(20px) saturate(140%);
             border: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow), var(--glass-highlight);
-        }
-
-        /* Genre Tags Liquid Glass */
-        .genre-tag {
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            backdrop-filter: blur(8px);
-            transition: all 0.25s ease;
-        }
-
-        .genre-tag:hover {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: rgba(99, 102, 241, 0.35);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
         }
 
         /* Journey Timeline Liquid Glass */
@@ -3288,26 +3236,6 @@
             z-index: 1;
         }
 
-        /* Enhanced anime score display */
-        .anime-score {
-            text-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
-        }
-
-        /* Stat value enhancement */
-        .stat-value, .profile-stat-value {
-            text-shadow: 0 0 16px rgba(129, 140, 248, 0.2);
-        }
-
-        /* Logo enhancement */
-        .logo {
-            text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
-        }
-
-        /* Profile name enhancement */
-        .profile-name {
-            text-shadow: 0 0 20px rgba(129, 140, 248, 0.2);
-        }
-
         /* Enhanced focus rings for accessibility */
         .btn:focus-visible, .nav-tab:focus-visible, .form-input:focus-visible,
         .form-select:focus-visible, .edit-choice-btn:focus-visible {
@@ -3336,25 +3264,6 @@
         @keyframes btnShimmer {
             0% { transform: translateX(-100%) rotate(45deg); }
             100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        /* Enhanced card hover lift with shadow */
-        .anime-card:hover, .watching-card:hover {
-            transform: translateY(-4px) scale(1.01);
-        }
-
-        /* Smooth page transitions */
-        .view {
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .view.active {
-            animation: fadeInSmooth 0.4s ease;
-        }
-
-        @keyframes fadeInSmooth {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
 </style>
